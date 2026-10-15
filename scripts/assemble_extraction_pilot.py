@@ -60,13 +60,14 @@ def main():
     provisional.to_csv(out / 'provisional_for_model.csv', index=False)
     raw[raw.hold_reason.ne('')].to_csv(out / 'held_for_review.csv', index=False)
     status = {'scope': 'REE bulk ferrous alloys and controls from the same studies only',
-              'target_rows': 100, 'extracted_rows': len(raw), 'extracted_papers': raw.paper_id.nunique(),
+              'target_rows': 300, 'extracted_rows': len(raw), 'extracted_papers': raw.paper_id.nunique(),
               'provisional_rows': len(provisional), 'provisional_papers': provisional.paper_id.nunique(),
               'held_rows': len(raw) - len(provisional), 'human_verified_rows': 0,
               'shortfall_to_100_extracted': max(0,100-len(raw)), 'generation_access': 'working',
+              'shortfall_to_target': max(0,300-len(raw)),
               'sources': sources,
               'tokens': {key: sum(u.get(key,0) for u in usage) for key in ['input_tokens','output_tokens','total_tokens']},
-              'status': 'provisional_data_only_not_100_row_research_result'}
+              'status': 'provisional_collection_incomplete' if len(raw)<300 else 'provisional_collection_target_met_not_human_verified'}
     (out / 'current_status.json').write_text(json.dumps(status, indent=2), encoding='utf-8')
     lines=['# Sol 추출 검토 목록', '', '모든 행은 pending입니다. 아래 값은 인간 검토 완료 자료가 아닙니다.', '',
            '| 논문 DOI | 시료 | i_corr (A/cm²) | 원문 위치 | 보류 사유 |', '| --- | --- | ---: | --- | --- |']

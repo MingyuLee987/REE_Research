@@ -6,6 +6,7 @@ import pandas as pd
 ROOT=Path(__file__).resolve().parents[1]
 # Individually identified publisher pages; publishers can change, so use an explicit registry.
 PUBLISHERS={
+ '10.1002/adem.202402545':'Wiley',
  '10.1007/s42243-025-01553-x':'Springer Nature',
  '10.1038/s41598-024-67799-9':'Springer Nature',
  '10.1038/s41529-025-00682-8':'Springer Nature',
