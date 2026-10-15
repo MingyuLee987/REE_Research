@@ -10,25 +10,57 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def elsevier_headers(accept='text/xml'):
+    """Share API-key authentication and optional institutional credentials."""
+    load_dotenv(ROOT / '.env')
+    key = os.getenv('ELSEVIER_API_KEY', '').strip()
+    if not key or key.startswith('your_'):
+        raise ValueError('Set ELSEVIER_API_KEY')
+    headers = {'X-ELS-APIKey': key, 'Accept': accept}
+    token = os.getenv('ELSEVIER_INST_TOKEN', '').strip()
+    if token and not token.startswith('your_'):
+        headers['X-ELS-Insttoken'] = token
+    return headers
+
+
+def elsevier_error(response):
+    """Report publisher error codes without logging request URLs or credentials."""
+    content = getattr(response, 'content', b'')
+    if not isinstance(content, (bytes, str)):
+        return ''
+    try:
+        root = ET.fromstring(content)
+    except ET.ParseError:
+        return ''
+    values = {node.tag.rsplit('}', 1)[-1]: node.text or '' for node in root.iter()}
+    message = ': '.join(filter(None, [values.get('statusCode'), values.get('statusText')]))
+    for name in ['ELSEVIER_API_KEY', 'ELSEVIER_INST_TOKEN']:
+        secret = os.getenv(name, '').strip()
+        if secret:
+            message = message.replace(secret, '[REDACTED]')
+    return message[:500]
+
+
 def fetch_elsevier(doi, output_dir):
     """Retrieve publisher XML through the official API; keep full-text status explicit."""
     from .screening import normalize_doi
     doi = normalize_doi(doi)
     if not doi:
         raise ValueError('A valid DOI is required')
-    load_dotenv(ROOT / '.env')
-    key = os.getenv('ELSEVIER_API_KEY')
-    if not key or key.startswith('your_'):
-        raise ValueError('Set ELSEVIER_API_KEY')
+    headers = elsevier_headers()
     try:
         response = requests.get('https://api.elsevier.com/content/article/doi/' + quote(doi, safe='/'),
-                                headers={'X-ELS-APIKey': key, 'Accept': 'text/xml'},
+                                headers=headers,
                                 params={'view': 'FULL'}, timeout=45)
     except requests.RequestException:
         raise RuntimeError('Elsevier full-text request failed (URL redacted)') from None
     if response.status_code != 200:
-        raise RuntimeError(f'Elsevier article retrieval HTTP {response.status_code}; full-text not acquired')
-    text = response.content.decode('utf-8-sig').replace(key, '[REDACTED]')
+        detail = elsevier_error(response)
+        raise RuntimeError(f'Elsevier article retrieval HTTP {response.status_code}; {detail}; full-text not acquired')
+    text = response.content.decode('utf-8-sig')
+    for name in ['X-ELS-APIKey', 'X-ELS-Insttoken']:
+        if headers.get(name):
+            text = text.replace(headers[name], '[REDACTED]')
     try:
         root = ET.fromstring(text)
     except ET.ParseError:
@@ -66,7 +98,7 @@ def search(provider, query, output, limit=5):
     params = {'query': query, 'count': limit} if provider == 'elsevier' else {'q': query, 'p': limit, 'api_key': key}
     headers = {'Accept': 'application/json'}
     if provider == 'elsevier':
-        headers['X-ELS-APIKey'] = key
+        headers = elsevier_headers('application/json')
     try:
         response = requests.get(url, params=params, headers=headers, timeout=45)
     except requests.RequestException:
@@ -86,6 +118,10 @@ def search(provider, query, output, limit=5):
         secret = os.getenv(name[1])
         if secret:
             serialized = serialized.replace(secret, '[REDACTED]')
+    if provider == 'elsevier':
+        for name in ['X-ELS-APIKey', 'X-ELS-Insttoken']:
+            if headers.get(name):
+                serialized = serialized.replace(headers[name], '[REDACTED]')
     destination = Path(output)
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(serialized, encoding='utf-8')

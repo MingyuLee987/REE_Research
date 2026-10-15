@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from .schema import COMPOSITION, PROVENANCE, RAW, FEATURES, ALL_FEATURES, prepare
+from .schema import COMPOSITION, PROVENANCE, RAW, FEATURES, ALL_FEATURES, DERIVED_FEATURES, FEATURE_PROFILES, prepare
 
 
 def demo(path):
@@ -50,6 +50,10 @@ def main():
     extraction.add_argument('--source-dir', required=True)
     extraction.add_argument('--output-dir', required=True)
     extraction.add_argument('--reuse-response', action='store_true', help='Revalidate saved response without another API call')
+    context = sub.add_parser('enrich-context')
+    context.add_argument('input')
+    context.add_argument('--source-dir', required=True)
+    context.add_argument('--output-dir', required=True)
     intake = sub.add_parser('prepare-pdf')
     intake.add_argument('input')
     intake.add_argument('--doi', required=True)
@@ -62,6 +66,10 @@ def main():
     comparison.add_argument('--seed', type=int, default=42)
     comparison.add_argument('--allow-synthetic', action='store_true', help='Code smoke test only; not a research result')
     comparison.add_argument('--allow-provisional', action='store_true', help='Exploratory fit on pending data, explicitly not human verified')
+    comparison.add_argument('--profile', choices=list(FEATURE_PROFILES), default='core')
+    comparison.add_argument('--coverage-grid', type=float, nargs='+')
+    comparison.add_argument('--development-only', action='store_true', help='Internal CV only; no new holdout score')
+    comparison.add_argument('--exclude-papers', nargs='+')
     template = sub.add_parser('template')
     template.add_argument('--output', default='data/measurements_template.csv')
     synthetic = sub.add_parser('demo')
@@ -76,7 +84,7 @@ def main():
     bench.add_argument('--batch', type=int, default=5)
     bench.add_argument('--budget', type=int, default=50)
     bench.add_argument('--committee', type=int, default=8)
-    bench.add_argument('--profile', choices=['core', 'extended'], default='core')
+    bench.add_argument('--profile', choices=list(FEATURE_PROFILES), default='core')
     bench.add_argument('--min-coverage', type=float, default=0.8)
     args = parser.parse_args()
     try:
@@ -93,16 +101,23 @@ def main():
         elif args.command == 'extract':
             from .extraction import extract
             print(f'Pending measurements: {extract(args.source_dir, args.output_dir, args.reuse_response)}')
+        elif args.command == 'enrich-context':
+            from .context import enrich
+            print(f'Context enriched pending rows: {enrich(args.input,args.source_dir,args.output_dir)}')
         elif args.command == 'prepare-pdf':
             from .ingestion import prepare_pdf
             print(f'PDF evidence pages: {prepare_pdf(args.input, args.output_dir, args.doi, args.title)}')
         elif args.command == 'compare-models':
             from .model_selection import compare
-            result = compare(args.input, args.output, args.rows, args.seed, args.allow_synthetic, args.allow_provisional)
+            result = compare(args.input, args.output, args.rows, args.seed, args.allow_synthetic, args.allow_provisional,
+                             args.profile, args.coverage_grid, args.development_only, args.exclude_papers)
             print(f"Run status: {result['status']}")
-            print(f"Winner: {result['winner']}; held-out paper R2: {result['test_r2']:.3f}")
+            if result['test_r2'] is None:
+                print(f"Development CV winner: {result['winner']}; no holdout evaluated")
+            else:
+                print(f"Winner: {result['winner']}; held-out paper R2: {result['test_r2']:.3f}")
         elif args.command == 'template':
-            columns = PROVENANCE + RAW + [f for f in ALL_FEATURES if f not in ('RE_log1p_ppm', 'high_Cr_indicator')]
+            columns = PROVENANCE + RAW + [f for f in ALL_FEATURES if f not in DERIVED_FEATURES]
             Path(args.output).parent.mkdir(parents=True, exist_ok=True)
             pd.DataFrame(columns=columns).to_csv(args.output, index=False)
             print(args.output)

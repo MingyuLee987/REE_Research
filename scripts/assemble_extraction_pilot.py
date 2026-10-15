@@ -1,4 +1,4 @@
-"""Assemble provisional LLM outputs with explicit quality holds and no padding."""
+"""Assemble provisional extractions/transcriptions with quality holds, no padding."""
 import json
 import re
 from pathlib import Path
@@ -12,7 +12,17 @@ def main():
     sources, frames, usage = [], [], []
     for run_file in sorted((ROOT / 'data/processed/extractions').glob('*/run.json')):
         run = json.loads(run_file.read_text(encoding='utf-8'))
-        sources.append({'source': run_file.parent.name, 'rows': run['rows']})
+        if run.get('requires_annotation_check'):
+            check_path = run_file.parent / 'vision_check_summary.json'
+            if not check_path.exists():
+                raise ValueError('Printed annotation check missing; do not merge')
+            checks = json.loads(check_path.read_text(encoding='utf-8'))
+            if len(checks) != 3 or not all(c.get('all_match') for c in checks):
+                raise ValueError('Printed annotation check failed; review source before merge')
+            run['usage'] = {key: sum(c.get('usage', {}).get(key, 0) for c in checks)
+                            for key in ['input_tokens', 'output_tokens', 'total_tokens']}
+        sources.append({'source': run_file.parent.name, 'rows': run['rows'],
+                        'method': run.get('method', 'llm_source_extraction')})
         usage.append(run.get('usage', {}))
         if not run['rows']:
             continue

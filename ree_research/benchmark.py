@@ -18,12 +18,13 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import ConstantKernel, Matern
 from sklearn.model_selection import GroupShuffleSplit
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from .schema import NUMERIC, CATEGORICAL, FEATURES, ALL_FEATURES, OPTIONAL_NUMERIC, OPTIONAL_CATEGORICAL, prepare
+from .schema import NUMERIC, CATEGORICAL, FEATURES, ALL_FEATURES, FEATURE_PROFILES, prepare
 
 
 def selected_features(train, profile='core', min_coverage=0.8):
-    numeric = NUMERIC + (OPTIONAL_NUMERIC if profile == 'extended' else [])
-    categorical = CATEGORICAL + (OPTIONAL_CATEGORICAL if profile == 'extended' else [])
+    if profile not in FEATURE_PROFILES or not 0 < min_coverage <= 1:
+        raise ValueError('Invalid feature profile or coverage threshold')
+    numeric, categorical = FEATURE_PROFILES[profile]
     # Coverage is estimated solely from currently labeled training rows.
     numeric = [c for c in numeric if train[c].notna().mean() >= min_coverage and train[c].notna().any()]
     categorical = [c for c in categorical if train[c].notna().mean() >= min_coverage and train[c].notna().any()]
@@ -71,8 +72,8 @@ def predictions(name, train, test, pool, seed, committee, profile='core', min_co
 
 
 def benchmark(path, output, seeds, initial=20, batch=5, budget=50, committee=8, profile='core', min_coverage=0.8):
-    if profile not in ('core', 'extended') or not 0 < min_coverage <= 1:
-        raise ValueError('Use core/extended profile and 0 < min_coverage <= 1')
+    if profile not in FEATURE_PROFILES or not 0 < min_coverage <= 1:
+        raise ValueError('Use core/extended/literature profile and 0 < min_coverage <= 1')
     if initial < 3 or batch < 1 or budget < initial or committee < 2:
         raise ValueError('Require initial>=3, batch>=1, budget>=initial, committee>=2')
     df = prepare(pd.read_csv(path))

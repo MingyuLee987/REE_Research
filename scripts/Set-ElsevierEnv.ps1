@@ -3,7 +3,7 @@ if (-not (Test-Path -LiteralPath $envFile)) {
     throw 'Missing .env. Copy .env.example to .env and set ELSEVIER_API_KEY.'
 }
 
-$variables = @('ELSEVIER_API_KEY', 'SPRINGER_OPEN_ACCESS_API_KEY', 'SPRINGER_META_API_KEY', 'WILEY_TDM_TOKEN', 'OPENAI_API_KEY', 'OPENAI_MODEL', 'OPENAI_SCREENING_MODEL')
+$variables = @('ELSEVIER_API_KEY', 'ELSEVIER_INST_TOKEN', 'SPRINGER_OPEN_ACCESS_API_KEY', 'SPRINGER_META_API_KEY', 'WILEY_TDM_TOKEN', 'OPENAI_API_KEY', 'OPENAI_MODEL', 'OPENAI_SCREENING_MODEL')
 foreach ($variable in $variables) {
     $keyLine = Get-Content -LiteralPath $envFile | Where-Object { $_ -match ('^' + $variable + '=') } | Select-Object -First 1
     if (-not $keyLine) { continue }
