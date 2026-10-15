@@ -1,0 +1,1 @@
+record_id,paper_id,doi,source_locator,evidence_quote,review_status,RE_ppm,icorr_A_cm2,C,Si,Mn,P,S,Cr,Ni,Mo,Cu,temperature_C,pH,RE_element_cat,electrolyte_condition_cat,chloride_mol_L,exposure_h,scan_rate_mV_s,ocp_stabilization_min,gas_condition,matrix_family_reported
