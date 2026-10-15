@@ -28,6 +28,15 @@ def selected_features(train, profile='core', min_coverage=0.8):
     # Coverage is estimated solely from currently labeled training rows.
     numeric = [c for c in numeric if train[c].notna().mean() >= min_coverage and train[c].notna().any()]
     categorical = [c for c in categorical if train[c].notna().mean() >= min_coverage and train[c].notna().any()]
+    if profile == 'corrosion':
+        # Constant fields cannot distinguish training samples. A descriptor seen
+        # in only one paper is too weakly supported for this mixed-literature pilot.
+        def supported(column):
+            present=train[column].notna()
+            return train.loc[present,column].nunique()>1 and (
+                'paper_id' not in train or train.loc[present,'paper_id'].nunique()>=2)
+        numeric=[c for c in numeric if supported(c)]
+        categorical=[c for c in categorical if supported(c)]
     if not numeric and not categorical:
         raise ValueError('No sufficiently reported input features in labeled training data')
     return numeric, categorical
@@ -73,7 +82,7 @@ def predictions(name, train, test, pool, seed, committee, profile='core', min_co
 
 def benchmark(path, output, seeds, initial=20, batch=5, budget=50, committee=8, profile='core', min_coverage=0.8):
     if profile not in FEATURE_PROFILES or not 0 < min_coverage <= 1:
-        raise ValueError('Use core/extended/literature profile and 0 < min_coverage <= 1')
+        raise ValueError('Use a supported feature profile and 0 < min_coverage <= 1')
     if initial < 3 or batch < 1 or budget < initial or committee < 2:
         raise ValueError('Require initial>=3, batch>=1, budget>=initial, committee>=2')
     df = prepare(pd.read_csv(path))

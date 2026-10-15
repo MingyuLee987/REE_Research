@@ -8,6 +8,18 @@ from ree_research.schema import COMPOSITION, prepare
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def quality_hold_reasons(row):
+    reasons = []
+    explicit_hold = row.get('quality_hold_reason', '')
+    if pd.notna(explicit_hold) and str(explicit_hold).strip():
+        reasons.append(str(explicit_hold).strip())
+    if re.search(r'conflict|inconsisten|contradict', str(row.get('notes', '')), re.I):
+        reasons.append('source_inconsistency_requires_review')
+    if row['reported_composition_count'] < 3:
+        reasons.append('fewer_than_3_reported_composition_values')
+    return ';'.join(reasons)
+
+
 def main():
     sources, frames, usage = [], [], []
     for run_file in sorted((ROOT / 'data/processed/extractions').glob('*/run.json')):
@@ -38,12 +50,7 @@ def main():
     raw['reported_composition_count'] = raw.reindex(columns=COMPOSITION).notna().sum(axis=1)
     raw['hold_reason'] = ''
     for idx, row in raw.iterrows():
-        reasons = []
-        if re.search(r'conflict|inconsisten|contradict', str(row.get('notes', '')), re.I):
-            reasons.append('source_inconsistency_requires_review')
-        if row.reported_composition_count < 3:
-            reasons.append('fewer_than_3_reported_composition_values')
-        raw.loc[idx, 'hold_reason'] = ';'.join(reasons)
+        raw.loc[idx, 'hold_reason'] = quality_hold_reasons(row)
     provisional = raw[raw.hold_reason.eq('')].copy()
     # Physical checks only. Review statuses are deliberately NOT promoted to verified.
     prepare(provisional, allowed_review_statuses=('pending',))

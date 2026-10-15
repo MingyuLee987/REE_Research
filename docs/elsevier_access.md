@@ -1,5 +1,23 @@
 # Elsevier 원문 API 진단 및 해결 절차
 
+## 추가 해결: 공개 저장소 원문 읽기 연결
+
+`ree fetch-elsevier --allow-open-copy`를 추가했습니다. 공식 Article Retrieval API를 먼저 시험하고, 실패하면 DOI가 일치하는 Europe PMC 공개 전문을 찾습니다. 출판사 키·기관 토큰은 저장소에 전달하지 않습니다. API 실패와 실제 원문 수집 경로를 각각 기록하므로 API 승인이 해결됐다고 표시하지 않습니다.
+
+실제 실행으로 Elsevier **iScience** 논문 [Optimal cerium microalloying enhances SASS/Q235 weld corrosion and antibacterial performance](https://doi.org/10.1016/j.isci.2025.113319)의 전문 XML을 받았습니다. 초록뿐 아니라 본문 45,446자, 근거 블록 78개, 표 블록 2개를 확인했습니다.
+
+```powershell
+uv run --no-sync ree fetch-elsevier --doi 10.1016/j.isci.2025.113319 --output-dir data/raw/elsevier_readable/isci2025113319 --allow-open-copy
+```
+
+[수집 결과](../data/raw/elsevier_readable/isci2025113319/retrieval.json) · [원문 XML](../data/raw/elsevier_readable/isci2025113319/article.xml) · [추출 입력 블록](../data/raw/elsevier_readable/isci2025113319/blocks.json)
+
+`blocks.json`과 `metadata.json`은 기존 `ree extract --source-dir ...`에 바로 전달할 수 있습니다. 이 DOI는 이미 기존 후보 검토에서 다뤘으므로 원문 재다운로드를 새로운 실험 데이터로 중복 집계하지 않았습니다.
+
+GCr15 논문(10.1016/j.corcom.2022.06.004)은 API와 ScienceDirect HTML/PDF 직접 요청에서 여전히 403입니다. DOI 이동 페이지의 HTTP 200은 전문 수집 성공으로 세지 않았습니다. 현재 연결된 브라우저가 없어 사용자의 Chrome 로그인 세션을 확인할 수 없었습니다. 공개 전문이 없는 DOI에는 이 방법으로 원문을 확보할 수 없으며, 기관 인증/API 승인이나 사용자가 적법하게 받은 PDF가 필요합니다.
+
+---
+
 2026-10-15 실제 요청 8개로 진단했습니다. API 키 값은 문서나 로그에 포함하지 않았습니다.
 
 | 점검 | 결과 |

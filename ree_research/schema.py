@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from .features import ENGINEERED_NUMERIC, ENGINEERED_CATEGORICAL, engineer
 
 COMPOSITION = ['C', 'Si', 'Mn', 'P', 'S', 'Cr', 'Ni', 'Mo', 'Cu']
 NUMERIC = COMPOSITION + ['RE_log1p_ppm', 'temperature_C', 'pH']
@@ -14,13 +15,20 @@ LITERATURE_NUMERIC = ADDITIONAL_COMPOSITION + ['nacl_wt_pct', 'heat_treatment_te
 LITERATURE_CATEGORICAL = ['alloy_family_reported', 'product_form_cat', 'heat_treatment_cat',
     'pre_exposure_protocol_cat', 'surface_state_cat', 'surface_preparation_cat',
     'electrolyte_family_cat', 'icorr_method_cat', 'reference_electrode_cat']
-ALL_FEATURES = FEATURES + OPTIONAL_NUMERIC + OPTIONAL_CATEGORICAL + LITERATURE_NUMERIC + LITERATURE_CATEGORICAL
-DERIVED_FEATURES = ['RE_log1p_ppm', 'high_Cr_indicator', 'exposure_log1p_h']
+ALL_FEATURES = FEATURES + OPTIONAL_NUMERIC + OPTIONAL_CATEGORICAL + LITERATURE_NUMERIC + LITERATURE_CATEGORICAL + ENGINEERED_NUMERIC + ENGINEERED_CATEGORICAL
+DERIVED_FEATURES = ['RE_log1p_ppm', 'high_Cr_indicator', 'exposure_log1p_h'] + ENGINEERED_NUMERIC + ENGINEERED_CATEGORICAL
+CORROSION_RAW_FEATURES = COMPOSITION + ['Al', 'N', 'temperature_C', 'pH',
+    'chloride_mol_L', 'exposure_h', 'scan_rate_mV_s', 'ocp_stabilization_min',
+    'nacl_wt_pct', 'heat_treatment_temperature_C', 'heat_treatment_duration_h',
+    'RE_element_cat', 'electrolyte_condition_cat', 'matrix_family_reported', 'heat_treatment_cat']
 FEATURE_PROFILES = {
     'core': (NUMERIC, CATEGORICAL),
     'extended': (NUMERIC + OPTIONAL_NUMERIC, CATEGORICAL + OPTIONAL_CATEGORICAL),
     'literature': (NUMERIC + OPTIONAL_NUMERIC + LITERATURE_NUMERIC,
                    CATEGORICAL + OPTIONAL_CATEGORICAL + LITERATURE_CATEGORICAL),
+    'corrosion': (COMPOSITION + ['Al', 'N', 'RE_log1p_ppm', 'pH', 'exposure_log1p_h',
+                   'heat_treatment_temperature_C', 'ocp_stabilization_min'] + ENGINEERED_NUMERIC,
+                  ['RE_element_cat'] + ENGINEERED_CATEGORICAL),
 }
 PROVENANCE = ['record_id', 'paper_id', 'doi', 'source_locator', 'evidence_quote', 'review_status']
 RAW = ['RE_ppm', 'icorr_A_cm2']
@@ -60,7 +68,7 @@ def prepare(frame, allowed_review_statuses=('verified',)):
     nonnegative += ['nacl_wt_pct', 'heat_treatment_duration_h', 'grain_size_um', 'dissolved_oxygen_mg_L', 'surface_finish_grit']
     if (df[nonnegative] < 0).any().any():
         raise ValueError('Negative concentration/time/rate')
-    if (df.temperature_C < -273.15).any():
+    if (df.temperature_C <= -273.15).any():
         raise ValueError('Temperature below absolute zero')
     if (df.heat_treatment_temperature_C < -273.15).any() or (df.nacl_wt_pct > 100).any():
         raise ValueError('Invalid heat-treatment temperature or NaCl wt.%')
@@ -71,4 +79,4 @@ def prepare(frame, allowed_review_statuses=('verified',)):
     df['target'] = np.log10(df.icorr_A_cm2)
     for column in CATEGORICAL + OPTIONAL_CATEGORICAL + LITERATURE_CATEGORICAL:
         df[column] = df[column].replace(r'^\s*$', np.nan, regex=True)
-    return df
+    return engineer(df)

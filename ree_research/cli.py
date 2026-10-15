@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from .schema import COMPOSITION, PROVENANCE, RAW, FEATURES, ALL_FEATURES, DERIVED_FEATURES, FEATURE_PROFILES, prepare
+from .schema import COMPOSITION, PROVENANCE, RAW, FEATURES, ALL_FEATURES, DERIVED_FEATURES, FEATURE_PROFILES, CORROSION_RAW_FEATURES, prepare
 
 
 def demo(path):
@@ -46,6 +46,8 @@ def main():
     fetch = sub.add_parser('fetch-elsevier')
     fetch.add_argument('--doi', required=True)
     fetch.add_argument('--output-dir', required=True)
+    fetch.add_argument('--allow-open-copy', action='store_true',
+                       help='If the publisher API fails, try a DOI-verified public repository full-text copy')
     extraction = sub.add_parser('extract')
     extraction.add_argument('--source-dir', required=True)
     extraction.add_argument('--output-dir', required=True)
@@ -66,12 +68,14 @@ def main():
     comparison.add_argument('--seed', type=int, default=42)
     comparison.add_argument('--allow-synthetic', action='store_true', help='Code smoke test only; not a research result')
     comparison.add_argument('--allow-provisional', action='store_true', help='Exploratory fit on pending data, explicitly not human verified')
-    comparison.add_argument('--profile', choices=list(FEATURE_PROFILES), default='core')
+    comparison.add_argument('--profile', choices=list(FEATURE_PROFILES), default='corrosion')
     comparison.add_argument('--coverage-grid', type=float, nargs='+')
     comparison.add_argument('--development-only', action='store_true', help='Internal CV only; no new holdout score')
     comparison.add_argument('--exclude-papers', nargs='+')
     template = sub.add_parser('template')
     template.add_argument('--output', default='data/measurements_template.csv')
+    template.add_argument('--profile', choices=list(FEATURE_PROFILES), default='corrosion',
+                          help='corrosion: focused collection fields; literature: all optional raw fields')
     synthetic = sub.add_parser('demo')
     synthetic.add_argument('--output', default='data/processed/synthetic_demo.csv')
     validate = sub.add_parser('validate')
@@ -84,8 +88,8 @@ def main():
     bench.add_argument('--batch', type=int, default=5)
     bench.add_argument('--budget', type=int, default=50)
     bench.add_argument('--committee', type=int, default=8)
-    bench.add_argument('--profile', choices=list(FEATURE_PROFILES), default='core')
-    bench.add_argument('--min-coverage', type=float, default=0.8)
+    bench.add_argument('--profile', choices=list(FEATURE_PROFILES), default='corrosion')
+    bench.add_argument('--min-coverage', type=float, default=0.5)
     args = parser.parse_args()
     try:
         if args.command == 'search':
@@ -96,8 +100,12 @@ def main():
             result = screen(args.input_dir, args.output_dir)
             print(f"{result['records_seen']} records -> {result['unique_papers']} unique candidates; {result['duplicates_merged']} duplicates merged")
         elif args.command == 'fetch-elsevier':
-            from .mining import fetch_elsevier
-            print(fetch_elsevier(args.doi, args.output_dir))
+            if args.allow_open_copy:
+                from .open_fulltext import fetch_elsevier_open_copy
+                print(fetch_elsevier_open_copy(args.doi, args.output_dir))
+            else:
+                from .mining import fetch_elsevier
+                print(fetch_elsevier(args.doi, args.output_dir))
         elif args.command == 'extract':
             from .extraction import extract
             print(f'Pending measurements: {extract(args.source_dir, args.output_dir, args.reuse_response)}')
@@ -117,7 +125,10 @@ def main():
             else:
                 print(f"Winner: {result['winner']}; held-out paper R2: {result['test_r2']:.3f}")
         elif args.command == 'template':
-            columns = PROVENANCE + RAW + [f for f in ALL_FEATURES if f not in DERIVED_FEATURES]
+            numeric, categorical = FEATURE_PROFILES[args.profile]
+            fields = CORROSION_RAW_FEATURES if args.profile == 'corrosion' else numeric + categorical
+            # Raw dependencies belong in the collection sheet; derived values do not.
+            columns = list(dict.fromkeys(PROVENANCE + RAW + [f for f in fields if f not in DERIVED_FEATURES]))
             Path(args.output).parent.mkdir(parents=True, exist_ok=True)
             pd.DataFrame(columns=columns).to_csv(args.output, index=False)
             print(args.output)

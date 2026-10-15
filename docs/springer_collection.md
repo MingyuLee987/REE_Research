@@ -1,5 +1,7 @@
 # Springer Nature API 추가 수집
 
+> 이 문서는 이전의 60개 추가 수집 기록입니다. 이후 Wiley·Springer 자료를 더 수집했으며 [최신 두 출판사 데이터셋](nature_wiley_collection.md)은 8편·107개입니다.
+
 2026-10-15, 기존 API 키로 Springer Nature **Open Access API**를 사용해 검색하고 JATS 원문을 받았습니다. 구독 원문용 TDM 권한이 생겼다는 뜻은 아닙니다.
 
 ## 확보한 데이터

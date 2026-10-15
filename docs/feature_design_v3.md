@@ -1,0 +1,66 @@
+# i_corr 예측 피처 수정본
+
+기존 19개를 고정하거나 결측값이 적다는 이유만으로 피처를 고르지 않고, **조성 + 부식 환경 + 처리 이력**을 사용하는 `corrosion` 프로파일을 추가했습니다. 명령행의 모델 비교와 Active Learning 기본 피처도 이 프로파일로 변경했습니다.
+
+## 무엇을 입력하나
+
+| 묶음 | 원문에서 수집하는 값 | 모델에서 사용하는 방법 |
+| --- | --- | --- |
+| 합금 조성 | C, Si, Mn, P, S, Cr, Ni, Mo, Cu, Al, N (wt.%) | 조성 자체와 Cr+Mo 합계 |
+| 희토류 | RE_ppm, RE_element_cat | log(1+RE_ppm), RE 로그값×Cr, RE 로그값×Mo |
+| 부식 환경 | 시험 온도, pH, Cl⁻ mol/L, NaCl wt.%, 용액명 | 1000/(온도 °C+273.15), 농도 log(1+x), 용액 계열 |
+| 노출·측정 | 부식 노출 시간 h, 주사 속도 mV/s, OCP 안정화 시간 min | 노출 시간·주사 속도 log(1+x), 안정화 시간 |
+| 열처리·상 | 열처리 온도 °C, 유지 시간 h, 처리명, 보고된 모재 상 | 유지 시간 log(1+x), 처리·상 명칭을 큰 분류로 통일 |
+
+후보 피처는 숫자형 24개·범주형 4개로 **28개**입니다. 항상 28개를 모두 투입하지 않습니다. 각 학습 fold 안에서 확보율 50% 이상이고 값이 둘 이상이며, 최소 두 논문에서 관찰된 변수만 사용합니다. 상수와 한 논문에만 존재하는 변수는 제외합니다. 실제 선택 목록은 [fold_features.json](../outputs/feature_design_v3/fold_features.json)에 저장했습니다.
+
+RE×Cr, RE×Mo, Cr+Mo는 **이번 프로젝트에서 시험하는 경험적 후보**이며 확립된 i_corr 법칙이나 PREN으로 취급하지 않습니다. 역온도와 로그 변환 역시 최적 성능을 보장하지 않습니다.
+
+## 결측값과 단위
+
+원문에서 보고하지 않은 값은 빈칸으로 둡니다. 모델에 들어가는 수치의 중앙값 대치·결측 표시·표준화는 학습 fold에서만 계산합니다. 범주형 결측은 unknown으로 인코딩합니다. 검증 데이터에서 대치값·피처 선택 기준을 배우지 않습니다.
+
+NaCl_3.5wtpct처럼 **wt.%가 명시된 용액명**에서는 해당 농도를 파생 피처로 읽을 수 있습니다. NaCl_3.5pct처럼 질량/부피 기준이 불명확하면 수치로 바꾸지 않습니다. wt.%를 밀도 근거 없이 mol/L로 변환하지 않습니다. 혼합 용액의 NaCl 함량을 전체 Cl⁻ 농도로 동일시하지 않습니다. 실온을 25 °C, 중성을 pH 7로 임의 치환하지 않습니다.
+
+Rct, Rp, Ecorr, Tafel 기울기, 측정된 부식속도, i_corr 자체와 그 로그값은 입력에서 제외했습니다. 논문 DOI·시료 ID·출처·검토 메모도 모델 입력에 포함하지 않습니다. 이 변수들은 정답과 직접 연결되거나 논문 식별자로 작동할 수 있습니다.
+
+## 실제 비교 결과
+
+사람 검증 전인 임시 후보 117개 중 과거 테스트 논문 2편의 7개를 제외한 **14편·110개**로 개발 비교를 했습니다. 동일한 GroupKFold 4분할을 모든 구성에 적용했고 Ridge/SVR/GPR의 하이퍼파라미터는 고정했습니다. 피처 선택에는 각 논문을 동일 비중으로 평가하는 **논문별 MAE 평균**을 사용했습니다. 한 논문에서 나온 60개가 전체 판단을 지배하는 것을 줄이려는 목적입니다.
+
+| 구성 | 모델 | 학습 확보율 기준 | 논문별 MAE 평균 ↓ | 전체 OOF R² ↑ |
+| --- | --- | ---: | ---: | ---: |
+| 기존 core | GPR | 80% | 0.834 | 0.219 |
+| 기존 core, 같은 확보율 조건 | GPR | 50% | 0.766 | 0.129 |
+| literature | GPR | 50% | 0.786 | -0.031 |
+| 수정 corrosion | GPR | 50% | **0.729** | 0.123 |
+| 수정 corrosion | SVR | 50% | 0.765 | 0.134 |
+
+MAE는 log₁₀(A/cm²) 단위입니다. 수정 구성은 기존 80% core 대비 논문별 MAE 약 **12.6%**, 같은 50% core 대비 약 **4.8%** 감소했습니다. **전체 OOF R²는 개선되지 않았습니다.** 피처 수정으로 R²=0.8에 도달했다는 뜻이 아닙니다. 새 구성을 고르는 데 사용한 개발 CV 결과이므로 최종 일반화 성능으로 보고하면 안 됩니다. 독립 데이터와 사람 검증이 필요합니다.
+
+## 파일과 실행
+
+- [간소화한 수집 양식](../data/measurements_template.csv): 원문에서 읽는 24개 입력 필드와 RE_ppm, 정답·출처·검토 필드. 계산 피처는 직접 입력하지 않습니다.
+- [파생 피처 포함 임시 후보 117개](../data/processed/context_v2/features_v3_pending.csv): 기존 i_corr·검토 상태를 유지했습니다. 보류 데이터 50개는 포함하지 않았습니다.
+- [모든 모델·피처 비교표](../outputs/feature_design_v3/profile_comparison.csv)
+- [분할·제외 논문·선정 기준](../outputs/feature_design_v3/report.json)
+- [피처별 확보율](../outputs/feature_design_v3/feature_coverage.csv)
+
+```powershell
+# 개발용 피처 비교 재현: API 호출 없음
+.\.venv\Scripts\python.exe scripts/evaluate_feature_profiles.py
+
+# 원문 수집용 양식. 기존 작성된 데이터에 덮어쓰지 말고 새 경로 사용
+.\.venv\Scripts\ree.exe template --profile corrosion --output data/measurements_template.csv
+
+# 모든 문헌 수집 선택 필드를 포함한 별도 양식
+.\.venv\Scripts\ree.exe template --profile literature --output data/measurements_template_full.csv
+```
+
+Active Learning의 정식 `benchmark` 명령은 여전히 사람이 검증한 `verified` 데이터만 받습니다. 임시 후보의 상태를 자동 승격하지 않았습니다. 위 개발 비교에서는 과거 테스트 논문을 재평가하지 않았습니다.
+
+## 참고한 연구와 적용 범위
+
+- [Sasidhar 등, npj Materials Degradation (2022)](https://www.nature.com/articles/s41529-022-00281-x): 합금 조성과 시험 온도·Cl 농도·pH·시험 방법을 함께 기록하는 설계를 참고했습니다. 주된 점부식 예측 결과를 우리 i_corr 성능으로 가져오지 않았습니다.
+- [npj Materials Degradation, 다원소 합금 디스크립터 선택 연구](https://www.nature.com/articles/s41529-021-00208-y): 합금 조성과 환경을 함께 고려하는 디스크립터 설계를 참고했습니다. 다원소 합금의 결과가 RE 철계 합금에 그대로 성립한다고 가정하지 않았습니다.
+- [Scientific Reports (2024), 토양 매설강 i_corr 예측](https://www.nature.com/articles/s41598-024-68562-w): 노출 시간과 환경 변수를 함께 비교하고 피처 수를 줄여 평가하는 접근을 참고했습니다. 현재 수집되지 않은 토양 수분·비저항은 추가하지 않았습니다.

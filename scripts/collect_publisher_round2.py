@@ -11,6 +11,15 @@ from ree_research.ingestion import prepare_pdf
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = [
+    ('wiley','10.1002/maco.201911150'),
+    ('wiley','10.1002/maco.202213672'),
+    ('wiley','10.1002/maco.202213104'),
+    ('wiley','10.1002/srin.201300438'),
+    ('wiley','10.1002/srin.202300041'),
+    ('springer','10.1007/s10853-025-11514-0'),
+    ('springer','10.1007/s11665-019-04112-0'),
+    ('springer','10.1007/s11663-026-04267-x'),
+    ('springer','10.1007/978-3-030-05861-6_53'),
     ('springer','10.1007/s11665-015-1651-6'),
     ('wiley','10.1002/maco.201508380'),
     ('springer','10.1007/s11663-025-03792-5'),
@@ -27,6 +36,8 @@ def main():
     def collect(item):
         provider, doi = item
         name = re.sub(r'[^\w.-]', '_', doi.split('/')[-1])
+        name = {'maco.201911150':'maco201911150',
+                'maco.202213672':'maco202213672'}.get(name,name)
         out = ROOT/f'data/raw/{provider}_round2'/name
         out.mkdir(parents=True,exist_ok=True)
         url = ('https://api.wiley.com/onlinelibrary/tdm/v1/articles/'+quote(doi,safe='')

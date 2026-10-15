@@ -29,6 +29,8 @@ class CoverageTransformer(TransformerMixin, BaseEstimator):
 def compare(path, output, rows=100, seed=42, allow_synthetic=False, allow_provisional=False,
             profile='core', coverage_grid=None, development_only=False, exclude_papers=None):
     df = prepare(pd.read_csv(path), allowed_review_statuses=('verified', 'pending') if allow_provisional else ('verified',))
+    if coverage_grid is None and profile == 'corrosion':
+        coverage_grid = [0.5]
     if exclude_papers:
         df = df[~df.paper_id.isin(exclude_papers)].copy()
     synthetic = df.paper_id.astype(str).str.startswith('synthetic-').any()

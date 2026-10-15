@@ -1,29 +1,33 @@
 # REE_Research
 
-Elsevier 접근 진단: 같은 키로 Scopus·ScienceDirect 검색은 200, Article Retrieval은 헤더/파라미터·DOI/PII·view 변경에도 403 `Requestor configuration settings insufficient`입니다. 기관 토큰 지원과 오류 진단을 추가했습니다. [진단 결과·권한 활성화 요청 문안](docs/elsevier_access.md).
+합성 예제 CSV·합성 실행 결과·Python 캐시는 정리했습니다. 실제 실험 데이터는 [전체 167개 수집본](data/processed/pilot100/llm_pending_all.csv), [피처 포함 임시 후보 117개](data/processed/context_v2/features_v3_pending.csv)에서 확인하세요. 아래 합성 예제 실행 명령은 필요할 때 파일을 다시 생성하는 용도입니다.
 
-> **최신 추가 수집 (2026-10-15): 13편·112행.** Springer Nature OA API로 확보한 새 논문에서 60행을 추가했습니다. 기존 보류 7행을 제외한 임시 분석 후보는 **105행**, 모두 `pending`입니다. 사람 검증 완료는 0행입니다. 이번 60행은 조성 5종 × 온도 3종 × 노출 시간 4종이며, 한 논문의 그림에 인쇄된 수치입니다. 원문 이미지 전사와 Sol 재독 대조를 구분해 보존했습니다.
+논문 작성용 [Methods 영어·한국어 초안](docs/manuscript_methods.md): 출판사별 검색·원문 확보 경로, 사용 LLM(`gpt-6.1-sol`), 추출·단위 변환·중복 처리·검토 상태를 실제 기록에 맞춰 정리했습니다.
+
+> **피처 수정 v3:** 기본 프로파일을 `corrosion`으로 변경했습니다. 조성·환경·열처리와 파생 변수 28개 후보를 학습 데이터의 확보율에 따라 선택합니다. 14편·110개 개발 비교에서 논문별 MAE가 개선됐지만 전체 R² 개선은 확인하지 못했습니다. [피처 구성·실제 비교 결과](docs/feature_design_v3.md)를 참고하세요. 아래 기존 피처·모델 수치는 이전 실행 이력입니다.
+
+
+> **최신 추가 수집 (2026-10-15): 전체 22편·167개 실험 데이터 포인트.** 임시 분석 후보 117개, 검토 보류 50개입니다. 모두 `pending`이며 사람 검증 완료는 0개입니다.
 >
-> 아래 33행/26행 모델 결과와 19행 개발 CV는 **추가 수집 이전 실행 기록**입니다. 이번 105행으로 모델을 재학습하거나 새 R²를 계산하지 않았습니다. 단일 논문 60행을 서로 다른 학습·테스트 분할로 나누면 안 됩니다.
+> 이번에는 Elsevier 3편에서 12개, Springer 원문에서 4개를 추가했습니다. Elsevier 원문 API는 여전히 403이며 출판사 검색 결과의 표를 전사한 값은 전부 보류했습니다. Springer Nature·Wiley 부분집합은 9편·111개(임시 후보 77개)입니다. 아래 모델 성능은 이전 실행 이력이며 이번에 재학습하지 않았습니다.
 
-[추가 논문·단위·재현 방법](docs/springer_collection.md)
+[추가 논문·단위·재현 방법](docs/elsevier_expansion.md)
 
+
+
+Elsevier 공개 전문 읽기를 연결했습니다. `ree fetch-elsevier --allow-open-copy`는 API 실패 시 DOI를 확인한 공개 저장소 전문을 받아 기존 추출기에 넘깁니다. iScience 논문에서 본문·표 수집을 실제 확인했습니다. API 자체의 403은 별도로 기록합니다. [실행 방법](docs/elsevier_access.md).
 
 
 희토류가 들어간 철계 합금의 **조성과 부식 시험 조건을 보고 부식전류밀도(i_corr)를 예측**하는 연구입니다.
 여기에 Active Learning을 붙여, **어떤 데이터를 먼저 학습하면 적은 데이터로 예측 성능을 높일 수 있는지** 비교합니다.
 
-> 피처 설계 변경: 초기 19개 고정 입력 대신 기본 후보 14개에서 현재 학습 데이터 확보율 80% 이상인 열을 선택합니다. [자세한 설명](docs/feature_strategy.md).
-
-> 문헌 기반 v2: [AI 부식 논문 비교 및 피처 설계](docs/literature_feature_design.md)를 추가했습니다. 열처리·표면 상태·노출 이력·추가 조성 등을 포함하는 `literature` 프로필은 최대 44개 후보를 지원합니다. 새 컬럼의 값과 성능 개선은 별도로 검증해야 하며, 기존 R²=-1.271 결과는 그대로 보존합니다.
-
-v2는 대표 3편의 12행에 근거가 있는 문맥 값 118개를 보강했습니다. 이전 테스트 2편을 제외한 19행 개발 CV에서는 Ridge가 선택됐고 R²=0.2672였습니다. **이는 개발 CV 수치이며 새 최종 테스트 성능이 아닙니다.** [보강 데이터](data/processed/context_v2/provisional_enriched.csv) · [개발 결과](outputs/development_v2/model_comparison.json).
+> 현재 기본 피처는 `corrosion` 후보 28개이며, 학습 fold에서 확보율 50% 이상·두 논문 이상 관찰·비상수 조건으로 선택합니다. [최신 피처 설명](docs/feature_design_v3.md).
 
 ## 실제 문헌 100행 파일럿 진행
 
 [현재 수집 현황과 실행 방법](docs/pilot100.md)을 정리했습니다. 충전 후 Sol 추출이 정상 동작했고 19편 처리에서 9편의 실험값 33행을 확보했습니다. 7행은 수치 불일치/조성 부족으로 보류하고, 사람 검토 전 26행으로 임시 모델 비교를 실행했습니다. 선택된 SVR의 논문 단위 홀드아웃 R²는 -1.271로 목표에 미달했습니다. 실제 100행·사람 검증 완료 결과는 아직 없습니다. 일반 철계 합금은 섞지 않고 희토류 첨가 연구와 같은 논문의 대조군만 유지합니다.
 
-| 최초 모델 실행 당시 집계 (추가 수집 이전) | 결과 |
+| 현재 집계 (2026-10-15) | 결과 |
 | --- | --- |
 | Sol로 처리한 원문 | 19편 |
 | i_corr를 추출한 논문 / 실험값 | 9편 / 33행 |
@@ -42,9 +46,10 @@ R²가 음수라는 것은 이 테스트 데이터에서는 테스트 정답의 
 
 ## OpenAI 모델 설정
 
-본문·표에서 조성/시험조건/i_corr를 추출하는 모델은 `gpt-6.1-sol`, 제목·초록의 대량 1차 선별 후보는 `gpt-6-luna`로 설정했습니다. 예산 제약에 따라 Astra는 사용하지 않으며 자동 전환도 하지 않습니다. 어려운 사례는 Sol로 재검토하거나 사람이 확인합니다. 이 용도 배치는 부식 데이터 추출 벤치마크로 검증된 최적 조합이 아니라 초기 설정입니다.
+본문·표에서 조성/시험조건/i_corr를 추출하는 모델은 `gpt-6.1-sol`, 제목·초록의 대량 1차 선별 후보는 `gpt-6-luna`로 설정했습니다.
+어운 사례는 Sol로 재검토하거나 사람이 확인합니다. 이 용도 배치는 부식 데이터 추출 벤치마크로 검증된 최적 조합이 아니라 초기 설정입니다.
 
-`.env`에 `OPENAI_API_KEY`, `OPENAI_MODEL=gpt-6.1-sol`, `OPENAI_SCREENING_MODEL=gpt-6-luna`를 설정했습니다. Sol의 실제 유료 호출과 자동 추출을 실행했습니다. Luna는 선별용 설정만 준비되어 있으며, 이번 추출에 사용하지 않았습니다. Astra는 호출하지 않았습니다.
+`.env`에 `OPENAI_API_KEY`, `OPENAI_MODEL=gpt-6.1-sol`, `OPENAI_SCREENING_MODEL=gpt-6-luna`를 설정했습니다. Sol의 실제 유료 호출과 자동 추출을 실행했습니다. Luna는 선별용 설정만 준비되어 있으며, 이번 추출에 사용하지 않았습니다.
 
 먼저 논문 3~5편을 사람이 정리한 정답표와 비교해 수치·단위·시료/조건 연결·누락률을 확인합니다. 모델 간 일치만으로 verified 처리하지 않습니다. 정확도를 확인한 뒤 저비용 모델의 사용 범위를 늘립니다.
 
@@ -290,7 +295,6 @@ Elsevier는 Scopus 검색을 사용합니다. Springer Meta는 메타데이터 �
 | `ree_research/schema.py` | 데이터 검증, 기본 14개 후보 및 확장 후보와 타깃 정의 |
 | `ree_research/ingestion.py` | PDF를 페이지별 추출 근거로 준비 |
 | `ree_research/extraction.py` | Sol 추출, 근거 대조, 단위 변환, pending 저장 |
-| `ree_research/context.py` | Sol로 문맥 컬럼 보강, 필드별 원문 근거 보존 |
 | `ree_research/model_selection.py` | 논문 단위 내부 CV로 5종 모델·하이퍼파라미터 비교 |
 | `ree_research/benchmark.py` | 모델 학습, Active Learning, 성능 비교 |
 | `ree_research/cli.py` | 터미널 실행 명령 |
@@ -298,9 +302,8 @@ Elsevier는 Scopus 검색을 사용합니다. Springer Meta는 메타데이터 �
 | `tests/test_protocol.py` | 데이터 검증과 평가 방식에 대한 자동 테스트 |
 | `scripts/assemble_extraction_pilot.py` | 추출 파일 통합과 보류 사유 분리 |
 | `docs/pilot100.md` | 수집·추출·임시 분석의 상세 진행 기록 |
-| `docs/literature_feature_design.md` | 참고 AI 논문, 컬럼별 추가 이유, 입력 누출 방지와 v2 검증 계획 |
 
-테스트 16개가 통과했습니다. 검토 상태 차단, pool 정답 미사용, 논문 분리, 확보율 선택, 근거 인용, 원문 응답 구분, API 잔액 부족 시 허위 데이터 생성 방지, 문맥 보강 시 타깃 보존과 필드별 근거 검증 등을 확인했습니다.
+테스트 13개가 통과했습니다. 검토 상태 차단, pool 정답 미사용, 논문 분리, 확보율 선택, 근거 인용, 원문 응답 구분, API 잔액 부족 시 허위 데이터 생성 방지 등을 확인했습니다.
 
 ```powershell
 uv run python -m unittest discover -s tests -v
