@@ -3,7 +3,16 @@ name = "ree-corrosion"
 version = "0.1.0"
 description = "Literature corrosion prediction and retrospective active learning"
 requires-python = ">=3.11"
-dependencies = ["numpy>=2,<3", "pandas>=2.2,<3", "scikit-learn>=1.6,<2", "requests>=2.32,<3", "python-dotenv>=1,<2", "matplotlib>=3.9,<4"]
+dependencies = [
+    "numpy>=2,<3",
+    "pandas>=2.2,<3",
+    "scikit-learn>=1.6,<2",
+    "requests>=2.32,<3",
+    "python-dotenv>=1,<2",
+    "matplotlib>=3.9,<4",
+    "pypdf>=6.20.1",
+    "pymupdf>=1.28.2",
+]
 
 [project.scripts]
 ree = "ree_research.cli:main"

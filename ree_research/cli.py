@@ -46,6 +46,21 @@ def main():
     fetch = sub.add_parser('fetch-elsevier')
     fetch.add_argument('--doi', required=True)
     fetch.add_argument('--output-dir', required=True)
+    extraction = sub.add_parser('extract')
+    extraction.add_argument('--source-dir', required=True)
+    extraction.add_argument('--output-dir', required=True)
+    extraction.add_argument('--reuse-response', action='store_true', help='Revalidate saved response without another API call')
+    intake = sub.add_parser('prepare-pdf')
+    intake.add_argument('input')
+    intake.add_argument('--doi', required=True)
+    intake.add_argument('--title', required=True)
+    intake.add_argument('--output-dir', required=True)
+    comparison = sub.add_parser('compare-models')
+    comparison.add_argument('input')
+    comparison.add_argument('--output', default='outputs/pilot100')
+    comparison.add_argument('--rows', type=int, default=100)
+    comparison.add_argument('--seed', type=int, default=42)
+    comparison.add_argument('--allow-synthetic', action='store_true', help='Code smoke test only; not a research result')
     template = sub.add_parser('template')
     template.add_argument('--output', default='data/measurements_template.csv')
     synthetic = sub.add_parser('demo')
@@ -74,6 +89,17 @@ def main():
         elif args.command == 'fetch-elsevier':
             from .mining import fetch_elsevier
             print(fetch_elsevier(args.doi, args.output_dir))
+        elif args.command == 'extract':
+            from .extraction import extract
+            print(f'Pending measurements: {extract(args.source_dir, args.output_dir, args.reuse_response)}')
+        elif args.command == 'prepare-pdf':
+            from .ingestion import prepare_pdf
+            print(f'PDF evidence pages: {prepare_pdf(args.input, args.output_dir, args.doi, args.title)}')
+        elif args.command == 'compare-models':
+            from .model_selection import compare
+            result = compare(args.input, args.output, args.rows, args.seed, args.allow_synthetic)
+            print(f"Run status: {result['status']}")
+            print(f"Winner: {result['winner']}; held-out paper R2: {result['test_r2']:.3f}")
         elif args.command == 'template':
             columns = PROVENANCE + RAW + [f for f in ALL_FEATURES if f not in ('RE_log1p_ppm', 'high_Cr_indicator')]
             Path(args.output).parent.mkdir(parents=True, exist_ok=True)
