@@ -7,7 +7,22 @@
 
 ## 실제 문헌 100행 파일럿 진행
 
-[현재 수집 현황과 실행 방법](docs/pilot100.md)을 정리했습니다. 원문 후보 11편을 확보하고 4편의 표에서 14행을 전사했으며, 모두 사람 검토 전 pending 상태입니다. Sol 생성 요청은 API 잔액 부족으로 거절됐습니다. 따라서 실제 100행 모델이나 R² 0.8 결과는 아직 없습니다.
+[현재 수집 현황과 실행 방법](docs/pilot100.md)을 정리했습니다. 충전 후 Sol 추출이 정상 동작했고 19편 처리에서 9편의 실험값 33행을 확보했습니다. 7행은 수치 불일치/조성 부족으로 보류하고, 사람 검토 전 26행으로 임시 모델 비교를 실행했습니다. 선택된 SVR의 논문 단위 홀드아웃 R²는 -1.271로 목표에 미달했습니다. 실제 100행·사람 검증 완료 결과는 아직 없습니다. 일반 철계 합금은 섞지 않고 희토류 첨가 연구와 같은 논문의 대조군만 유지합니다.
+
+| 현재 집계 (2026-10-15) | 결과 |
+| --- | --- |
+| Sol로 처리한 원문 | 19편 |
+| i_corr를 추출한 논문 / 실험값 | 9편 / 33행 |
+| 수치 불일치·조성 부족으로 보류 | 7행 |
+| 임시 모델 비교에 사용 | 26행, 모두 사람 검토 전 |
+| 비교한 모델 | Ridge, SVR, GPR, Random Forest, Extra Trees |
+| 내부 교차검증으로 선택한 모델 | SVR |
+| 별도 테스트 | 논문 2편의 7행, R² **-1.271** |
+| 목표 | 검증한 100행 확보 및 R² 0.8 달성 여부 평가. 현재 미달 |
+
+R²가 음수라는 것은 이 테스트 데이터에서는 테스트 정답의 평균값으로 예측하는 기준보다 오차가 컸다는 뜻입니다. 현재 결과로 좋은 예측 모델을 확보했다고 판단할 수 없습니다. 테스트 점수를 맞추기 위해 유리한 시드나 데이터만 고르지 않습니다.
+
+바로 확인할 자료: [추출값 검토 목록](data/processed/pilot100/review_queue.md), [33행 전체](data/processed/pilot100/llm_pending_all.csv), [보류 7행](data/processed/pilot100/held_for_review.csv), [임시 비교 결과](outputs/pilot26_provisional/model_comparison.json), [결과 그림](outputs/pilot26_provisional/model_comparison.png).
 
 추출 명령 `ree extract`와 논문 단위 내부 검증으로 Ridge/SVR/GPR/Random Forest/Extra Trees를 비교하는 `ree compare-models`를 추가했습니다.
 
@@ -15,7 +30,7 @@
 
 본문·표에서 조성/시험조건/i_corr를 추출하는 모델은 `gpt-6.1-sol`, 제목·초록의 대량 1차 선별 후보는 `gpt-6-luna`로 설정했습니다. 예산 제약에 따라 Astra는 사용하지 않으며 자동 전환도 하지 않습니다. 어려운 사례는 Sol로 재검토하거나 사람이 확인합니다. 이 용도 배치는 부식 데이터 추출 벤치마크로 검증된 최적 조합이 아니라 초기 설정입니다.
 
-`.env`에 `OPENAI_API_KEY`, `OPENAI_MODEL=gpt-6.1-sol`, `OPENAI_SCREENING_MODEL=gpt-6-luna`를 설정했습니다. 키와 모델명 설정까지 완료했으며 실제 인증·유료 생성 요청이나 자동 추출 연결은 아직 수행하지 않았습니다.
+`.env`에 `OPENAI_API_KEY`, `OPENAI_MODEL=gpt-6.1-sol`, `OPENAI_SCREENING_MODEL=gpt-6-luna`를 설정했습니다. Sol의 실제 유료 호출과 자동 추출을 실행했습니다. Luna는 선별용 설정만 준비되어 있으며, 이번 추출에 사용하지 않았습니다. Astra는 호출하지 않았습니다.
 
 먼저 논문 3~5편을 사람이 정리한 정답표와 비교해 수치·단위·시료/조건 연결·누락률을 확인합니다. 모델 간 일치만으로 verified 처리하지 않습니다. 정확도를 확인한 뒤 저비용 모델의 사용 범위를 늘립니다.
 
@@ -23,20 +38,20 @@
 
 ## 1. 지금 어디까지 진행했나요?
 
-현재는 **문헌 검색 연결과 모델 실행 틀을 만들고, 가상 데이터로 작동을 확인한 단계**입니다.
+현재는 **실제 원문에서 값을 추출하고, 검토 대기 데이터로 임시 모델 비교까지 실행한 단계**입니다. 가상 데이터 실행 결과와 실제 문헌 기반 임시 분석을 구분합니다.
 
 | 작업 | 현재 상태 |
 | --- | --- |
-| Elsevier·Springer API 키 저장 | 완료. `.env`에 저장하고 Git에서 제외 |
-| API로 논문 검색 | 연결 확인 완료. Elsevier / Springer Meta / Springer OA 각각 3건 검색 응답 저장 |
-| 연구에 맞는 논문 선별 및 원문·표 확보 | 앞으로 진행 |
+| Elsevier·Springer·Wiley·OpenAI 키 저장 | 완료. `.env`에 저장하고 Git에서 제외 |
+| API로 논문 검색 | 초기 검색 150건 → 중복 제거 후보 141편. 공개 원문 저장소도 추가 검색 |
+| 연구에 맞는 논문 선별 및 원문·표 확보 | 일부 완료. XML·HTML·PDF를 확보해 19편 추출 처리 |
 | 논문 데이터를 기록할 CSV 양식 | 작성 완료 |
-| LLM 데이터 추출 지침 | 작성 완료. LLM 모델 연결과 자동 추출은 아직 미구현 |
+| LLM 데이터 추출 | Sol 연결 및 실행 완료. 추출값과 원문 근거 저장 |
 | 확보율 기반 피처 전처리 및 입력 검증 | 구현 완료 |
-| Ridge·SVR·GPR 학습 | 구현 완료 |
-| Active Learning과 무작위 선택 비교 | 구현 완료 |
+| 모델 학습·비교 | 5종을 논문 단위 내부 교차검증으로 비교하고 선택 모델의 별도 테스트 수행 |
+| Active Learning과 무작위 선택 비교 | 구현 및 가상 데이터 실행 완료. 실제 검증 데이터로는 아직 미실행 |
 | 전체 흐름 실행 확인 | 가상 데이터 120행으로 완료 |
-| 실제 문헌 데이터로 얻은 연구 결과 | 아직 없음 |
+| 사람 검증을 끝낸 100행 연구 결과 | 아직 없음. 26행 임시 결과만 있음 |
 
 검색 결과가 있다고 바로 학습할 수 있는 것은 아닙니다. 논문 안의 조성, 시험 조건, 실제 i_corr를 확인하고 표로 정리해야 합니다.
 
@@ -58,7 +73,7 @@ Ridge / SVR / GPR 학습
 Active Learning vs 무작위 선택 비교
 ```
 
-API는 논문을 찾는 역할이고, LLM은 논문 속 수치를 정리하는 역할입니다. 현재 API 검색은 연결했고, LLM 자동 추출은 아직 연결하지 않았습니다.
+API는 논문을 찾고 접근 가능한 원문을 받는 역할이고, LLM은 논문 속 수치를 정리하는 역할입니다. 현재 검색과 Sol 추출을 연결했습니다. 사람의 원문 검토가 끝나기 전 시험 분석을 할 때는 별도의 임시 분석 옵션을 사용하고, 검증 완료 데이터로 표시하지 않습니다.
 
 ## 3. 모델에 넣는 데이터는 무엇인가요?
 
@@ -74,7 +89,7 @@ API는 논문을 찾는 역할이고, LLM은 논문 속 수치를 정리하는 �
 
 분극 속도·OCP 안정화 시간·노출 시간·가스 조건·모재 상 분류·Cl 농도·고Cr 여부는 확장 후보로 보존합니다. `--profile extended`로 사용할 수 있습니다.
 
-현재 정답이 공개된 학습 데이터에서 확보율이 기본 80% 이상인 열만 선택합니다. 전부 결측인 열은 제외하며, 남은 결측은 학습 데이터 기준으로 보간합니다. 이 선택에 테스트 데이터는 사용하지 않습니다. 아직 실제 문헌 데이터에서 확보율이나 최적 피처 조합을 검증한 것은 아닙니다.
+현재 정답이 공개된 학습 데이터에서 확보율이 기본 80% 이상인 열만 선택합니다. 전부 결측인 열은 제외하며, 남은 결측은 학습 데이터 기준으로 보간합니다. 이 선택에 테스트 데이터는 사용하지 않습니다. 임시 비교의 최종 학습에서 선택된 열은 C, Si, Mn, RE_log1p_ppm, RE_element_cat, electrolyte_condition_cat입니다. 데이터가 추가되면 선택 열도 바뀔 수 있으며 최적 조합이 검증된 것은 아닙니다.
 
 예측하는 정답은 `log10(i_corr [A/cm²])`입니다. 크기 차이가 큰 전류밀도를 로그값으로 바꿔 학습합니다.
 
@@ -122,7 +137,9 @@ Active Learning이 반드시 더 좋은 결과를 내는 것은 아닙니다. �
 
 성능 지표는 MAE, RMSE, R²입니다. MAE와 RMSE는 작을수록 좋고, R²는 클수록 좋습니다. 오차는 로그 타깃 기준입니다.
 
-현재 모델 설정은 초기 비교용 고정값입니다. 하이퍼파라미터 최적화는 아직 하지 않았으며, 추후 테스트 논문과 별개의 내부 검증으로 진행해야 합니다. 또한 현재 선택 비용은 ‘실험 데이터 한 행’ 기준이므로, 논문 한 편을 읽는 비용까지 평가하는 방식은 별도 설계가 필요합니다.
+`ree compare-models`는 학습 논문 내부의 GroupKFold로 모델과 하이퍼파라미터를 고릅니다. 피처 선택과 보간도 각 학습 fold 안에서 수행합니다. 선택된 모델 한 개만 별도 테스트 논문에서 평가합니다. 26행 임시 분석은 seed 42로 한 번 분리해 실행했습니다.
+
+`ree benchmark`의 Active Learning 비교는 초기 고정 모델 설정과 여러 시드를 사용합니다. 비용 단위는 ‘실험 데이터 한 행’이며, 논문 한 편을 읽는 비용까지 평가하는 방식은 별도 설계가 필요합니다. 이미 결과를 확인한 테스트 논문은 향후 최종 검증에서 새 테스트 논문으로 교체해야 합니다.
 
 ## 6. 직접 실행해 보기
 
@@ -148,7 +165,34 @@ uv run ree benchmark data/processed/synthetic_demo.csv --output outputs/demo
 
 **이 결과는 프로그램 작동 확인용이며 실제 문헌 연구 결과가 아닙니다.**
 
-### ③ 실제 문헌 데이터를 넣어 실행
+### ③ 현재 확보한 실제 데이터로 임시 비교 재현
+
+```powershell
+uv run ree compare-models data/processed/pilot100/provisional_for_model.csv --rows 26 --allow-provisional --seed 42 --output outputs/pilot26_provisional
+```
+
+`--allow-provisional`은 사람이 검토하기 전인 pending 데이터를 시험 분석에 사용하는 옵션입니다. 원본의 검토 상태는 그대로 유지하고 결과에도 임시 분석임을 표시합니다. 기본 명령은 검증 완료 자료만 받습니다. 이 명령은 100행 연구 결과를 만드는 명령이 아닙니다.
+
+### ④ 새 원문에서 실험값 추출
+
+확보한 XML 근거 블록은 바로 추출할 수 있습니다.
+
+```powershell
+uv run ree extract --source-dir data/raw/europepmc/PMC11720852 --output-dir data/processed/extractions/PMC11720852 --reuse-response
+```
+
+위 예시는 저장된 응답을 재검증하므로 추가 API 요청을 하지 않습니다. 새 원문을 추출할 때는 `--reuse-response`를 빼면 Sol 유료 요청이 발생합니다. 원문 파일과 blocks.json, metadata.json이 있는 폴더를 입력으로 사용합니다.
+
+새 PDF는 먼저 입력 폴더를 준비합니다. DOI와 제목은 실제 논문 정보로 바꿉니다.
+
+```powershell
+uv run ree prepare-pdf paper.pdf --doi 10.1155/2018/4071352 --title 'Paper title' --output-dir data/raw/my_paper
+uv run ree extract --source-dir data/raw/my_paper --output-dir data/processed/extractions/my_paper
+```
+
+추출 결과는 pending으로 저장됩니다. 같은 평균값을 반복 측정 수만큼 복제하지 않으며, 표·본문 중복도 별도 실험으로 세지 않습니다.
+
+### ⑤ 검증한 실제 문헌 데이터 100행으로 실행
 
 먼저 빈 입력 양식을 만듭니다. 기존 양식 파일이 있으면 덮어쓰므로 작성 중인 데이터는 별도 파일에 보관하세요.
 
@@ -160,6 +204,7 @@ uv run ree template
 
 ```powershell
 uv run ree validate data/processed/measurements.csv
+uv run ree compare-models data/processed/measurements.csv --rows 100 --seed 42 --output outputs/pilot100
 uv run ree benchmark data/processed/measurements.csv --output outputs/research --seeds 11 22 33 44 55 --initial 20 --batch 5 --budget 100
 ```
 
@@ -172,12 +217,16 @@ uv run ree benchmark data/processed/measurements.csv --output outputs/research -
 
 테스트 논문을 제외한 뒤에도 초기 학습량보다 많은 데이터가 있어야 합니다. 코드의 최소 5개 논문 조건은 실행을 위한 최소 조건이며, 연구에 충분한 데이터 규모라는 의미는 아닙니다.
 
-### ④ 결과 확인
+`compare-models`는 검증한 100행과 최소 8개 독립 논문을 요구합니다. 현재 확보한 파일을 100행으로 늘려 주는 기능은 없습니다. `--rows 100`은 전체 비교 입력 행 수이고, 아래 `--budget 100`은 AL 학습에 공개할 최대 라벨 수이므로 서로 다릅니다.
+
+### ⑥ 결과 확인
 
 결과는 `--output`으로 지정한 폴더에 저장합니다.
 
 | 파일 | 확인할 내용 |
 | --- | --- |
+| `model_comparison.json` | 모델별 내부 CV, 선택 모델과 별도 테스트 R²·MAE·RMSE |
+| `holdout_predictions.csv` | 별도 테스트 논문의 실제 로그값과 예측 로그값 |
 | `learning_curves.png` | 데이터를 늘릴 때 예측 오차가 어떻게 달라지는지 |
 | `learning_curves.csv` | 각 반복의 MAE, RMSE, R² |
 | `summary.csv` | 여러 시드의 평균과 표준편차 |
@@ -192,6 +241,10 @@ uv run ree benchmark data/processed/measurements.csv --output outputs/research -
 ELSEVIER_API_KEY=실제_키
 SPRINGER_OPEN_ACCESS_API_KEY=실제_키
 SPRINGER_META_API_KEY=실제_키
+WILEY_TDM_TOKEN=실제_토큰
+OPENAI_API_KEY=실제_키
+OPENAI_MODEL=gpt-6.1-sol
+OPENAI_SCREENING_MODEL=gpt-6-luna
 ```
 
 `.env`는 Git에서 제외합니다. 새 환경에서는 `.env.example`을 `.env`로 복사하고 실제 값을 넣습니다.
@@ -200,16 +253,16 @@ Python 검색 명령은 `.env`를 자동으로 읽으므로 별도의 로딩 명
 아래 명령으로 후보 논문을 검색할 수 있습니다.
 
 ```powershell
-uv run ree search --provider elsevier --query 'TITLE-ABS-KEY((cerium OR lanthanum OR "rare earth") AND corrosion AND steel)' --limit 5 --output data/raw/elsevier_search.json
-uv run ree search --provider springer-meta --query '"cerium" "corrosion" "steel"' --limit 5 --output data/raw/springer_meta_search.json
-uv run ree search --provider springer-oa --query '"cerium" "corrosion" "steel"' --limit 5 --output data/raw/springer_oa_search.json
+uv run ree search --provider elsevier --query 'TITLE-ABS-KEY((cerium OR lanthanum) AND corrosion AND steel)' --limit 5 --output data/raw/elsevier_search.json
+uv run ree search --provider springer-meta --query 'cerium corrosion steel' --limit 5 --output data/raw/springer_meta_search.json
+uv run ree search --provider springer-oa --query 'cerium corrosion steel' --limit 5 --output data/raw/springer_oa_search.json
 ```
 
 각 명령은 한 페이지만 요청하고 최대 5건을 저장합니다. 전체 논문을 자동으로 수집하는 명령은 아닙니다. 검색어가 넓으면 관련 없는 논문도 포함되므로 선별이 필요합니다.
 
 Elsevier는 Scopus 검색을 사용합니다. Springer Meta는 메타데이터 검색, OA는 공개 접근 콘텐츠 검색에 사용합니다. **검색 성공과 논문 원문 전체에 대한 접근은 별개**이며, 제공 범위와 기관 권한에 따라 달라집니다.
 
-다른 PowerShell 작업에서도 키를 쓰고 싶다면 아래 스크립트로 세 키를 현재 세션에 불러올 수 있습니다. 파일명은 기존 이름을 유지했습니다.
+다른 PowerShell 작업에서도 키를 쓰고 싶다면 아래 스크립트로 설정된 키와 모델명을 현재 세션에 불러올 수 있습니다. 파일명은 기존 이름을 유지했습니다.
 
 ```powershell
 . .\scripts\Set-ElsevierEnv.ps1
@@ -220,13 +273,18 @@ Elsevier는 Scopus 검색을 사용합니다. Springer Meta는 메타데이터 �
 | 경로 | 역할 |
 | --- | --- |
 | `ree_research/mining.py` | API 검색과 응답 저장 |
-| `ree_research/schema.py` | 데이터 검증, 19개 피처와 타깃 계산 |
+| `ree_research/schema.py` | 데이터 검증, 기본 14개 후보 및 확장 후보와 타깃 정의 |
+| `ree_research/ingestion.py` | PDF를 페이지별 추출 근거로 준비 |
+| `ree_research/extraction.py` | Sol 추출, 근거 대조, 단위 변환, pending 저장 |
+| `ree_research/model_selection.py` | 논문 단위 내부 CV로 5종 모델·하이퍼파라미터 비교 |
 | `ree_research/benchmark.py` | 모델 학습, Active Learning, 성능 비교 |
 | `ree_research/cli.py` | 터미널 실행 명령 |
 | `docs/extraction_prompt.md` | 문헌에서 값을 추출할 때 지킬 규칙 |
 | `tests/test_protocol.py` | 데이터 검증과 평가 방식에 대한 자동 테스트 |
+| `scripts/assemble_extraction_pilot.py` | 추출 파일 통합과 보류 사유 분리 |
+| `docs/pilot100.md` | 수집·추출·임시 분석의 상세 진행 기록 |
 
-테스트 3개가 통과했습니다. 검토되지 않은 데이터 차단, 후보 데이터의 정답을 바꿔도 예측·불확실성이 바뀌지 않는지, 테스트 논문 분리와 데이터 추가량을 확인했습니다.
+테스트 13개가 통과했습니다. 검토 상태 차단, pool 정답 미사용, 논문 분리, 확보율 선택, 근거 인용, 원문 응답 구분, API 잔액 부족 시 허위 데이터 생성 방지 등을 확인했습니다.
 
 ```powershell
 uv run python -m unittest discover -s tests -v
@@ -234,12 +292,11 @@ uv run python -m unittest discover -s tests -v
 
 다음 작업은 아래 순서입니다.
 
-1. 연구 범위에 맞는 철계 희토류 합금 논문을 선별합니다.
-2. 원문과 실험 표를 확보합니다.
-3. LLM 추출에 사용할 공급자/모델을 정해 연결하거나, 우선 수동으로 데이터를 정리합니다.
-4. 단위·원문 근거·중복을 확인하고 실제 데이터셋을 만듭니다.
-5. 변수별 결측 비율과 논문 수를 확인한 뒤 실제 모델 비교를 실행합니다.
-6. 무작위 선택 대비 Active Learning의 데이터 효율성이 개선되는지 평가합니다.
+1. 현재 33행의 수치·단위·시료·조건을 원문에서 사람이 확인하고 보류 사유를 해결합니다.
+2. 희토류 첨가 연구와 같은 논문의 대조군 범위에서 추가 원문을 확보합니다. 추출 100행까지 최소 67행이 더 필요합니다.
+3. 노출 시간·녹층·열처리 등 조건 차이와 결측 정보가 예측을 제한하는지 검토합니다.
+4. 검증한 100행이 모이면 학습 논문 내부에서 모델을 선택하고, 새 최종 테스트 논문으로 평가합니다.
+5. 실제 검증 데이터에서 Active Learning과 무작위 선택을 비교합니다.
 
 실제 데이터, API 응답, 실행 결과, API 키는 Git에서 제외하고 코드와 빈 양식만 공유합니다.
 
@@ -271,6 +328,6 @@ uv run ree screen --input-dir data/raw/discovery
 uv run ree fetch-elsevier --doi 10.1016/j.jmrt.2025.11.079 --output-dir data/raw/fulltext/ni_ce_2025
 ```
 
-접근 가능한 경우 XML을 저장하고, 원문 텍스트가 있는지 별도로 기록합니다. 메타데이터만 받으면 원문 확보로 처리하지 않습니다. 아직 실제 i_corr 행은 추출하지 않았습니다.
+접근 가능한 경우 XML을 저장하고, 원문 텍스트가 있는지 별도로 기록합니다. 메타데이터만 받으면 원문 확보로 처리하지 않습니다. 이 Elsevier 요청은 실패했지만, 다른 공개 원문과 Wiley TDM을 통해 현재 33행을 추출했습니다.
 
-다음은 후보 중 연구에 맞는 논문을 골라 접근 가능한 원문 또는 확보한 PDF에서 조성표·분극시험 표를 확인하는 단계입니다. [공식 원문 API 문서](https://dev.elsevier.com/documentation/ArticleRetrievalAPI.wadl).
+추가 후보에서도 원문 접근 가능 여부를 확인하고 조성표·분극시험 표를 수집합니다. [공식 원문 API 문서](https://dev.elsevier.com/documentation/ArticleRetrievalAPI.wadl).

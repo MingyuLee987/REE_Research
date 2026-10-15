@@ -2,7 +2,52 @@
 
 목표는 철계 희토류 첨가 합금과 그 무첨가 대조군의 `log10(icorr [A/cm²])`를 예측하여, 논문 단위 홀드아웃에서 R² 0.8 달성 여부를 평가하는 것입니다. 점수는 목표이며 보장되지 않습니다.
 
-## 현재 실행 상태 (2026-10-15)
+## 충전 후 현재 실행 상태 (2026-10-15)
+
+- Sol 실제 생성 및 추출 성공. 이전 잔액 부족은 해소됐습니다. 일부 분당 처리 제한에는 대기 후 재시도하도록 구현했습니다.
+- 사용자 범위 확정: 희토류 첨가 철계 합금 연구와 해당 논문 대조군만 포함. 일반 철계 합금으로 100행을 채우지 않습니다.
+- Europe PMC XML, J-STAGE HTML, Wiley 공식 TDM PDF 및 MDPI 공개 배포 PDF를 확보했습니다. Wiley 토큰으로 원문 한 편을 실제 내려받았습니다.
+- **19편을 Sol로 처리해 9편의 33행 추출.** 나머지는 범위 내의 명시적 i_corr가 없어 0행입니다. 빈 논문을 복제하거나 그래프를 임의로 읽어 행을 늘리지 않았습니다.
+- 수치 불일치 또는 보고된 조성값 3개 미만인 **7행 보류**, 남은 **26행·9편**을 임시 모델 비교에 사용했습니다. 이 기준은 모델 점수를 보기 전에 적용했습니다.
+- 33행 전체, 보류 7행, 임시 분석 26행 모두 `pending`입니다. 사람이 검증한 자료로 바꾸지 않았습니다.
+- 임시 비교에서 학습 논문의 내부 CV R² 기준으로 SVR 선택. 같은 seed 42를 유지한 별도 테스트 2편·7행에서 **R²=-1.271, MAE=0.783, RMSE=1.012**. 모두 log10(A/cm²) 타깃 기준이며 R²는 무차원입니다.
+- 목표 100행 대비 추출 행이 **67행 부족**합니다. 임시 결과는 100행 연구 성능이나 AL 우월성의 증거가 아닙니다.
+
+### 현재 파일
+
+| 경로 | 내용 |
+| --- | --- |
+| `data/processed/pilot100/llm_pending_all.csv` | Sol 추출 33행과 원문 근거 |
+| `data/processed/pilot100/held_for_review.csv` | 보류 7행과 사유 |
+| `data/processed/pilot100/provisional_for_model.csv` | 임시 비교용 26행; 여전히 pending |
+| `data/processed/pilot100/review_queue.md` | 사람이 확인할 DOI·시료·수치·원문 위치 |
+| `data/processed/pilot100/current_status.json` | 현재 집계 및 저장 응답의 토큰 사용량 |
+| `outputs/pilot26_provisional/model_comparison.json` | 5개 모델 내부 CV와 선택 모델 홀드아웃 결과 |
+| `outputs/pilot26_provisional/model_comparison.png` | 임시 모델 비교 및 실제값-예측값 그림 |
+
+저장된 응답 기준 입력 288,478 토큰, 출력 19,871 토큰입니다. 이는 청구 금액이 아닙니다. 실패·미저장 요청까지 포함한 실제 비용은 OpenAI 사용량 화면에서 확인해야 합니다. Astra는 호출하지 않았습니다.
+
+```powershell
+uv run python scripts/assemble_extraction_pilot.py
+uv run ree compare-models data/processed/pilot100/provisional_for_model.csv --rows 26 --allow-provisional --seed 42 --output outputs/pilot26_provisional
+```
+
+`--allow-provisional`은 pending 자료에 대한 시험 분석을 명시적으로 허용하며, 결과에는 `provisional_not_human_verified`를 기록합니다. 기본 명령은 계속 verified 자료만 허용합니다. 불확실한 값은 검토/보류하고, 테스트 점수가 낮다고 유리한 시드로 바꾸지 않습니다. 이미 본 테스트 논문은 향후 최종 성능 검증용으로 재사용하지 않는 것이 적절합니다.
+
+### 다음 데이터 단계
+
+추가 원문에서 최소 67개의 새 실험값을 수집하고, 모든 행의 단위·시료·조건을 사람이 확인해야 합니다. 현재 pH·온도·Cr 등 일부 변수의 확보율이 낮아 선택되지 않았고, 녹층 노출시간·열처리 등도 문헌마다 다릅니다. 모델 종류만 바꿔 R² 0.8을 보장할 수 없으며, 데이터 범위·조건 표현과 근거의 품질을 먼저 보강해야 합니다.
+
+PDF를 확보한 경우 다음처럼 추출 입력을 준비할 수 있습니다.
+
+```powershell
+uv run ree prepare-pdf paper.pdf --doi 10.1155/2018/4071352 --title 'Paper title' --output-dir data/raw/my_paper
+uv run ree extract --source-dir data/raw/my_paper --output-dir data/processed/extractions/my_paper
+```
+
+이미 저장한 응답의 근거 검증만 다시 할 때는 `--reuse-response`를 추가합니다. 이 옵션은 새 API 요청 없이 응답을 검증합니다.
+
+## 최초 요청 시 상태 (아래는 충전 전 기록)
 
 - OpenAI Sol 모델 조회: HTTP 200.
 - 최소 생성 요청: HTTP 429, `credit_balance_exhausted`. 실제 자동 추출은 잔액 부족으로 실행되지 않았습니다.

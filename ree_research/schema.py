@@ -12,7 +12,7 @@ PROVENANCE = ['record_id', 'paper_id', 'doi', 'source_locator', 'evidence_quote'
 RAW = ['RE_ppm', 'icorr_A_cm2']
 
 
-def prepare(frame):
+def prepare(frame, allowed_review_statuses=('verified',)):
     """Validate reviewed measurements; derive target without imputing labels."""
     df = frame.copy()
     required = PROVENANCE + ['icorr_A_cm2']
@@ -28,7 +28,7 @@ def prepare(frame):
             raise ValueError(f'{column} must be provided for every measurement')
     if df.record_id.duplicated().any():
         raise ValueError('record_id must be unique')
-    if not df.review_status.eq('verified').all():
+    if not df.review_status.isin(allowed_review_statuses).all():
         raise ValueError('Only manually verified measurements may enter training')
     for column in COMPOSITION + RAW + ['temperature_C', 'pH'] + [c for c in OPTIONAL_NUMERIC if c != 'high_Cr_indicator']:
         df[column] = pd.to_numeric(df[column], errors='raise')

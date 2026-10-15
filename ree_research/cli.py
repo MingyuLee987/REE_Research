@@ -61,6 +61,7 @@ def main():
     comparison.add_argument('--rows', type=int, default=100)
     comparison.add_argument('--seed', type=int, default=42)
     comparison.add_argument('--allow-synthetic', action='store_true', help='Code smoke test only; not a research result')
+    comparison.add_argument('--allow-provisional', action='store_true', help='Exploratory fit on pending data, explicitly not human verified')
     template = sub.add_parser('template')
     template.add_argument('--output', default='data/measurements_template.csv')
     synthetic = sub.add_parser('demo')
@@ -97,7 +98,7 @@ def main():
             print(f'PDF evidence pages: {prepare_pdf(args.input, args.output_dir, args.doi, args.title)}')
         elif args.command == 'compare-models':
             from .model_selection import compare
-            result = compare(args.input, args.output, args.rows, args.seed, args.allow_synthetic)
+            result = compare(args.input, args.output, args.rows, args.seed, args.allow_synthetic, args.allow_provisional)
             print(f"Run status: {result['status']}")
             print(f"Winner: {result['winner']}; held-out paper R2: {result['test_r2']:.3f}")
         elif args.command == 'template':

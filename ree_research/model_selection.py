@@ -26,8 +26,8 @@ class CoverageTransformer(TransformerMixin, BaseEstimator):
         return self.preprocessor_.transform(X)
 
 
-def compare(path, output, rows=100, seed=42, allow_synthetic=False):
-    df = prepare(pd.read_csv(path))
+def compare(path, output, rows=100, seed=42, allow_synthetic=False, allow_provisional=False):
+    df = prepare(pd.read_csv(path), allowed_review_statuses=('verified', 'pending') if allow_provisional else ('verified',))
     synthetic = df.paper_id.astype(str).str.startswith('synthetic-').any()
     if synthetic and not allow_synthetic:
         raise ValueError('Synthetic input requires explicit --allow-synthetic; it cannot establish research R2')
@@ -68,11 +68,12 @@ def compare(path, output, rows=100, seed=42, allow_synthetic=False):
         raise ValueError('No candidate produced a finite internal CV R2; acquire more independent data')
     # No repeated search for favorable test partitions or target-adjusting transformations.
     pred = best_estimator.predict(test[ALL_FEATURES])
-    report = {'status': 'synthetic_smoke_only' if synthetic else 'completed', 'rows': rows, 'seed': seed, 'selected_by': 'grouped CV R2', 'winner': winner,
+    provisional = not selected.review_status.eq('verified').all()
+    report = {'status': 'synthetic_smoke_only' if synthetic else ('provisional_not_human_verified' if provisional else 'completed'), 'rows': rows, 'seed': seed, 'selected_by': 'grouped CV R2', 'winner': winner,
               'train_papers': train.paper_id.unique().tolist(), 'test_papers': test.paper_id.unique().tolist(),
               'test_rows': len(test), 'test_r2': r2_score(test.target, pred),
               'test_mae': mean_absolute_error(test.target, pred), 'test_rmse': float(np.sqrt(mean_squared_error(test.target, pred))),
-              'target_r2': 0.8, 'target_met': None if synthetic else bool(r2_score(test.target, pred) >= 0.8), 'cv_results': scores,
+              'target_r2': 0.8, 'target_met': None if synthetic or provisional else bool(r2_score(test.target, pred) >= 0.8), 'cv_results': scores,
               'included_record_ids': selected.record_id.tolist(),
               'selected_features': best_estimator.named_steps['features'].numeric_ + best_estimator.named_steps['features'].categorical_}
     (out / 'model_comparison.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
