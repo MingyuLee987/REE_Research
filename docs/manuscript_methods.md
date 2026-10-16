@@ -1,133 +1,170 @@
-# 논문 Methods 초안: 문헌 검색과 LLM 보조 데이터 구축
+# 문헌 검색 및 데이터 구축 방법: 논문용 초안
 
-> 아래 본문의 집계는 **초안 작성 당시 22편·167개 판본**입니다. 이후 추가 수집으로 전체는 27편·189개, 임시 후보 135개·보류 54개가 됐으며 300개 목표에는 111개가 부족합니다. [최신 수집·접근 한계](collection_300.md)를 기준으로 최종 투고 시 집계와 출처 범위를 다시 고정해야 합니다. 현재도 사람 검증 완료는 0개입니다.
+상·조성 보강(2026-10-16): 확보한 전문 블록 25편을 gpt-6.1-sol로 재독하여 시험 전 모재 상·이차상·조성을 보충하였다. 원문 위치와 인용문이 일치하는 필드만 반영하고, 미보고 성분·분율은 생성하지 않았다. 저자의 재료 계열 설명과 시험 전 조직 관찰 근거를 구분했다. 당량은 조성 기술자로 계산하고 실제 상분율로 해석하지 않았다. 기존 타깃과 보류 상태를 유지했다. 새 46개 후보 피처 및 135개 관측값/19편의 개발 교차검증 방법은 [상·조성 보강 기록](phase_features_v4.md)을 따른다. 사람의 원문 검증과 최종 독립 검증은 아직 완료되지 않았다.
 
-작성 기준: 2026-10-15의 코드, 원자료 및 추출 로그. 아래 영어·한국어 본문은 **현재 실제 수행한 작업**을 기술합니다. 사람 검증과 최종 모델·Active Learning 평가는 완료되지 않았으므로 완료했다고 표현하지 않았습니다.
+기준일: **2026-10-16**. 저장된 API 응답, 수집 코드, 원문 및 추출 기록에 근거한 Methods 초안입니다. 실제 수행하지 않은 전수 검색, 이중 독립 검토, 최종 모델 평가를 완료한 것으로 서술하지 않았습니다. 이전 판본은 [이력](manuscript_methods_history.md)에 보존했습니다.
 
-## 먼저 확정해야 할 데이터 범위
+## 1. 검색 범위와 키워드
 
-| 출판사 | 데이터가 확보된 논문 | 수집 실험 데이터 포인트 | 임시 분석 후보 | 보류 |
-| --- | ---: | ---: | ---: | ---: |
-| Springer Nature: Nature 및 Springer 저널 | 6 | 97 | 68 | 29 |
-| Wiley | 3 | 14 | 9 | 5 |
-| Elsevier | 3 | 12 | 0 | 12 |
-| 위 세 출판사 합계 | 12 | 123 | 77 | 46 |
-| 다른 출처를 포함한 전체 수집본 | 22 | 167 | 117 | 50 |
+목적은 **희토류가 벌크 철계 합금에 첨가된 실험 연구와 동일 연구의 대조군에서 보고한 부식전류밀도**를 수집하는 것입니다. 아래 용어는 저장된 검색식에서 확인된 용어입니다. 모든 용어를 한 검색식에 동시에 넣은 것은 아닙니다.
 
-출판사별 집계는 저장된 데이터에서 재계산하였으며, 수집 완료와 사람 검증 완료는 구분합니다. 전체 사람 검증 완료는 0개입니다. 본문에 사용하는 데이터 범위는 전체 수집본인지 세 출판사 부분집합인지 일관되게 명시해야 합니다. 현재 피처 비교의 117개 입력은 다른 출처를 포함한 전체 수집본의 임시 후보이며, 세 출판사만의 분석 결과가 아닙니다.
+| 개념 | 저장된 API 검색식의 용어 | 사용 목적 |
+| --- | --- | --- |
+| 희토류 | `"rare earth"`, `cerium`, `lanthanum`, `yttrium`, `praseodymium`, `neodymium`, `mischmetal` | 희토류 첨가 연구 검색. Europe PMC 보완 검색에는 `Ce`, `La`, `scandium`도 사용 |
+| 철계 재료 | `steel`, `steels`, `iron`, `"pure iron"`, `ferrous`, `"Fe-based"` | 철계 합금·강·순철 연구 확보. 일부 Springer 검색은 `stainless`, `rebar` 사용 |
+| 부식·측정 | `corrosion`, `polarization`, `"current density"`, `"corrosion current"`, `"corrosion current density"`, `Tafel` | 부식 및 전기화학 측정 자료 탐색 |
+| 합금화·개재물 | `addition`, `microalloying`, `inclusion`, `alloying` | 벌크 합금 첨가 연구의 검색 우선순위 강화 |
+| 일부 검색식의 제외어 | `inhibition`, `inhibitor`, `coating`, `coatings`, `conversion`, `synergism`, `nanoparticles`, `deposited` | 표면처리·억제제 연구의 검색 잡음 감소. 모든 검색에 일괄 적용하지 않음 |
 
-## English manuscript text
+일반 설명에서 `i_corr`를 목표 변수로 사용하지만, 이를 모든 API 검색에 필수 검색어로 넣지는 않았습니다. 검색식에 없는 단어를 실제 수행한 검색식에 사후 추가하지 않았습니다. 후속 출판사 페이지 검색에는 논문 제목, DOI, 재료명 및 중국어 용어(예: 稀土, 铈, 镧, 钇, 腐蚀电流密度)를 활용했습니다. 이 웹 검색의 전체 검색어·시각을 통합한 로그는 없으므로, API 검색식 목록을 전체 웹 검색 기록으로 표현하지 않습니다.
 
-### Literature identification and eligibility criteria
+## 2. 검색 서비스와 원문 확보 경로
 
-A targeted literature search was conducted to identify experimental studies of corrosion in rare-earth-containing bulk ferrous alloys and the corresponding control materials investigated within the same studies. The search and acquisition workflow used Elsevier Scopus and ScienceDirect search services, Springer Nature metadata and open-access services, and DOI-based retrieval of Wiley articles. Publisher-page searches and follow-up searches using article titles and DOIs supplemented API-based discovery. Search terms combined rare-earth identifiers (e.g., cerium, lanthanum, yttrium, and “rare earth”) with ferrous-material and corrosion terms (e.g., steel, stainless steel, corrosion, polarization, current density, and Tafel). Search queries were adapted to the syntax of each service. Searches included both older publications and recent studies; a single publication-year interval was not imposed across all queries. The latest collection update was performed on 15 October 2026.
+| 서비스/경로 | 실제 역할 | 논문에서 구분할 점 |
+| --- | --- | --- |
+| Elsevier Scopus API | 제목·초록·키워드 및 제목 검색 | 여러 출판사를 포괄하는 서지 검색 서비스. Scopus 검색 결과가 모두 Elsevier 논문인 것은 아님 |
+| Elsevier ScienceDirect | 출판사 페이지·검색 결과 및 접근 가능한 공개 자료 확인 | 검색과 원문 API 접근은 별도. Article Retrieval API의 403은 미해결 |
+| Springer Nature Metadata API | 메타데이터 기반 후보 검색 | 메타데이터 확보가 전문 확보를 뜻하지 않음 |
+| Springer Nature Open Access API | 공개 논문 검색 및 이용 가능한 JATS 원문 확보 | 공식 PDF 확보와 별도로 출처 기록 |
+| Wiley TDM API | 이미 확인한 DOI로 원문 PDF 요청 | 포괄적 문헌 검색 데이터베이스로 사용했다고 기술하지 않음 |
+| Europe PMC | 공개 문헌 보완 검색 및 DOI 일치 원문 XML 확보 | 출판사와 저장소를 구분. DOI가 같은 사본은 별도 논문으로 중복 집계하지 않음 |
+| 출판사·학회 공식 HTML/PDF | 후속 제목/DOI 검색 및 표·그림 확인 | MDPI·중국 학회지 등 세 출판사 이외의 자료도 전체 수집본에 포함 |
 
-Candidate records were consolidated using normalized DOIs to identify repeated bibliographic records. Titles and abstracts were used to prioritize potentially relevant articles, followed by examination of accessible experimental sections, tables, and figures. Studies were eligible for measurement extraction when they investigated rare-earth additions to bulk ferrous materials or within-study controls and explicitly reported corrosion current density, together with an identifiable sample and measurement condition. Studies limited to rare-earth-containing coatings, rare-earth additions to an electrolyte as corrosion inhibitors, non-ferrous alloys, or review-derived secondary measurements were excluded. Passive current density, corrosion potential, local scanning-electrode current, electrochemical impedance parameters, and weight-loss-derived corrosion rates were not substituted for corrosion current density. This was a targeted, iterative data-acquisition procedure rather than an exhaustive systematic review.
+따라서 전체 데이터셋을 **“Elsevier, Springer Nature, Wiley의 세 출판사 논문만으로 구성하였다”**고 쓰면 현재 기록과 맞지 않습니다. 적절한 표현은 **“세 출판사 자료를 중심으로 검색하고 공개 저장소 및 기타 출판사·학회의 원문으로 보완하였다”**입니다.
 
-### Acquisition of article content
+## 3. 실제 실행한 검색식: 대표 예시
 
-Bibliographic discovery and full-text acquisition were treated as separate steps. For Springer Nature publications, accessible original content was acquired using the open-access JATS service or official publisher PDF links. Wiley PDFs were retrieved using the Wiley Text and Data Mining API with a client token after identification of the article DOI. Elsevier search services returned bibliographic records; however, the Article Retrieval API remained inaccessible with an HTTP 403 authentication/configuration response in the execution environment. Consequently, Elsevier full-text acquisition was not considered successful solely on the basis of a successful metadata search.
+다음 문자열은 저장된 응답에서 회수한 실제 검색식입니다. 줄바꿈만 가독성을 위해 추가했습니다. 전체 문자열과 저장 응답 경로·SHA256·페이지별 레코드 수는 [Supplementary 검색식 목록](search_query_log.md) 및 [기계 판독 로그](search_query_log.json)에 있습니다.
 
-Where available, DOI-matched public repository copies were obtained as alternative article sources. For an Elsevier iScience article, a DOI-verified full-text XML copy was obtained from Europe PMC. This article did not contribute numerical corrosion-current-density records because the relevant accessible figure did not display explicit numerical values suitable for the adopted extraction procedure. Separately, twelve candidate measurements from three Elsevier articles were transcribed from numerical tables exposed in search results for the publisher's own article pages. These records were labeled as publisher-search-excerpt evidence and withheld from the provisional modeling dataset pending full-source verification. Repository copies, publisher PDFs/XML, and publisher-search excerpts were recorded as distinct evidence types.
-
-### LLM-assisted extraction and provenance tracking
-
-Article content was converted into source-addressable evidence blocks. XML content was represented using paragraph and table identifiers, whereas PDF text was associated with page-level locators. A large language model, OpenAI GPT-6.1 Sol (API model identifier: `gpt-6.1-sol`), was accessed through the Responses API to assist measurement extraction and contextual-variable extraction. The model identifier was confirmed from locally stored API responses. Task-specific instructions and a strict JSON schema constrained the outputs to predefined measurement, composition, test-condition, and provenance fields. No project-specific model fine-tuning was performed. The code did not explicitly set temperature, top-p, or a generation seed; therefore, deterministic generation was not assumed.
-
-For each extracted measurement, the requested information included sample identity, corrosion current density in its reported unit, alloy composition, rare-earth identity and content, test environment, and source references. Composition and test-condition locators were requested separately from the locator supporting the corrosion-current-density value. Additional contextual information, including heat-treatment history, material state, exposure time, and electrochemical testing conditions, was extracted in a separate evidence-constrained step without modifying the previously extracted target values. Missing, censored, ranged, or ambiguous numerical measurements were retained as missing values rather than replaced with estimated point values. Unquantified descriptions such as “room temperature” and “neutral solution” were not assigned numerical temperature or pH values.
-
-LLM-derived target evidence was checked against the supplied source blocks by matching quoted text after whitespace normalization. When an evidence quotation comprised separate lines, each fragment was required to occur within the cited block; separated fragments were not represented as a single continuous quotation. Invalid locators, unsupported target quotations, nonpositive corrosion current densities, and duplicate sample-condition identities caused extraction validation to fail. These automated checks established source traceability but did not establish the scientific correctness of sample-to-condition attribution or replace expert review.
-
-The dataset also included agent-assisted transcription of numerical table entries and explicitly printed numerical annotations within figures. Values inferred solely from curve positions, bar heights, or image coordinates were not included. For one Springer Nature study contributing 60 data points, printed figure annotations were additionally read using the same Sol model with image input and compared with the transcribed values. This constituted an automated cross-check using the same model family, not independent human validation. Extraction mode and evidence type were retained for each available record or source-level extraction run; not all collected measurements were produced by text-only LLM extraction.
-
-### Data harmonization, duplicate handling, and quality control
-
-A measurement record represented a distinct reported alloy–processing–environment–measurement condition. Reported means were not expanded into separate observations on the basis of the stated number of experimental repeats. Measurements repeated in tables and figures or under multiple headings were checked for duplication and retained once when they represented the same reported condition. For example, repeated untreated control values in the S31254 heat-treatment study were collapsed before aggregation.
-
-Corrosion current density was harmonized to A cm⁻² using factors of 10⁻³ for mA cm⁻² and 10⁻⁶ for μA cm⁻², with any explicitly reported table multiplier retained during conversion. Alloy compositions were recorded in wt.% and rare-earth contents in mass ppm, where an unambiguous wt.% value could be converted using 1 wt.% = 10,000 ppm. Nominal additions, feedstock compositions, intermediate processing-stage compositions, and measured final-material compositions were distinguished. Unreported elemental contents were not interpreted as zero. NaCl weight percentage was not converted to molar chloride concentration without sufficient supporting information. Heat-treatment duration, corrosion exposure time, and open-circuit-potential stabilization time were treated as separate quantities.
-
-Records with conflicting source values or sample attribution, insufficient reported composition, incomplete full-source evidence, or unresolved correspondence between the composition measurement stage and the tested specimen were assigned explicit hold reasons. The aggregation procedure excluded held records from the provisional modeling input. Source DOI, source locator, available quotation or transcription evidence, original unit, extraction method, and review status were retained; source paths and available SHA-256 hashes supported traceability. All collected measurements remained labeled as pending human review. The terms “verified dataset” and “human-validated measurements” are therefore not applicable to the current collection.
-
-### Current dataset status and feature preparation
-
-At the collection cutoff, the combined dataset contained 167 candidate experimental data points from 22 studies, including sources beyond the three primary publishers. The Springer Nature, Wiley, and Elsevier subset contained 123 data points from 12 studies. Following the implemented quality holds, 117 data points from 16 studies were retained as provisional modeling candidates across the full collection; these were not human-verified observations. The remaining 50 data points were held for further review. Collection counts were distinguished from modeling-eligible and human-verified counts.
-
-For exploratory prediction, the target was defined as log₁₀[i_corr/(A cm⁻²)]. A corrosion-focused profile comprised 28 candidate descriptors representing composition, rare-earth content, environment, exposure and measurement conditions, and processing history, including input-only logarithmic transformations and composition interaction terms. Features were selected within each training fold using a reporting fraction of at least 50%, nonconstant training values, and availability in at least two training studies. Numerical imputation, missingness indicators, scaling, and categorical encoding were fitted using training data only. Study identifiers, source text, corrosion current density, and electrochemical outcome variables directly related to the target were excluded from the predictor set. Feature comparison was exploratory and did not establish final predictive or active-learning performance.
-
-## 한국어 본문 초안
-
-### 문헌 검색 및 데이터 선정
-
-희토류 첨가 철계 합금의 부식전류밀도 예측을 위한 문헌 데이터셋을 구축하기 위해 Elsevier, Springer Nature 및 Wiley의 논문을 중심으로 표적 문헌 검색을 수행하였다. Elsevier의 Scopus 및 ScienceDirect 검색 서비스와 Springer Nature의 메타데이터·오픈액세스 서비스를 활용하였으며, 출판사 페이지 및 논문 제목·DOI를 이용한 후속 검색으로 후보 문헌을 보완하였다. Wiley 논문은 확인된 DOI를 기반으로 공식 Text and Data Mining API를 통해 원문 PDF를 확보하였다. 검색어는 cerium, lanthanum, yttrium, rare earth와 steel, stainless steel, corrosion, polarization, current density 및 Tafel 등을 조합하였으며, 서비스별 검색 문법에 맞게 적용하였다. 최신 수집 갱신일은 2026년 10월 15일이다. 본 절차는 데이터 확보를 위한 반복적 표적 검색으로 수행되었으며, 모든 관련 문헌을 포괄하는 체계적 문헌고찰로 간주하지 않았다.
-
-중복 문헌은 정규화된 DOI를 기준으로 식별하였다. 희토류가 벌크 철계 합금에 첨가된 실험 연구와 동일 논문의 대조군을 포함하였으며, 시료 및 시험 조건에 연결할 수 있는 명시적 부식전류밀도 수치를 수집하였다. 희토류 코팅, 용액 내 부식억제제로 투입된 희토류, 비철 합금 및 리뷰 논문의 재인용 데이터는 제외하였다. 부동태 전류밀도, 부식전위, 국부 전류, 임피던스 파라미터 및 중량감소 기반 부식속도는 부식전류밀도로 대체하지 않았다.
-
-### 원문 확보 및 LLM 보조 추출
-
-Springer Nature 논문은 이용 가능한 공식 JATS XML 또는 출판사 PDF로 확보하였으며, Wiley 논문은 TDM API로 확보하였다. Elsevier는 검색 API와 원문 API의 접근 상태를 구분하였다. Article Retrieval API에서 HTTP 403이 지속되어 원문 API 접근이 성공한 것으로 처리하지 않았으며, 가능한 경우 DOI가 일치하는 공개 저장소의 원문 사본을 확인하였다. 출판사 검색 결과에 노출된 수치표에서 확보한 Elsevier 데이터는 전체 원문과 대조하기 전까지 별도 보류하였다.
-
-확보한 문서는 문단·표 또는 PDF 페이지 단위의 출처 식별자를 갖는 근거 블록으로 변환하였다. OpenAI Responses API를 통해 **GPT-6.1 Sol(`gpt-6.1-sol`)**을 사용하였으며, 지정된 JSON 스키마에 따라 시료, 합금 조성, 희토류 함량, 부식 시험 조건, 부식전류밀도 및 출처 근거를 구조화하여 추출하였다. 사용 모델 식별자는 저장된 API 응답에서 확인하였다. 별도의 프로젝트 전용 미세조정은 수행하지 않았다. 생성 temperature, top-p 및 seed는 코드에서 명시적으로 지정하지 않았다.
-
-모델에는 원문에 없는 값을 추정하지 않고 결측으로 유지하도록 지시하였다. 추출된 부식전류밀도의 근거 문구가 인용된 원문 블록에 존재하는지 자동 확인하였으며, 잘못된 출처 식별자, 근거 문구 불일치, 비양의 목표값 및 중복 시료·조건은 오류로 처리하였다. 열처리·재료 상태 등 추가 문맥 변수는 별도 추출 단계에서 필드별 근거와 함께 보완하였고, 기존 목표값은 변경하지 않았다. 수치표와 그림에 인쇄된 숫자의 에이전트 보조 전사도 병행하였으나, 그래프 좌표나 막대 높이만으로 값을 추정하지 않았다. 일부 그림의 인쇄값은 동일 Sol 모델의 이미지 입력으로 교차 확인하였으며, 이를 독립적인 사람 검증으로 간주하지 않았다.
-
-### 단위 표준화 및 품질 관리
-
-각 실험 데이터 포인트는 보고된 합금·처리·환경·측정 조건의 조합으로 정의하였다. 반복 측정의 평균값을 반복 횟수만큼 복제하지 않았으며, 표와 그림 또는 여러 표제에 재수록된 동일 조건의 결과는 중복 집계하지 않았다. 부식전류밀도는 원문 배율을 반영하여 A/cm²로 통일하였고, 조성은 wt.%, 희토류 함량은 질량 ppm으로 기록하였다. 명목 첨가량과 최종 재료의 실제 함량을 구분하였으며, 미보고 조성은 0으로 대체하지 않았다. 열처리 시간, 부식 노출 시간 및 OCP 안정화 시간도 구분하였다. 밀도 등의 근거 없이 NaCl wt.%를 Cl⁻ mol/L로 변환하지 않았다.
-
-출처 간 수치·시료 불일치, 조성 정보 부족, 원문 전체 미확보 및 조성 측정 단계와 시험 시편 간 대응이 불분명한 자료에는 보류 사유를 부여하여 임시 모델 입력에서 제외하였다. DOI, 원문 위치, 근거 문구 또는 전사 기록, 원래 단위, 추출 방법 및 검토 상태를 보존하였다. 현재 전체 수집본은 22편의 167개 데이터 포인트이며, 이 중 세 출판사 부분집합은 12편의 123개이다. 다른 출처를 포함한 전체 수집본에서 117개를 임시 분석 후보로 분류하고 50개를 보류하였다. 모든 자료는 사람 검토 전인 `pending` 상태이므로, 사람에 의해 검증 완료된 데이터셋으로 기술하지 않았다.
-
-## Supplementary Methods에 넣을 검색식과 구현 정보
-
-다음은 저장된 실제 검색 기록의 예시입니다. 모든 서비스에 아래 검색식을 동일하게 적용했다고 기술하지 않습니다.
+### Scopus: 합금화 중심 탐색 (S08)
 
 ```text
-Elsevier / Scopus:
 TITLE-ABS-KEY((cerium OR lanthanum OR "rare earth")
- AND (steel OR steels)
- AND corrosion
- AND (addition OR microalloying OR inclusion OR alloying))
-
-Elsevier / Scopus:
-TITLE-ABS-KEY((cerium OR lanthanum OR "rare earth")
- AND (steel OR steels)
- AND (polarization OR "current density" OR Tafel))
-
-Springer metadata:
-cerium steel corrosion
-
-Springer open access:
-"rare earth" "steel" "corrosion"
-
-Additional recorded keyword searches:
-cerium corrosion steel microalloying
-lanthanum corrosion steel microalloying
-"rare earth" corrosion steel microalloying
-yttrium corrosion steel
-cerium corrosion stainless
+AND (steel OR steels)
+AND corrosion
+AND (addition OR microalloying OR inclusion OR alloying))
 ```
 
-초기 API 검색 묶음에는 150개 검색 레코드에서 DOI 중복 9개를 병합하여 141개 후보를 만든 기록이 있습니다. 이후 추가 검색과 원문 확보가 이루어졌으므로 **141개를 최종 전체 검색 문헌 수 또는 최종 스크리닝 분모로 사용하지 않습니다.** PRISMA 흐름도가 필요하면 모든 후속 검색 결과와 제외 사유를 먼저 통합해야 합니다.
+### Scopus: 전기화학 측정 중심 탐색 (S07)
 
-| 항목 | 실제 설정·기록 |
+```text
+TITLE-ABS-KEY((cerium OR lanthanum OR "rare earth")
+AND (steel OR steels)
+AND (polarization OR "current density" OR Tafel))
+```
+
+### Scopus: 제목 중심 및 잡음 제외 탐색 (S01)
+
+```text
+TITLE(cerium OR lanthanum OR yttrium OR "rare earth" OR mischmetal)
+AND TITLE(corrosion)
+AND TITLE(steel OR iron)
+AND NOT TITLE(inhibition OR inhibitor OR coating OR coatings
+OR conversion OR synergism OR nanoparticles OR deposited)
+```
+
+이 검색식의 저장 응답은 총 hit 226개를 보고했으며 시작점 0, 25, …, 225의 10개 응답 파일로 해당 결과를 조회했습니다. **226개는 이 검색식의 서지 결과 수이고 적합 논문 수나 실험 데이터 포인트 수가 아닙니다.**
+
+### Scopus: 2026-10-16 추가 검색 (S11)
+
+```text
+TITLE-ABS-KEY((cerium OR lanthanum OR yttrium)
+AND steel AND "corrosion current")
+```
+
+이 검색식은 총 hit 136개를 보고했지만 저장한 응답은 첫 25개입니다. 전수 조회라고 기술하지 않습니다.
+
+### Springer Nature: 서비스에 전달한 문자열 예시
+
+```text
+cerium corrosion steel
+lanthanum corrosion steel
+yttrium corrosion steel
+cerium corrosion stainless
+"rare earth" rebar corrosion
+"rare earth" "steel" "corrosion"
+cerium corrosion steel microalloying
+```
+
+Scopus의 `TITLE-ABS-KEY`와 동일한 필드 제한을 적용했다고 기술하지 않습니다. Springer 문자열의 용어가 해당 서비스에서 모두 필수 AND 조건으로 처리됐다고 사후 가정하지 않습니다. 검색 결과를 후속 제목·초록·원문 검토로 선별했습니다. 일부 OA 수집 코드에는 검색식별 최대 1,500개 조회 제한이 있습니다.
+
+### Europe PMC: 공개 원문 보완 탐색 (S19)
+
+```text
+(cerium OR lanthanum OR "rare earth")
+AND (steel OR steels OR "pure iron")
+AND corrosion AND OPEN_ACCESS:Y
+```
+
+추가로 제목 제한 검색과 DOI 기반 사본 확인을 사용했습니다. DOI 사본 확인 쿼리는 새로운 주제 검색과 구분하여 보충 목록에 보존했습니다.
+
+## 4. 기간, 언어, 등급, 검색 수의 보고
+
+- 최신 수집 갱신일은 **2026년 10월 16일**입니다. 개별 응답에 요청 시각이 없으면 “미기록”으로 표시했습니다. 파일 수정 시각을 검색 시각으로 대체하지 않았습니다.
+- 모든 검색에 공통된 출판연도 구간은 없습니다. 일부 Scopus 검색에는 `PUBYEAR < 2020`, `PUBYEAR > 2019 AND PUBYEAR < 2026`, `PUBYEAR < 2015`, `PUBYEAR > 2024`를 각각 적용했고 다른 검색에는 연도 제한이 없습니다.
+- 저장된 API 검색식에 일괄적인 언어 제한은 없으며 중국어 원문도 포함했습니다. “영문 논문만 포함”이라고 쓰지 않습니다.
+- Q1/Q2 저널 한정, JCR/SJR 기준, 피인용 횟수 하한을 적용하지 않았습니다.
+- 현재 감사에서 회수한 것은 **46개 서비스–검색식 조합과 176개 저장 응답 파일**입니다. 재사용·페이지 응답을 포함하므로 176회의 독립적인 신규 검색이나 176편의 논문으로 해석하지 않습니다. 전체 웹 검색 기록도 아닙니다.
+- 검색식별 API 총 hit는 서로 겹치므로 합산하지 않습니다. 일부 검색은 첫 페이지 또는 제한된 결과만 확보했습니다. 초기 141편 후보 집계도 후속 전체 수집의 최종 분모로 사용하지 않습니다.
+
+## 5. 문헌 및 실험 기록의 포함·제외 기준
+
+**문헌 검색과 최종 데이터 포함은 다른 단계입니다.** 제목·초록의 키워드 점수는 검토 우선순위를 정하는 용도였으며 적합성 확정이나 LLM 독립 선별 검증을 뜻하지 않습니다.
+
+| 단계 | 기준 |
 | --- | --- |
-| LLM API / 모델 | OpenAI Responses API / `gpt-6.1-sol` |
-| 텍스트 측정 추출 | strict JSON schema, `max_output_tokens=6000` |
-| 추가 문맥 추출 | strict JSON schema, `max_output_tokens=9000`, 필드별 근거 |
-| 그림 인쇄값 확인 | 동일 모델 이미지 입력, high detail, `max_output_tokens=4000` |
-| temperature / top-p / seed | 명시적으로 설정하지 않음 |
-| 모델 응답 | 로컬에 저장하여 재사용·재검증. API 요청은 `store=False` |
-| PDF 처리 | pypdf, 필요한 경우 PyMuPDF 대체 판독 |
-| 주요 데이터 처리·모델링 | Python, pandas, NumPy, scikit-learn |
-| 프롬프트 및 검증 구현 | 아래 로컬 파일 참조 |
+| 연구 범위 포함 | 희토류를 벌크 철계 재료에 첨가한 실험 연구 및 같은 연구의 무첨가/비교 대조군 |
+| 수치 추출 대상 | 시료에 연결되는 명시적 i_corr 수치. 원문 표·본문 또는 그림에 인쇄된 숫자 |
+| 연구 범위 제외 | 희토류 코팅·증착층만 연구한 자료, 용액 내 희토류 억제제, 비철 합금, 리뷰의 재인용 수치, 철계 재료가 아닌 내화물의 부식 |
+| 목표 변수 제외 | 부동태 전류, 부식전위, 국부 전류, Rct/Rp, 중량감소 부식속도만 있는 경우. 이 값을 i_corr로 대체하지 않음 |
+| 수치 추출 제외 | 그래프 좌표·막대 높이에서만 추정해야 하는 값, 반복 측정 평균을 반복 횟수만큼 복제한 값 |
+| 기록하되 분석 보류 | 조성·시료·조건 대응 불명확, 전체 원문 없이 표/초록 발췌만 확보, 원문 수치/단위 불일치, 정규화 타깃 미확정 |
 
-- [측정 추출 프롬프트](extraction_prompt.md), [추가 문맥 추출 지침](context_extraction.md)
-- [측정 추출 및 단위 변환 구현](../ree_research/extraction.py), [문맥 추출 구현](../ree_research/context.py)
-- [API 검색 구현](../ree_research/mining.py), [공개 원문 사본 확보 구현](../ree_research/open_fulltext.py)
-- [Wiley·Springer PDF 수집](../scripts/collect_publisher_round2.py), [Elsevier 표 전사](../scripts/build_elsevier_expansion.py)
-- [그림 인쇄값 자동 확인](../scripts/check_springer_annotations.py), [품질 보류·집계](../scripts/assemble_extraction_pilot.py)
-- [전체 집계](../data/processed/pilot100/current_status.json), [Nature·Wiley 논문별 집계](../data/processed/nature_wiley/summary.json)
-- [원문 확보의 실제 한계와 논문별 추가 내역](elsevier_expansion.md), [피처 설계·개발 검증](feature_design_v3.md)
+DOI는 소문자화하고 DOI URL 접두사를 제거하여 중복 서지 기록을 통합했습니다. DOI가 없으면 정규화된 제목을 보조 식별자로 사용했습니다. 서로 다른 DOI를 제목이 같다는 이유만으로 합치지 않았습니다. 같은 실험이 표·그림·다른 논문에서 재사용되었는지는 별도 원문 검토가 필요합니다. 자동 record ID 중복 검사만으로 모든 과학적 중복이 제거됐다고 주장하지 않습니다.
 
-## 투고 전 수정할 부분
+## 6. 원문 처리, LLM, 단위 및 검토
 
-사람 검토가 완료되면 검토자 수, 독립 검토 여부, 의견 불일치 해결 절차, 최종 포함·제외 수를 실제 수행 기록에 따라 추가합니다. 아직 하지 않은 이중 독립 검토나 저자 확인을 완료한 것으로 서술하지 않습니다. 최종 연구 범위, 전체 검색 로그, 최종 데이터셋 버전, 실행 환경 버전 및 최종 모델·Active Learning 프로토콜을 확정한 뒤 해당 내용을 본문·보충자료에 함께 고정합니다.
+PDF는 pypdf와 필요한 경우 PyMuPDF로 페이지 단위 텍스트를 추출하고 XML/HTML은 문단·표 단위 근거 블록으로 변환했습니다. PDF의 글자 인코딩 문제 등으로 텍스트 판독이 불가능한 경우 렌더링한 원문을 시각적으로 확인했습니다.
+
+**OpenAI `gpt-6.1-sol`**을 Responses API로 호출하여 JSON 스키마에 따라 시료, 조성, 희토류 종류·함량, 환경·처리·측정 조건, 원래 i_corr 수치·단위 및 출처 위치를 추출했습니다. 별도 미세조정은 하지 않았습니다. `gpt-6-luna`는 선별용 설정만 준비했으며 실제 추출에 사용한 모델로 기술하지 않습니다. temperature, top-p, 생성 seed는 코드에서 명시적으로 설정하지 않았습니다.
+
+텍스트 추출값은 근거 문구와 출처 블록을 자동 대조했습니다. 근거 문구 일치가 시료·조건 연결의 과학적 정확성을 보증하지는 않습니다. 일부 수치표·그림의 인쇄값은 에이전트가 전사하고 동일 Sol 모델의 이미지 입력으로 대조했습니다. 모든 값이 LLM 텍스트 추출을 통과했다고 기술하지 않으며, 이 과정을 “독립된 사람 검증”으로 부르지 않습니다.
+
+단위가 명확한 i_corr는 A/cm²로 통일했습니다(mA/cm² ×10⁻³, µA/cm² ×10⁻⁶). 명시적인 표의 배율도 반영했습니다. 조성은 wt.%, 희토류 함량은 질량 ppm으로 기록했습니다(1 wt.%=10,000 ppm). 명목 첨가량·실제 최종 재료 함량을 구분하고 범위·상한·미보고 조성을 임의의 점 추정치나 0으로 치환하지 않았습니다. 실온을 25 °C로 지정하거나 근거 없이 NaCl wt.%를 Cl⁻ mol/L로 환산하지 않았습니다.
+
+출처 DOI, 시료 ID, 표/페이지/그림 위치, 근거 문구 또는 전사 기록, 원래 수치·단위, 가능한 파일 해시 및 검토 상태를 보존했습니다. 현재 사람의 독립 원문 검증은 완료하지 않았습니다.
+
+## 7. 논문 본문용 한국어 문안
+
+> 희토류 첨가 철계 합금의 부식전류밀도 예측을 위한 문헌 데이터 수집을 위해 반복적 표적 문헌 검색을 수행하였다. 서지 검색에는 Elsevier Scopus API와 Springer Nature Metadata 및 Open Access API를 사용하였으며, Europe PMC의 공개 문헌 검색과 출판사·학회 페이지의 제목 및 DOI 기반 후속 탐색으로 자료를 보완하였다. 검색어는 희토류 관련 용어(cerium, lanthanum, yttrium, rare earth 등), 철계 재료 용어(steel, steels, iron, pure iron 등), 부식·전기화학 측정 용어(corrosion, polarization, current density, Tafel 등), 합금화 관련 용어(addition, microalloying, inclusion, alloying)를 조합하였고 서비스별 검색 문법에 맞추어 적용하였다. 실제 검색식과 확보된 페이지 범위는 보충자료에 제시하였다. 검색은 2026년 10월 16일까지 갱신하였으며, 모든 검색에 공통된 출판연도·언어·저널 사분위 등급 제한을 적용하지 않았다. 본 절차는 데이터 구축을 위한 표적 탐색이며 전수 체계적 문헌고찰로 간주하지 않았다.
+>
+> 검색된 문헌은 DOI를 정규화하여 중복 서지 기록을 통합한 뒤 제목·초록과 접근 가능한 원문을 순차적으로 확인하였다. 희토류가 벌크 철계 재료에 첨가된 실험 연구 및 동일 연구의 대조군을 포함하였으며, 희토류 코팅, 용액 내 부식억제제, 비철 합금 및 리뷰의 재인용 수치는 제외하였다. 시료에 연결되는 명시적 부식전류밀도 수치를 표·본문 또는 그림의 인쇄된 숫자에서 수집하였고, 부동태 전류·부식전위·임피던스·중량감소 부식속도로 대체하거나 그래프 좌표에서 추정하지 않았다. 서지 검색과 원문 확보는 구분하였으며, Wiley 원문은 확인된 DOI로 TDM API를 통해 확보하였다. Elsevier Article Retrieval API의 접근 제한은 지속되어, 가능한 공개 사본 및 출판사 표·초록 발췌를 대체 근거로 기록하였고 발췌만 확보한 자료는 분석에서 보류하였다.
+>
+> 원문을 출처 위치가 부여된 근거 블록으로 변환한 후 OpenAI gpt-6.1-sol을 이용하여 합금 조성, 희토류 함량, 시험 조건, i_corr 및 근거 정보를 구조화하였다. 에이전트의 수치 전사와 일부 이미지 입력 대조도 병행하고 추출 경로를 구분하였다. 단위가 명확한 경우에만 A/cm²로 환산하였으며, 미보고 값은 결측으로 유지하였다. 원문 근거 문구와 식별자를 자동 확인하고 조성 부족, 단위·수치 불일치 및 시료·조건 대응의 불확실성이 있는 자료에는 보류 사유를 부여하여 임시 모델 입력에서 제외하였다. 이러한 검사는 출처 추적을 위한 자동 검사로 수행되었으며 독립적인 사람 검증을 대체하지 않았다.
+
+## 8. English manuscript text
+
+### Literature search and eligibility
+
+A targeted, iterative literature search was performed to collect experimental corrosion-current-density data for rare-earth-containing bulk ferrous alloys and the corresponding within-study controls. Bibliographic discovery used the Elsevier Scopus API and the Springer Nature Metadata and Open Access APIs, supplemented by Europe PMC searches and title- and DOI-based searches of publisher and society websites. Search expressions combined rare-earth identifiers (e.g., cerium, lanthanum, yttrium, and “rare earth”), ferrous-material terms (e.g., steel, steels, iron, and “pure iron”), corrosion and electrochemical terms (e.g., corrosion, polarization, “current density,” and Tafel), and alloying-related terms (addition, microalloying, inclusion, and alloying). Expressions were adapted to each service; the recorded expressions and retrieved page ranges are provided in the Supplementary Methods. Collection was updated through 16 October 2026. No common publication-year interval, language restriction, or journal-quartile criterion was applied across all searches. The procedure was intended for targeted dataset construction and was not an exhaustive systematic review.
+
+Repeated bibliographic records were consolidated using normalized DOIs, with normalized titles used as a secondary identifier when a DOI was unavailable. Titles and available abstracts were used to prioritize source examination, followed by inspection of accessible article content. Experimental studies of rare-earth additions to bulk ferrous materials and their within-study controls were eligible. Studies confined to rare-earth-containing coatings, rare-earth electrolyte inhibitors, non-ferrous alloys, and secondary measurements quoted in reviews were excluded. Extraction targeted explicit numerical corrosion current densities associated with identifiable samples. Passive currents, corrosion potentials, impedance parameters, local currents, and weight-loss corrosion rates were not substituted for corrosion current density. Values estimated solely from graph coordinates and replication of reported means according to experimental repeat counts were not included.
+
+### Acquisition, extraction, and quality control
+
+Bibliographic discovery was distinguished from full-text acquisition. Accessible publisher XML, HTML, and PDFs and DOI-matched public repository copies were used as source documents. Wiley PDFs were requested by DOI through the Wiley Text and Data Mining API. Elsevier Article Retrieval API access remained restricted in the execution environment; successful bibliographic search responses were not treated as successful full-text retrieval. Numerical publisher-page excerpts were retained as a distinct evidence type, and excerpt-only records were held from provisional modeling pending full-source review.
+
+Source documents were converted to addressable paragraph, table, or page-level evidence blocks. OpenAI gpt-6.1-sol, accessed through the Responses API with structured JSON outputs, assisted extraction of sample identities, compositions, rare-earth contents, test conditions, corrosion current densities, and provenance. Agent-assisted transcription and selected image-input cross-checks of printed numerical entries were also used and recorded separately. No project-specific fine-tuning was performed. The extraction code did not explicitly set temperature, top-p, or a generation seed. Automated source-fragment matching established traceability rather than scientific validation of sample–condition attribution. Corrosion current density was converted to A cm⁻² only when the reported unit and multiplier were unambiguous. Unreported or ambiguous values were retained as missing. Records with insufficient composition, unresolved units, conflicting values, or uncertain sample–condition correspondence were assigned explicit holds and excluded from provisional modeling. All records remained pending independent human review.
+
+## 9. 현재 집계와 투고 전 확정 사항
+
+현재는 **31편의 수집 기록 219개**이고, 그중 정규화된 i_corr 칸에 값이 있는 기록은 204개입니다. 나머지 AH36 15개는 단위 규모가 미확정이므로 타깃을 비웠습니다. 임시 후보 142개·보류 77개·사람 검증 완료 0개입니다. 따라서 **“219개의 검증된 실험 i_corr 데이터로 모델을 학습하였다”**고 쓰지 않습니다. 142개로 새 모델 학습·최종 Active Learning 평가를 완료했다고도 기술하지 않습니다.
+
+투고 전 실제로 완료해야 할 사항은 다음과 같습니다.
+
+1. 원문·단위·시료 대응을 사람이 확인하고 검토자 수와 불일치 해결 방법을 실제 기록에 맞게 기재합니다.
+2. 최종 포함 논문 수와 실험 데이터 수, 보류·제외 수를 고정합니다. 원문 재사용/관련 재료 계열의 중복도 검토합니다.
+3. PRISMA 형태의 흐름도를 쓰려면 API·웹·DOI 후속 탐색을 통합한 식별·중복·제외 장부를 먼저 완성합니다. 현재 검색 hit 총합으로 대신하지 않습니다.
+4. 최종 학습/검증 분할, 사용 피처, 모델·Active Learning 결과는 실제 평가 후 Methods와 Results에 추가합니다.
+
+재현: `python -B scripts/audit_search_queries.py`로 로컬에 저장된 검색식 목록을 다시 생성할 수 있습니다. 신규 API 호출은 없습니다. 원문과 실제 데이터는 기존 Git 제외 정책에 따라 별도로 보존합니다.

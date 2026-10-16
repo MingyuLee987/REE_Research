@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 from .features import ENGINEERED_NUMERIC, ENGINEERED_CATEGORICAL, engineer
+from .phase_features import (PHASE_FRACTIONS, PHASE_RAW_CATEGORICAL, PHASE_DERIVED_NUMERIC,
+                             PHASE_DERIVED_CATEGORICAL, engineer_phase)
 
 COMPOSITION = ['C', 'Si', 'Mn', 'P', 'S', 'Cr', 'Ni', 'Mo', 'Cu']
 NUMERIC = COMPOSITION + ['RE_log1p_ppm', 'temperature_C', 'pH']
@@ -15,8 +17,8 @@ LITERATURE_NUMERIC = ADDITIONAL_COMPOSITION + ['nacl_wt_pct', 'heat_treatment_te
 LITERATURE_CATEGORICAL = ['alloy_family_reported', 'product_form_cat', 'heat_treatment_cat',
     'pre_exposure_protocol_cat', 'surface_state_cat', 'surface_preparation_cat',
     'electrolyte_family_cat', 'icorr_method_cat', 'reference_electrode_cat']
-ALL_FEATURES = FEATURES + OPTIONAL_NUMERIC + OPTIONAL_CATEGORICAL + LITERATURE_NUMERIC + LITERATURE_CATEGORICAL + ENGINEERED_NUMERIC + ENGINEERED_CATEGORICAL
-DERIVED_FEATURES = ['RE_log1p_ppm', 'high_Cr_indicator', 'exposure_log1p_h'] + ENGINEERED_NUMERIC + ENGINEERED_CATEGORICAL
+ALL_FEATURES = FEATURES + OPTIONAL_NUMERIC + OPTIONAL_CATEGORICAL + LITERATURE_NUMERIC + LITERATURE_CATEGORICAL + ENGINEERED_NUMERIC + ENGINEERED_CATEGORICAL + PHASE_FRACTIONS + PHASE_RAW_CATEGORICAL + PHASE_DERIVED_NUMERIC + PHASE_DERIVED_CATEGORICAL
+DERIVED_FEATURES = ['RE_log1p_ppm', 'high_Cr_indicator', 'exposure_log1p_h'] + ENGINEERED_NUMERIC + ENGINEERED_CATEGORICAL + PHASE_DERIVED_NUMERIC + PHASE_DERIVED_CATEGORICAL
 CORROSION_RAW_FEATURES = COMPOSITION + ['Al', 'N', 'temperature_C', 'pH',
     'chloride_mol_L', 'exposure_h', 'scan_rate_mV_s', 'ocp_stabilization_min',
     'nacl_wt_pct', 'heat_treatment_temperature_C', 'heat_treatment_duration_h',
@@ -30,6 +32,9 @@ FEATURE_PROFILES = {
                    'heat_treatment_temperature_C', 'ocp_stabilization_min'] + ENGINEERED_NUMERIC,
                   ['RE_element_cat'] + ENGINEERED_CATEGORICAL),
 }
+FEATURE_PROFILES['phase_corrosion'] = (
+    FEATURE_PROFILES['corrosion'][0] + PHASE_FRACTIONS + PHASE_DERIVED_NUMERIC,
+    FEATURE_PROFILES['corrosion'][1] + PHASE_DERIVED_CATEGORICAL)
 PROVENANCE = ['record_id', 'paper_id', 'doi', 'source_locator', 'evidence_quote', 'review_status']
 RAW = ['RE_ppm', 'icorr_A_cm2']
 
@@ -52,7 +57,7 @@ def prepare(frame, allowed_review_statuses=('verified',)):
         raise ValueError('record_id must be unique')
     if not df.review_status.isin(allowed_review_statuses).all():
         raise ValueError('Only manually verified measurements may enter training')
-    all_numeric = NUMERIC + OPTIONAL_NUMERIC + LITERATURE_NUMERIC
+    all_numeric = NUMERIC + OPTIONAL_NUMERIC + LITERATURE_NUMERIC + PHASE_FRACTIONS
     for column in [c for c in all_numeric if c not in DERIVED_FEATURES] + RAW:
         df[column] = pd.to_numeric(df[column], errors='raise')
         if np.isinf(df[column].dropna()).any():
@@ -72,6 +77,8 @@ def prepare(frame, allowed_review_statuses=('verified',)):
         raise ValueError('Temperature below absolute zero')
     if (df.heat_treatment_temperature_C < -273.15).any() or (df.nacl_wt_pct > 100).any():
         raise ValueError('Invalid heat-treatment temperature or NaCl wt.%')
+    if ((df[PHASE_FRACTIONS] < 0) | (df[PHASE_FRACTIONS] > 100)).any().any():
+        raise ValueError('Reported metallic matrix phase fraction must be between 0 and 100 percent')
     df['RE_log1p_ppm'] = np.log1p(df.RE_ppm)
     df['exposure_log1p_h'] = np.log1p(df.exposure_h)
     # Protocol definition, not a fitted threshold: >=10.5 wt.% Cr.
@@ -79,4 +86,4 @@ def prepare(frame, allowed_review_statuses=('verified',)):
     df['target'] = np.log10(df.icorr_A_cm2)
     for column in CATEGORICAL + OPTIONAL_CATEGORICAL + LITERATURE_CATEGORICAL:
         df[column] = df[column].replace(r'^\s*$', np.nan, regex=True)
-    return engineer(df)
+    return engineer_phase(engineer(df))

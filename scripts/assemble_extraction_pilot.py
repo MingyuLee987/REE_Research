@@ -20,7 +20,7 @@ def quality_hold_reasons(row):
     return ';'.join(reasons)
 
 
-def main():
+def main(output_dir=None):
     sources, frames, usage = [], [], []
     for run_file in sorted((ROOT / 'data/processed/extractions').glob('*/run.json')):
         run = json.loads(run_file.read_text(encoding='utf-8'))
@@ -54,7 +54,7 @@ def main():
     provisional = raw[raw.hold_reason.eq('')].copy()
     # Physical checks only. Review statuses are deliberately NOT promoted to verified.
     prepare(provisional, allowed_review_statuses=('pending',))
-    out = ROOT / 'data/processed/pilot100'
+    out = Path(output_dir) if output_dir else ROOT / 'data/processed/pilot100'
     out.mkdir(parents=True, exist_ok=True)
     raw.to_csv(out / 'llm_pending_all.csv', index=False)
     provisional.to_csv(out / 'provisional_for_model.csv', index=False)
@@ -63,6 +63,8 @@ def main():
               'target_rows': 300, 'extracted_rows': len(raw), 'extracted_papers': raw.paper_id.nunique(),
               'provisional_rows': len(provisional), 'provisional_papers': provisional.paper_id.nunique(),
               'held_rows': len(raw) - len(provisional), 'human_verified_rows': 0,
+              'normalized_target_present_rows': int(raw.icorr_A_cm2.notna().sum()),
+              'normalized_target_missing_rows': int(raw.icorr_A_cm2.isna().sum()),
               'shortfall_to_100_extracted': max(0,100-len(raw)), 'generation_access': 'working',
               'shortfall_to_target': max(0,300-len(raw)),
               'sources': sources,
@@ -72,10 +74,14 @@ def main():
     lines=['# Sol 추출 검토 목록', '', '모든 행은 pending입니다. 아래 값은 인간 검토 완료 자료가 아닙니다.', '',
            '| 논문 DOI | 시료 | i_corr (A/cm²) | 원문 위치 | 보류 사유 |', '| --- | --- | ---: | --- | --- |']
     for _, row in raw.iterrows():
-        lines.append(f"| [{row.doi}](https://doi.org/{row.doi}) | {str(row.sample_id).replace('|','/')} | {row.icorr_A_cm2:.6g} | {row.source_locator} | {row.hold_reason or '수치·단위·시료 연결 검토 필요'} |")
+        target = f'{row.icorr_A_cm2:.6g}' if pd.notna(row.icorr_A_cm2) else '단위 미확정'
+        lines.append(f"| [{row.doi}](https://doi.org/{row.doi}) | {str(row.sample_id).replace('|','/')} | {target} | {row.source_locator} | {row.hold_reason or '수치·단위·시료 연결 검토 필요'} |")
     (out / 'review_queue.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
     print(json.dumps(status, indent=2))
 
 
 if __name__ == '__main__':
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output-dir', help='Write an isolated collection snapshot, e.g. while the current CSV is locked')
+    main(parser.parse_args().output_dir)

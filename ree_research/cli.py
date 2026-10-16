@@ -2,7 +2,8 @@ import argparse
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from .schema import COMPOSITION, PROVENANCE, RAW, FEATURES, ALL_FEATURES, DERIVED_FEATURES, FEATURE_PROFILES, CORROSION_RAW_FEATURES, prepare
+from .schema import COMPOSITION, PROVENANCE, RAW, FEATURES, ALL_FEATURES, DERIVED_FEATURES, FEATURE_PROFILES, CORROSION_RAW_FEATURES, ADDITIONAL_COMPOSITION, prepare
+from .phase_features import PHASE_FRACTIONS, PHASE_RAW_CATEGORICAL
 
 
 def demo(path):
@@ -127,6 +128,8 @@ def main():
         elif args.command == 'template':
             numeric, categorical = FEATURE_PROFILES[args.profile]
             fields = CORROSION_RAW_FEATURES if args.profile == 'corrosion' else numeric + categorical
+            if args.profile == 'phase_corrosion':
+                fields = CORROSION_RAW_FEATURES + ADDITIONAL_COMPOSITION + PHASE_RAW_CATEGORICAL + PHASE_FRACTIONS + ['phase_evidence_type', 'phase_source_locator', 'phase_evidence_quote']
             # Raw dependencies belong in the collection sheet; derived values do not.
             columns = list(dict.fromkeys(PROVENANCE + RAW + [f for f in fields if f not in DERIVED_FEATURES]))
             Path(args.output).parent.mkdir(parents=True, exist_ok=True)

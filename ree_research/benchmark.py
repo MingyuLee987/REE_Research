@@ -28,7 +28,7 @@ def selected_features(train, profile='core', min_coverage=0.8):
     # Coverage is estimated solely from currently labeled training rows.
     numeric = [c for c in numeric if train[c].notna().mean() >= min_coverage and train[c].notna().any()]
     categorical = [c for c in categorical if train[c].notna().mean() >= min_coverage and train[c].notna().any()]
-    if profile == 'corrosion':
+    if profile in ('corrosion', 'phase_corrosion'):
         # Constant fields cannot distinguish training samples. A descriptor seen
         # in only one paper is too weakly supported for this mixed-literature pilot.
         def supported(column):

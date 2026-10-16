@@ -22,7 +22,8 @@ class LiteratureFeatureTests(unittest.TestCase):
             with self.assertRaises(ValueError):prepare(raw)
 
     def test_literature_profile_is_opt_in_and_has_no_outcome_columns(self):
-        self.assertEqual(len(ALL_FEATURES),55)
+        self.assertEqual(len(ALL_FEATURES),75)
+        self.assertEqual(len(ALL_FEATURES),len(set(ALL_FEATURES)))
         self.assertTrue(set(['icorr_A_cm2','target','paper_id','evidence_quote','notes','Rct','Ecorr']).isdisjoint(ALL_FEATURES))
         with tempfile.TemporaryDirectory() as temp:
             p=Path(temp)/'demo.csv'; demo(p)
