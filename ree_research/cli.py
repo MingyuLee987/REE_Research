@@ -90,7 +90,8 @@ def main():
     bench.add_argument('--budget', type=int, default=50)
     bench.add_argument('--committee', type=int, default=8)
     bench.add_argument('--profile', choices=list(FEATURE_PROFILES), default='corrosion')
-    bench.add_argument('--min-coverage', type=float, default=0.5)
+    bench.add_argument('--min-coverage', type=float, default=None,
+                       help='Minimum training coverage; default 0.2 for ml80, otherwise 0.5')
     args = parser.parse_args()
     try:
         if args.command == 'search':
@@ -144,7 +145,8 @@ def main():
             print(frame[FEATURES].isna().mean().to_string())
         else:
             from .benchmark import benchmark
-            scores = benchmark(args.input, args.output, args.seeds, args.initial, args.batch, args.budget, args.committee, args.profile, args.min_coverage)
+            coverage = args.min_coverage if args.min_coverage is not None else (0.2 if args.profile == 'ml80' else 0.5)
+            scores = benchmark(args.input, args.output, args.seeds, args.initial, args.batch, args.budget, args.committee, args.profile, coverage)
             print(scores.groupby(['model', 'strategy']).tail(1).to_string(index=False))
             print(f'Saved: {args.output}')
     except (ValueError, RuntimeError, FileNotFoundError) as error:

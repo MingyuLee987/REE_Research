@@ -31,6 +31,8 @@ def compare(path, output, rows=100, seed=42, allow_synthetic=False, allow_provis
     df = prepare(pd.read_csv(path), allowed_review_statuses=('verified', 'pending') if allow_provisional else ('verified',))
     if coverage_grid is None and profile in ('corrosion', 'phase_corrosion'):
         coverage_grid = [0.5]
+    if coverage_grid is None and profile == 'ml80':
+        coverage_grid = [0.2]
     if exclude_papers:
         df = df[~df.paper_id.isin(exclude_papers)].copy()
     synthetic = df.paper_id.astype(str).str.startswith('synthetic-').any()

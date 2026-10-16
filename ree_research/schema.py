@@ -35,6 +35,13 @@ FEATURE_PROFILES = {
 FEATURE_PROFILES['phase_corrosion'] = (
     FEATURE_PROFILES['corrosion'][0] + PHASE_FRACTIONS + PHASE_DERIVED_NUMERIC,
     FEATURE_PROFILES['corrosion'][1] + PHASE_DERIVED_CATEGORICAL)
+# Keep grouped categories and log descriptors instead of duplicating their free-text/raw forms.
+# ml80 retains candidates with at least 20% coverage inside each training split.
+FEATURE_PROFILES['ml80'] = (
+    FEATURE_PROFILES['phase_corrosion'][0] + ['Nb', 'Ti', 'V', 'W', 'Sb',
+        'grain_size_um', 'dissolved_oxygen_mg_L', 'surface_finish_grit'],
+    FEATURE_PROFILES['phase_corrosion'][1] + ['product_form_cat',
+        'pre_exposure_protocol_cat', 'reference_electrode_cat', 'icorr_method_cat'])
 PROVENANCE = ['record_id', 'paper_id', 'doi', 'source_locator', 'evidence_quote', 'review_status']
 RAW = ['RE_ppm', 'icorr_A_cm2']
 

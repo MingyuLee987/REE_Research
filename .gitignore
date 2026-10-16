@@ -7,4 +7,6 @@ __pycache__/
 .pytest_cache/
 data/raw/
 data/processed/
+# Local paper copies and manual missing-value review files
+data/processed/paper_review/
 outputs/

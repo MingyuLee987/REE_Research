@@ -1,5 +1,11 @@
 # 문헌 검색 및 데이터 구축 방법: 논문용 초안
 
+최신 보완: 2026-10-16 통합본은 **37편·247개 관측 기록**, 임시 후보 151개·보류 96개다. 후속 그래프 수치화에서 126개 연속 주기 관측점을 기록했으나 독립 실험으로 중복 집계하지 않고 14개 시료·용액 조합의 마지막 주기 대표값만 추가했으며 모두 학습에서 보류했다. [그래프 추출과 판독 허용폭](target400_graph_extraction.md)을 따른다. 아래의 그래프 추출 제외 설명은 기존 233개 자료의 수집 절차를 기술한다. 아래 31편·219개 집계와 과거 교차검증도 이전 스냅샷이다. 400개 수집 또는 최종 모델 검증을 완료한 것으로 기술하지 않는다.
+
+후속 확장 단계에서는 원본 PDF 그래프의 축 교정과 식별 가능한 표식 좌표 판독으로 근삿값을 수집하고, 원래 단위·환산값·주기 번호·픽셀 판독 허용폭을 보존하였다. 보간선에서 새 관측값을 생성하지 않았으며, 같은 시료의 연속 주기를 독립 실험으로 취급하지 않았다. 순환 전압전류 시험 값과 Tafel i_corr의 방법적 동등성 및 최종 조성이 미확인된 자료는 보류하였다. 해당 14개는 기존 명시적 수치 추출 자료와 구분해야 한다.
+
+In a subsequent expansion, graph-derived estimates were digitized from identifiable markers in the original PDF raster images using linear axis calibration. Original units, converted current densities, cycle indices, and a pixel-based reading tolerance were retained. The tolerance describes reading resolution rather than experimental uncertainty. Consecutive polarization cycles were not treated as independent experiments: only the last observed cycle for each of 14 material–solution series was appended to the master dataset. All 14 graph-derived representatives were held from modeling because equivalence to Tafel-derived corrosion current density and final bulk chemistry remained unconfirmed. The graph-exclusion statements below describe the earlier 233-record collection stage.
+
 상·조성 보강(2026-10-16): 확보한 전문 블록 25편을 gpt-6.1-sol로 재독하여 시험 전 모재 상·이차상·조성을 보충하였다. 원문 위치와 인용문이 일치하는 필드만 반영하고, 미보고 성분·분율은 생성하지 않았다. 저자의 재료 계열 설명과 시험 전 조직 관찰 근거를 구분했다. 당량은 조성 기술자로 계산하고 실제 상분율로 해석하지 않았다. 기존 타깃과 보류 상태를 유지했다. 새 46개 후보 피처 및 135개 관측값/19편의 개발 교차검증 방법은 [상·조성 보강 기록](phase_features_v4.md)을 따른다. 사람의 원문 검증과 최종 독립 검증은 아직 완료되지 않았다.
 
 기준일: **2026-10-16**. 저장된 API 응답, 수집 코드, 원문 및 추출 기록에 근거한 Methods 초안입니다. 실제 수행하지 않은 전수 검색, 이중 독립 검토, 최종 모델 평가를 완료한 것으로 서술하지 않았습니다. 이전 판본은 [이력](manuscript_methods_history.md)에 보존했습니다.
@@ -16,7 +22,7 @@
 | 합금화·개재물 | `addition`, `microalloying`, `inclusion`, `alloying` | 벌크 합금 첨가 연구의 검색 우선순위 강화 |
 | 일부 검색식의 제외어 | `inhibition`, `inhibitor`, `coating`, `coatings`, `conversion`, `synergism`, `nanoparticles`, `deposited` | 표면처리·억제제 연구의 검색 잡음 감소. 모든 검색에 일괄 적용하지 않음 |
 
-일반 설명에서 `i_corr`를 목표 변수로 사용하지만, 이를 모든 API 검색에 필수 검색어로 넣지는 않았습니다. 검색식에 없는 단어를 실제 수행한 검색식에 사후 추가하지 않았습니다. 후속 출판사 페이지 검색에는 논문 제목, DOI, 재료명 및 중국어 용어(예: 稀土, 铈, 镧, 钇, 腐蚀电流密度)를 활용했습니다. 이 웹 검색의 전체 검색어·시각을 통합한 로그는 없으므로, API 검색식 목록을 전체 웹 검색 기록으로 표현하지 않습니다.
+일반 설명에서 `i_corr`를 목표 변수로 사용하지만, 이를 모든 API 검색에 필수 검색어로 넣지는 않았습니다. 검색식에 없는 단어를 실제 수행한 검색식에 사후 추가하지 않았습니다. Wiley Online Library를 포함한 후속 출판사 페이지 탐색에는 논문 제목, DOI, 재료명 및 중국어 용어(예: 稀土, 铈, 镧, 钇, 腐蚀电流密度)를 활용했습니다. 이 웹 검색의 전체 검색어·시각을 통합한 로그는 없으므로, API 검색식 목록을 전체 웹 검색 기록으로 표현하지 않습니다.
 
 ## 2. 검색 서비스와 원문 확보 경로
 
@@ -26,6 +32,7 @@
 | Elsevier ScienceDirect | 출판사 페이지·검색 결과 및 접근 가능한 공개 자료 확인 | 검색과 원문 API 접근은 별도. Article Retrieval API의 403은 미해결 |
 | Springer Nature Metadata API | 메타데이터 기반 후보 검색 | 메타데이터 확보가 전문 확보를 뜻하지 않음 |
 | Springer Nature Open Access API | 공개 논문 검색 및 이용 가능한 JATS 원문 확보 | 공식 PDF 확보와 별도로 출처 기록 |
+| Wiley Online Library 및 출판사 페이지 후속 탐색 | 제목·DOI로 Wiley 후보 논문 확인 | 웹 후속 탐색이며 전체 검색어·시각의 통합 로그는 없음 |
 | Wiley TDM API | 이미 확인한 DOI로 원문 PDF 요청 | 포괄적 문헌 검색 데이터베이스로 사용했다고 기술하지 않음 |
 | Europe PMC | 공개 문헌 보완 검색 및 DOI 일치 원문 XML 확보 | 출판사와 저장소를 구분. DOI가 같은 사본은 별도 논문으로 중복 집계하지 않음 |
 | 출판사·학회 공식 HTML/PDF | 후속 제목/DOI 검색 및 표·그림 확인 | MDPI·중국 학회지 등 세 출판사 이외의 자료도 전체 수집본에 포함 |
@@ -136,7 +143,9 @@ PDF는 pypdf와 필요한 경우 PyMuPDF로 페이지 단위 텍스트를 추출
 
 ## 7. 논문 본문용 한국어 문안
 
-> 희토류 첨가 철계 합금의 부식전류밀도 예측을 위한 문헌 데이터 수집을 위해 반복적 표적 문헌 검색을 수행하였다. 서지 검색에는 Elsevier Scopus API와 Springer Nature Metadata 및 Open Access API를 사용하였으며, Europe PMC의 공개 문헌 검색과 출판사·학회 페이지의 제목 및 DOI 기반 후속 탐색으로 자료를 보완하였다. 검색어는 희토류 관련 용어(cerium, lanthanum, yttrium, rare earth 등), 철계 재료 용어(steel, steels, iron, pure iron 등), 부식·전기화학 측정 용어(corrosion, polarization, current density, Tafel 등), 합금화 관련 용어(addition, microalloying, inclusion, alloying)를 조합하였고 서비스별 검색 문법에 맞추어 적용하였다. 실제 검색식과 확보된 페이지 범위는 보충자료에 제시하였다. 검색은 2026년 10월 16일까지 갱신하였으며, 모든 검색에 공통된 출판연도·언어·저널 사분위 등급 제한을 적용하지 않았다. 본 절차는 데이터 구축을 위한 표적 탐색이며 전수 체계적 문헌고찰로 간주하지 않았다.
+Wiley의 활용 경로는 다음과 같이 명시한다. 아래 문안의 출판사 페이지 후속 탐색에는 Wiley Online Library가 포함되며, Wiley TDM API는 서지 검색이 아닌 DOI 기반 원문 확보에 사용하였다.
+
+> 희토류 첨가 철계 합금의 부식전류밀도 예측을 위한 문헌 데이터 수집을 위해 반복적 표적 문헌 검색을 수행하였다. 서지 검색에는 Elsevier Scopus API와 Springer Nature Metadata 및 Open Access API를 사용하였으며, Europe PMC의 공개 문헌 검색과 Wiley Online Library를 포함한 출판사·학회 페이지의 제목 및 DOI 기반 후속 탐색으로 자료를 보완하였다. 확인된 Wiley 논문의 원문 PDF는 Wiley Text and Data Mining(TDM) API를 통해 DOI 기반으로 요청·확보하였다. Wiley TDM API는 키워드 기반 서지 검색에 사용하지 않았다. 검색어는 희토류 관련 용어(cerium, lanthanum, yttrium, rare earth 등), 철계 재료 용어(steel, steels, iron, pure iron 등), 부식·전기화학 측정 용어(corrosion, polarization, current density, Tafel 등), 합금화 관련 용어(addition, microalloying, inclusion, alloying)를 조합하였고 서비스별 검색 문법에 맞추어 적용하였다. 실제 검색식과 확보된 페이지 범위는 보충자료에 제시하였다. 검색은 2026년 10월 16일까지 갱신하였으며, 모든 검색에 공통된 출판연도·언어·저널 사분위 등급 제한을 적용하지 않았다. 본 절차는 데이터 구축을 위한 표적 탐색이며 전수 체계적 문헌고찰로 간주하지 않았다.
 >
 > 검색된 문헌은 DOI를 정규화하여 중복 서지 기록을 통합한 뒤 제목·초록과 접근 가능한 원문을 순차적으로 확인하였다. 희토류가 벌크 철계 재료에 첨가된 실험 연구 및 동일 연구의 대조군을 포함하였으며, 희토류 코팅, 용액 내 부식억제제, 비철 합금 및 리뷰의 재인용 수치는 제외하였다. 시료에 연결되는 명시적 부식전류밀도 수치를 표·본문 또는 그림의 인쇄된 숫자에서 수집하였고, 부동태 전류·부식전위·임피던스·중량감소 부식속도로 대체하거나 그래프 좌표에서 추정하지 않았다. 서지 검색과 원문 확보는 구분하였으며, Wiley 원문은 확인된 DOI로 TDM API를 통해 확보하였다. Elsevier Article Retrieval API의 접근 제한은 지속되어, 가능한 공개 사본 및 출판사 표·초록 발췌를 대체 근거로 기록하였고 발췌만 확보한 자료는 분석에서 보류하였다.
 >
@@ -146,7 +155,7 @@ PDF는 pypdf와 필요한 경우 PyMuPDF로 페이지 단위 텍스트를 추출
 
 ### Literature search and eligibility
 
-A targeted, iterative literature search was performed to collect experimental corrosion-current-density data for rare-earth-containing bulk ferrous alloys and the corresponding within-study controls. Bibliographic discovery used the Elsevier Scopus API and the Springer Nature Metadata and Open Access APIs, supplemented by Europe PMC searches and title- and DOI-based searches of publisher and society websites. Search expressions combined rare-earth identifiers (e.g., cerium, lanthanum, yttrium, and “rare earth”), ferrous-material terms (e.g., steel, steels, iron, and “pure iron”), corrosion and electrochemical terms (e.g., corrosion, polarization, “current density,” and Tafel), and alloying-related terms (addition, microalloying, inclusion, and alloying). Expressions were adapted to each service; the recorded expressions and retrieved page ranges are provided in the Supplementary Methods. Collection was updated through 16 October 2026. No common publication-year interval, language restriction, or journal-quartile criterion was applied across all searches. The procedure was intended for targeted dataset construction and was not an exhaustive systematic review.
+A targeted, iterative literature search was performed to collect experimental corrosion-current-density data for rare-earth-containing bulk ferrous alloys and the corresponding within-study controls. Bibliographic discovery used the Elsevier Scopus API and the Springer Nature Metadata and Open Access APIs, supplemented by Europe PMC searches and title- and DOI-based searches of publisher and society websites, including Wiley Online Library. Full-text PDFs of identified Wiley articles were requested and acquired by DOI through the Wiley Text and Data Mining (TDM) API; this API was used for full-text retrieval rather than keyword-based bibliographic discovery. Search expressions combined rare-earth identifiers (e.g., cerium, lanthanum, yttrium, and “rare earth”), ferrous-material terms (e.g., steel, steels, iron, and “pure iron”), corrosion and electrochemical terms (e.g., corrosion, polarization, “current density,” and Tafel), and alloying-related terms (addition, microalloying, inclusion, and alloying). Expressions were adapted to each service; the recorded expressions and retrieved page ranges are provided in the Supplementary Methods. Collection was updated through 16 October 2026. No common publication-year interval, language restriction, or journal-quartile criterion was applied across all searches. The procedure was intended for targeted dataset construction and was not an exhaustive systematic review.
 
 Repeated bibliographic records were consolidated using normalized DOIs, with normalized titles used as a secondary identifier when a DOI was unavailable. Titles and available abstracts were used to prioritize source examination, followed by inspection of accessible article content. Experimental studies of rare-earth additions to bulk ferrous materials and their within-study controls were eligible. Studies confined to rare-earth-containing coatings, rare-earth electrolyte inhibitors, non-ferrous alloys, and secondary measurements quoted in reviews were excluded. Extraction targeted explicit numerical corrosion current densities associated with identifiable samples. Passive currents, corrosion potentials, impedance parameters, local currents, and weight-loss corrosion rates were not substituted for corrosion current density. Values estimated solely from graph coordinates and replication of reported means according to experimental repeat counts were not included.
 

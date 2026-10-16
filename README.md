@@ -1,5 +1,17 @@
 # REE_Research
 
+최신 집계: **37편·247개 관측 기록**, 임시 모델 후보 151개·보류 96개입니다. Dy·Tb 첨가 철계 비정질 합금의 그래프에서 126개 주기별 관측점을 읽고, 같은 조건의 연속 주기를 중복 집계하지 않도록 마지막 주기 대표값 **14개만 통합본에 추가**했습니다. 추가값은 측정법·조성 검토를 위해 모두 보류했습니다. **최대 400개 목표까지 153개 부족**합니다. [그래프·단위·판독 오차·추가 검색 기록](docs/target400_graph_extraction.md).
+
+이전 집계: 36편·233개, 임시 후보 151개·보류 82개. `data/processed/target300_v2/ml_input_max80_missing.csv`에는 임시 후보에서 **결측률 80% 이하인 피처 36개**를 정리했습니다. [수집 근거·피처 기준·미확보 사유](docs/target300_v2.md). 아래 225개·219개 및 과거 모델 점수도 이전 시점 기록입니다.
+
+기존 경로 갱신 완료: `data/processed/pilot100/llm_pending_all.csv`에 **33편·225개**와 단위 통일 내용을 반영했습니다. 임시 후보 145개·보류 80개이며 `data/processed/paper_review/paper_index.csv`도 33편으로 갱신했습니다. 아래 219개 집계는 이전 수집 시점의 기록입니다.
+
+단위 정리본: `data/processed/units_v1/llm_pending_all.csv` (225개). 명확한 210개의 `icorr_value`·`icorr_unit`을 A/cm²로 통일하고 원래 값·단위·환산 배율을 보존했습니다. 단위 불확실 15개는 계속 보류합니다. [단위 기준과 변환 방법](docs/unit_standardization.md).
+
+추가 수집: 새 논문 2편에서 실험 보고값 6개를 확보한 **33편·225개 별도 통합본**을 `data/processed/expand_20261016/llm_pending_all.csv`에 저장했습니다. 임시 후보 145개·보류 80개이며 기존 파일 잠금에 따른 갱신 상태는 `status.json`을 확인하세요. [추가 원문·수치·보류 사유](docs/expansion_20261016.md).
+
+논문별 원문·결측치 검토 폴더: [`data/processed/paper_review/README.md`](data/processed/paper_review/README.md). 통합 CSV의 31편/219개를 논문별로 나누고 확보한 원문 사본, 수정용 CSV 및 결측 셀 목록을 묶었습니다. 재생성 명령은 `.\.venv\Scripts\python.exe scripts/build_paper_review_folders.py`입니다. 수정용 파일은 재실행해도 덮어쓰지 않으며, 수정 결과는 아직 통합본에 자동 병합되지 않습니다. 이 폴더는 기존 데이터와 동일하게 Git에서 제외됩니다.
+
 상·조성 보강본을 추가했습니다. 전문 블록 25편을 재독해 임시 후보 142개 중 114개에 상 근거를 확보했습니다. 새 프로파일은 46개 후보 피처이며 동일 SVR의 개발 교차검증 R²는 0.110 → 0.246입니다. 최종 독립 검증 결과는 아닙니다. 기존 통합 CSV에도 반영했고 정리본은 `data/processed/phase_v4/measurements_clean.csv`입니다. [재독 범위·피처·검증 결과](docs/phase_features_v4.md)를 확인하세요. 아래 28개 피처 설명은 이전 `corrosion` 프로파일 기준입니다.
 
 희토류 첨가 철계 합금의 조성과 시험 조건으로 **부식전류밀도(i_corr)**를 예측하고 Active Learning과 무작위 선택을 비교하는 연구입니다. 같은 논문의 무첨가 대조군을 포함하며 코팅·용액 억제제·비철 합금은 제외합니다.
