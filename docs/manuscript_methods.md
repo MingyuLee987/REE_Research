@@ -1,5 +1,9 @@
 # 문헌 검색 및 데이터 구축 방법: 논문용 초안
 
+최신 집계(2026-10-19): **44편·283개 관측 레코드**, 정규화된 i_corr 값 251개·단위 미확정 32개, 임시 후보 24편·151개·보류 132개다. 모두 검토 대기이며 사람의 독립 검증은 완료되지 않았다. 50편 검토목록 중 6편은 채택 가능한 i_corr가 없어 통합본에 넣지 않았다. 이번 추가분 36개는 모두 보류했으며 새 모델을 적합하지 않았다. [추가 수집과 보충자료 확인](expansion50_20261019.md), [현재 자료의 해석](interpretation_20261019.md)을 참조한다.
+
+후속 그래프 추출에는 기존 마지막 주기 대표값 14개 외에 초페라이트계 합금의 저자 산출 i_corr 막대값 3개가 추가되었다. 축·좌표·단위·원문 위치·판독 허용폭을 보존했고 그래프 추정치는 모두 모델에서 보류했다. 판독 허용폭은 실험 오차나 통계적 신뢰구간이 아니며 분극곡선의 최저 전류를 i_corr로 취급하지 않았다. 아래 10월 16일 보완 설명은 이전 단계의 이력이다.
+
 최신 보완: 2026-10-16 통합본은 **37편·247개 관측 기록**, 임시 후보 151개·보류 96개다. 후속 그래프 수치화에서 126개 연속 주기 관측점을 기록했으나 독립 실험으로 중복 집계하지 않고 14개 시료·용액 조합의 마지막 주기 대표값만 추가했으며 모두 학습에서 보류했다. [그래프 추출과 판독 허용폭](target400_graph_extraction.md)을 따른다. 아래의 그래프 추출 제외 설명은 기존 233개 자료의 수집 절차를 기술한다. 아래 31편·219개 집계와 과거 교차검증도 이전 스냅샷이다. 400개 수집 또는 최종 모델 검증을 완료한 것으로 기술하지 않는다.
 
 후속 확장 단계에서는 원본 PDF 그래프의 축 교정과 식별 가능한 표식 좌표 판독으로 근삿값을 수집하고, 원래 단위·환산값·주기 번호·픽셀 판독 허용폭을 보존하였다. 보간선에서 새 관측값을 생성하지 않았으며, 같은 시료의 연속 주기를 독립 실험으로 취급하지 않았다. 순환 전압전류 시험 값과 Tafel i_corr의 방법적 동등성 및 최종 조성이 미확인된 자료는 보류하였다. 해당 14개는 기존 명시적 수치 추출 자료와 구분해야 한다.
@@ -8,7 +12,7 @@ In a subsequent expansion, graph-derived estimates were digitized from identifia
 
 상·조성 보강(2026-10-16): 확보한 전문 블록 25편을 gpt-6.1-sol로 재독하여 시험 전 모재 상·이차상·조성을 보충하였다. 원문 위치와 인용문이 일치하는 필드만 반영하고, 미보고 성분·분율은 생성하지 않았다. 저자의 재료 계열 설명과 시험 전 조직 관찰 근거를 구분했다. 당량은 조성 기술자로 계산하고 실제 상분율로 해석하지 않았다. 기존 타깃과 보류 상태를 유지했다. 새 46개 후보 피처 및 135개 관측값/19편의 개발 교차검증 방법은 [상·조성 보강 기록](phase_features_v4.md)을 따른다. 사람의 원문 검증과 최종 독립 검증은 아직 완료되지 않았다.
 
-기준일: **2026-10-16**. 저장된 API 응답, 수집 코드, 원문 및 추출 기록에 근거한 Methods 초안입니다. 실제 수행하지 않은 전수 검색, 이중 독립 검토, 최종 모델 평가를 완료한 것으로 서술하지 않았습니다. 이전 판본은 [이력](manuscript_methods_history.md)에 보존했습니다.
+기준일: **2026-10-19**. 저장된 API 응답, 수집 코드, 원문 및 추출 기록에 근거한 Methods 초안입니다. 실제 수행하지 않은 전수 검색, 이중 독립 검토, 최종 모델 평가를 완료한 것으로 서술하지 않았습니다. API 검색식 감사는 10월 16일 스냅샷이며 후속 웹 검색 전체를 포함하지 않습니다. 이번 변경 전 문서는 [이전 판본](manuscript_methods_before_20261019.md)에 보존했습니다.
 
 ## 1. 검색 범위와 키워드
 
@@ -107,7 +111,7 @@ AND corrosion AND OPEN_ACCESS:Y
 
 ## 4. 기간, 언어, 등급, 검색 수의 보고
 
-- 최신 수집 갱신일은 **2026년 10월 16일**입니다. 개별 응답에 요청 시각이 없으면 “미기록”으로 표시했습니다. 파일 수정 시각을 검색 시각으로 대체하지 않았습니다.
+- 최신 수집 갱신일은 **2026년 10월 19일**입니다. 아래 API 검색식 감사 수치는 10월 16일 스냅샷입니다. 개별 응답에 요청 시각이 없으면 “미기록”으로 표시했습니다. 파일 수정 시각을 검색 시각으로 대체하지 않았습니다.
 - 모든 검색에 공통된 출판연도 구간은 없습니다. 일부 Scopus 검색에는 `PUBYEAR < 2020`, `PUBYEAR > 2019 AND PUBYEAR < 2026`, `PUBYEAR < 2015`, `PUBYEAR > 2024`를 각각 적용했고 다른 검색에는 연도 제한이 없습니다.
 - 저장된 API 검색식에 일괄적인 언어 제한은 없으며 중국어 원문도 포함했습니다. “영문 논문만 포함”이라고 쓰지 않습니다.
 - Q1/Q2 저널 한정, JCR/SJR 기준, 피인용 횟수 하한을 적용하지 않았습니다.
@@ -124,7 +128,7 @@ AND corrosion AND OPEN_ACCESS:Y
 | 수치 추출 대상 | 시료에 연결되는 명시적 i_corr 수치. 원문 표·본문 또는 그림에 인쇄된 숫자 |
 | 연구 범위 제외 | 희토류 코팅·증착층만 연구한 자료, 용액 내 희토류 억제제, 비철 합금, 리뷰의 재인용 수치, 철계 재료가 아닌 내화물의 부식 |
 | 목표 변수 제외 | 부동태 전류, 부식전위, 국부 전류, Rct/Rp, 중량감소 부식속도만 있는 경우. 이 값을 i_corr로 대체하지 않음 |
-| 수치 추출 제외 | 그래프 좌표·막대 높이에서만 추정해야 하는 값, 반복 측정 평균을 반복 횟수만큼 복제한 값 |
+| 후속 그래프 추출 | 축·시료·단위가 식별되는 i_corr 표식·막대값은 추정치와 판독 허용폭으로 기록하고 모델에서 보류. 반복 평균 복제와 분극곡선 최저 전류의 i_corr 대체는 제외 |
 | 기록하되 분석 보류 | 조성·시료·조건 대응 불명확, 전체 원문 없이 표/초록 발췌만 확보, 원문 수치/단위 불일치, 정규화 타깃 미확정 |
 
 DOI는 소문자화하고 DOI URL 접두사를 제거하여 중복 서지 기록을 통합했습니다. DOI가 없으면 정규화된 제목을 보조 식별자로 사용했습니다. 서로 다른 DOI를 제목이 같다는 이유만으로 합치지 않았습니다. 같은 실험이 표·그림·다른 논문에서 재사용되었는지는 별도 원문 검토가 필요합니다. 자동 record ID 중복 검사만으로 모든 과학적 중복이 제거됐다고 주장하지 않습니다.
@@ -147,7 +151,7 @@ Wiley의 활용 경로는 다음과 같이 명시한다. 아래 문안의 출판
 
 > 희토류 첨가 철계 합금의 부식전류밀도 예측을 위한 문헌 데이터 수집을 위해 반복적 표적 문헌 검색을 수행하였다. 서지 검색에는 Elsevier Scopus API와 Springer Nature Metadata 및 Open Access API를 사용하였으며, Europe PMC의 공개 문헌 검색과 Wiley Online Library를 포함한 출판사·학회 페이지의 제목 및 DOI 기반 후속 탐색으로 자료를 보완하였다. 확인된 Wiley 논문의 원문 PDF는 Wiley Text and Data Mining(TDM) API를 통해 DOI 기반으로 요청·확보하였다. Wiley TDM API는 키워드 기반 서지 검색에 사용하지 않았다. 검색어는 희토류 관련 용어(cerium, lanthanum, yttrium, rare earth 등), 철계 재료 용어(steel, steels, iron, pure iron 등), 부식·전기화학 측정 용어(corrosion, polarization, current density, Tafel 등), 합금화 관련 용어(addition, microalloying, inclusion, alloying)를 조합하였고 서비스별 검색 문법에 맞추어 적용하였다. 실제 검색식과 확보된 페이지 범위는 보충자료에 제시하였다. 검색은 2026년 10월 16일까지 갱신하였으며, 모든 검색에 공통된 출판연도·언어·저널 사분위 등급 제한을 적용하지 않았다. 본 절차는 데이터 구축을 위한 표적 탐색이며 전수 체계적 문헌고찰로 간주하지 않았다.
 >
-> 검색된 문헌은 DOI를 정규화하여 중복 서지 기록을 통합한 뒤 제목·초록과 접근 가능한 원문을 순차적으로 확인하였다. 희토류가 벌크 철계 재료에 첨가된 실험 연구 및 동일 연구의 대조군을 포함하였으며, 희토류 코팅, 용액 내 부식억제제, 비철 합금 및 리뷰의 재인용 수치는 제외하였다. 시료에 연결되는 명시적 부식전류밀도 수치를 표·본문 또는 그림의 인쇄된 숫자에서 수집하였고, 부동태 전류·부식전위·임피던스·중량감소 부식속도로 대체하거나 그래프 좌표에서 추정하지 않았다. 서지 검색과 원문 확보는 구분하였으며, Wiley 원문은 확인된 DOI로 TDM API를 통해 확보하였다. Elsevier Article Retrieval API의 접근 제한은 지속되어, 가능한 공개 사본 및 출판사 표·초록 발췌를 대체 근거로 기록하였고 발췌만 확보한 자료는 분석에서 보류하였다.
+> 검색된 문헌은 DOI를 정규화하여 중복 서지 기록을 통합한 뒤 제목·초록과 접근 가능한 원문을 순차적으로 확인하였다. 희토류가 벌크 철계 재료에 첨가된 실험 연구 및 동일 연구의 대조군을 포함하였으며, 희토류 코팅, 용액 내 부식억제제, 비철 합금 및 리뷰의 재인용 수치는 제외하였다. 시료에 연결되는 명시적 부식전류밀도 수치를 표·본문 또는 그림의 인쇄된 숫자에서 수집하였고, 부동태 전류·부식전위·임피던스·중량감소 부식속도로 대체하지 않았다. 후속 단계에서는 식별 가능한 i_corr 표식·막대값을 축 교정으로 추정하고 좌표·원래 단위·판독 허용폭을 보존했으며 해당 추정치는 모델에서 보류하였다. 서지 검색과 원문 확보는 구분하였으며, Wiley 원문은 확인된 DOI로 TDM API를 통해 확보하였다. Elsevier Article Retrieval API의 접근 제한은 지속되어, 가능한 공개 사본 및 출판사 표·초록 발췌를 대체 근거로 기록하였고 발췌만 확보한 자료는 분석에서 보류하였다.
 >
 > 원문을 출처 위치가 부여된 근거 블록으로 변환한 후 OpenAI gpt-6.1-sol을 이용하여 합금 조성, 희토류 함량, 시험 조건, i_corr 및 근거 정보를 구조화하였다. 에이전트의 수치 전사와 일부 이미지 입력 대조도 병행하고 추출 경로를 구분하였다. 단위가 명확한 경우에만 A/cm²로 환산하였으며, 미보고 값은 결측으로 유지하였다. 원문 근거 문구와 식별자를 자동 확인하고 조성 부족, 단위·수치 불일치 및 시료·조건 대응의 불확실성이 있는 자료에는 보류 사유를 부여하여 임시 모델 입력에서 제외하였다. 이러한 검사는 출처 추적을 위한 자동 검사로 수행되었으며 독립적인 사람 검증을 대체하지 않았다.
 
@@ -155,9 +159,9 @@ Wiley의 활용 경로는 다음과 같이 명시한다. 아래 문안의 출판
 
 ### Literature search and eligibility
 
-A targeted, iterative literature search was performed to collect experimental corrosion-current-density data for rare-earth-containing bulk ferrous alloys and the corresponding within-study controls. Bibliographic discovery used the Elsevier Scopus API and the Springer Nature Metadata and Open Access APIs, supplemented by Europe PMC searches and title- and DOI-based searches of publisher and society websites, including Wiley Online Library. Full-text PDFs of identified Wiley articles were requested and acquired by DOI through the Wiley Text and Data Mining (TDM) API; this API was used for full-text retrieval rather than keyword-based bibliographic discovery. Search expressions combined rare-earth identifiers (e.g., cerium, lanthanum, yttrium, and “rare earth”), ferrous-material terms (e.g., steel, steels, iron, and “pure iron”), corrosion and electrochemical terms (e.g., corrosion, polarization, “current density,” and Tafel), and alloying-related terms (addition, microalloying, inclusion, and alloying). Expressions were adapted to each service; the recorded expressions and retrieved page ranges are provided in the Supplementary Methods. Collection was updated through 16 October 2026. No common publication-year interval, language restriction, or journal-quartile criterion was applied across all searches. The procedure was intended for targeted dataset construction and was not an exhaustive systematic review.
+A targeted, iterative literature search was performed to collect experimental corrosion-current-density data for rare-earth-containing bulk ferrous alloys and the corresponding within-study controls. Bibliographic discovery used the Elsevier Scopus API and the Springer Nature Metadata and Open Access APIs, supplemented by Europe PMC searches and title- and DOI-based searches of publisher and society websites, including Wiley Online Library. Full-text PDFs of identified Wiley articles were requested and acquired by DOI through the Wiley Text and Data Mining (TDM) API; this API was used for full-text retrieval rather than keyword-based bibliographic discovery. Search expressions combined rare-earth identifiers (e.g., cerium, lanthanum, yttrium, and “rare earth”), ferrous-material terms (e.g., steel, steels, iron, and “pure iron”), corrosion and electrochemical terms (e.g., corrosion, polarization, “current density,” and Tafel), and alloying-related terms (addition, microalloying, inclusion, and alloying). Expressions were adapted to each service; the recorded expressions and retrieved page ranges are provided in the Supplementary Methods. Collection was updated through 19 October 2026; the API-query audit describes the earlier 16 October snapshot. No common publication-year interval, language restriction, or journal-quartile criterion was applied across all searches. The procedure was intended for targeted dataset construction and was not an exhaustive systematic review.
 
-Repeated bibliographic records were consolidated using normalized DOIs, with normalized titles used as a secondary identifier when a DOI was unavailable. Titles and available abstracts were used to prioritize source examination, followed by inspection of accessible article content. Experimental studies of rare-earth additions to bulk ferrous materials and their within-study controls were eligible. Studies confined to rare-earth-containing coatings, rare-earth electrolyte inhibitors, non-ferrous alloys, and secondary measurements quoted in reviews were excluded. Extraction targeted explicit numerical corrosion current densities associated with identifiable samples. Passive currents, corrosion potentials, impedance parameters, local currents, and weight-loss corrosion rates were not substituted for corrosion current density. Values estimated solely from graph coordinates and replication of reported means according to experimental repeat counts were not included.
+Repeated bibliographic records were consolidated using normalized DOIs, with normalized titles used as a secondary identifier when a DOI was unavailable. Titles and available abstracts were used to prioritize source examination, followed by inspection of accessible article content. Experimental studies of rare-earth additions to bulk ferrous materials and their within-study controls were eligible. Studies confined to rare-earth-containing coatings, rare-earth electrolyte inhibitors, non-ferrous alloys, and secondary measurements quoted in reviews were excluded. Extraction targeted explicit numerical corrosion current densities associated with identifiable samples. Passive currents, corrosion potentials, impedance parameters, local currents, and weight-loss corrosion rates were not substituted for corrosion current density. In subsequent stages, identifiable current-density markers and author-derived bars were digitized using calibrated axes and explicit reading tolerances; these graph estimates remained held from modeling. Reported means were not replicated according to experimental repeat counts.
 
 ### Acquisition, extraction, and quality control
 
@@ -167,7 +171,7 @@ Source documents were converted to addressable paragraph, table, or page-level e
 
 ## 9. 현재 집계와 투고 전 확정 사항
 
-현재는 **31편의 수집 기록 219개**이고, 그중 정규화된 i_corr 칸에 값이 있는 기록은 204개입니다. 나머지 AH36 15개는 단위 규모가 미확정이므로 타깃을 비웠습니다. 임시 후보 142개·보류 77개·사람 검증 완료 0개입니다. 따라서 **“219개의 검증된 실험 i_corr 데이터로 모델을 학습하였다”**고 쓰지 않습니다. 142개로 새 모델 학습·최종 Active Learning 평가를 완료했다고도 기술하지 않습니다.
+현재 통합본은 **44편·283개 레코드**이며 정규화된 i_corr 값 251개, 단위 미확정 32개입니다. 임시 후보는 24편·151개, 보류는 132개, 사람 검증 완료는 0개입니다. 이번 추가분 36개는 모두 보류했으며 새 모델을 학습하지 않았습니다. 별도 50편 검토목록을 추출 완료 논문 수로 표현하지 않습니다. 기존 개발 교차검증 점수는 당시 데이터의 결과이며 이번 통합본의 최종 검증 성능이 아닙니다.
 
 투고 전 실제로 완료해야 할 사항은 다음과 같습니다.
 
