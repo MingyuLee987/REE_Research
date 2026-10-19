@@ -1,12 +1,57 @@
+# Secrets and local configuration (keep the empty example).
 .env
 .env.*
 !.env.example
+*.local
+.vscode/
+.idea/
+
+# Python environments, generated package metadata and caches.
 .venv/
+venv/
 __pycache__/
+*.py[cod]
 *.egg-info/
 .pytest_cache/
-data/raw/
-data/processed/
-# Local paper copies and manual missing-value review files
-data/processed/paper_review/
-outputs/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.ipynb_checkpoints/
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+
+# Paper sources and real/processed research data remain local.
+# Keep navigation guides and the empty measurements_template.csv.
+/01_논문원문과데이터/raw/*
+!/01_논문원문과데이터/raw/README.md
+/01_논문원문과데이터/processed/*
+!/01_논문원문과데이터/processed/README.md
+
+# Results, model binaries, experiment responses and figures; keep guides.
+/03_분석결과와실험계획/**
+!/03_분석결과와실험계획/**/
+!/03_분석결과와실험계획/**/README.md
+
+# Machine-specific installation records; keep the purpose guide.
+/07_실행환경정보/*
+!/07_실행환경정보/README.md
+
+# Earlier names, if an old command recreates these directories.
+/data/raw/
+/data/processed/
+/outputs/
+
+# Temporary files, execution logs and operating-system metadata.
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini

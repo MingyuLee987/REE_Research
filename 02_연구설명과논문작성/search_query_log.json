@@ -1,0 +1,2008 @@
+{
+  "audit_date": "2026-10-16",
+  "scope": "Persisted structured API responses with recoverable query expressions only",
+  "exclusions": "Not a complete ledger of publisher-page, title/DOI, or web searches; raw metadata without stored query is excluded.",
+  "warning": "Reported hit totals overlap; some queries only retrieved a first page. Do not sum totals or use as PRISMA counts.",
+  "distinct_provider_query_pairs": 46,
+  "saved_response_files": 176,
+  "queries": [
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE(cerium OR lanthanum OR yttrium OR \"rare earth\" OR mischmetal) AND TITLE(corrosion) AND TITLE(steel OR iron) AND NOT TITLE(inhibition OR inhibitor OR coating OR coatings OR conversion OR synergism OR nanoparticles OR deposited)",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_0.json",
+          "sha256": "6d339bd5006c22e7f8b8986ec64d1ff847a4ca25193de9975f94608859fa32b5",
+          "reported_total": "226",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_100.json",
+          "sha256": "dd9229a21bfb651ba1faefde5828665d653fe7617db92bbf0eb191ba1b46caf3",
+          "reported_total": "226",
+          "start_or_cursor": "100",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_125.json",
+          "sha256": "15bc87aa63e2d02802530fb919bc71712aab0da05261bb7d819e6dbba6f683d2",
+          "reported_total": "226",
+          "start_or_cursor": "125",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_150.json",
+          "sha256": "839d5c2475a30188e1391170b4cdf101d3ba889c2c25272d47ed0d00cda8f045",
+          "reported_total": "226",
+          "start_or_cursor": "150",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_175.json",
+          "sha256": "c69a0aad08dc4c66b6fdeaafe8e5d949513b96bfb827c7c509d86111a3f965e9",
+          "reported_total": "226",
+          "start_or_cursor": "175",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_200.json",
+          "sha256": "1d5ef31edac1e95a2e0805e6cde78ba7a8f76d800a181b21650b649eda89cb74",
+          "reported_total": "226",
+          "start_or_cursor": "200",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_225.json",
+          "sha256": "7b663ec37c26da14c9f59b82e524ee8af3142efa53a055442fb4d9cb2a9517be",
+          "reported_total": "226",
+          "start_or_cursor": "225",
+          "reported_page_size": "25",
+          "records_in_saved_response": 1,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_25.json",
+          "sha256": "a03a4bcc27036b479f2722f180fa430f72b1233c1da182f31a929ded4a509317",
+          "reported_total": "226",
+          "start_or_cursor": "25",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_50.json",
+          "sha256": "47ed75c5fd6efce2d387f792017f5743580f8185e6a9734e067035a601773b0a",
+          "reported_total": "226",
+          "start_or_cursor": "50",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_bulk_75.json",
+          "sha256": "d66e8650e3242af604314ce9d17fbad56194811cd49170884ef8b3f0baa01b25",
+          "reported_total": "226",
+          "start_or_cursor": "75",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S01",
+      "distinct_retrieved_dois_for_this_query": 184,
+      "saved_response_count": 10
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE(cerium OR lanthanum OR yttrium OR \"rare earth\") AND TITLE(corrosion) AND TITLE(steel OR iron)",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_targeted_0_0.json",
+          "sha256": "522a52a3e44301764c47d0110af8e7c4140b5d73f7c92c0c6043668bbd3062fa",
+          "reported_total": "372",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_targeted_0_25.json",
+          "sha256": "9f7278f68c9709312bae6fb628da26c2942ed593e79499ff9aac758d82a5ef92",
+          "reported_total": "372",
+          "start_or_cursor": "25",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_targeted_0_50.json",
+          "sha256": "5d768aace8a008a5e1eff8c08035b0d6b67ede36f1b61714d57af284c07a2a01",
+          "reported_total": "372",
+          "start_or_cursor": "50",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_targeted_0_75.json",
+          "sha256": "c1384bf2d691b315e6d41e33bde295b9adf4d4d2fe215e7bae23b4e85a1a9d31",
+          "reported_total": "372",
+          "start_or_cursor": "75",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S02",
+      "distinct_retrieved_dois_for_this_query": 77,
+      "saved_response_count": 4
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((\"rare earth\" OR cerium OR lanthanum) AND \"corrosion current density\" AND steel)",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_targeted_1_0.json",
+          "sha256": "720104b65f8bb39f82818ac38d8a1d19c98b93cd260106821fdb9c43e60be615",
+          "reported_total": "128",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_targeted_1_25.json",
+          "sha256": "5a18f9917ec67be09812586dcfd0da6b8a3529aa0653e2af811097f65434eec7",
+          "reported_total": "128",
+          "start_or_cursor": "25",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_targeted_1_50.json",
+          "sha256": "19e944ec55d9a4ef4c609385954e180baaa31aaabf2eab53555a638b6186e78f",
+          "reported_total": "128",
+          "start_or_cursor": "50",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/scopus_targeted_1_75.json",
+          "sha256": "7bc566ab75232dbc90a5972f43720dd1b6f918865e76576f8f09125515e358f2",
+          "reported_total": "128",
+          "start_or_cursor": "75",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S03",
+      "distinct_retrieved_dois_for_this_query": 91,
+      "saved_response_count": 4
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((cerium OR lanthanum OR \"rare earth\") AND (steel OR iron) AND corrosion) AND PUBYEAR > 2024",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_3.json",
+          "sha256": "b1099c83386cf4abd8ce09401ff74ad9c582e793b129b4a60635ce93ed4db7e1",
+          "reported_total": "417",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S04",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((cerium OR lanthanum OR \"rare earth\") AND (steel OR steels OR \"pure iron\") AND corrosion AND (addition OR microalloying OR inclusion OR alloying)) AND PUBYEAR < 2020",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/discovery/ferrous_before2020.json",
+          "sha256": "f22fb15d4a06bcecc2ebda09b0716e0f5a1c1f0b4d59f2612606573d71ff7e76",
+          "reported_total": "520",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S05",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((cerium OR lanthanum OR \"rare earth\") AND (steel OR steels OR \"pure iron\") AND corrosion AND (addition OR microalloying OR inclusion OR alloying)) AND PUBYEAR > 2019 AND PUBYEAR < 2026",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/discovery/ferrous_2020_2025.json",
+          "sha256": "f143e9b985f52b2f8af61765e8a6a9e1222068a3bda1263094c821f2a48c07bf",
+          "reported_total": "324",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S06",
+      "distinct_retrieved_dois_for_this_query": 24,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((cerium OR lanthanum OR \"rare earth\") AND (steel OR steels) AND (polarization OR \"current density\" OR Tafel))",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/discovery/ferrous_electrochemical.json",
+          "sha256": "8573aa0c344db5790377b20b3063d9a8c736daf37950b4ecd985c68b66cd260f",
+          "reported_total": "770",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S07",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((cerium OR lanthanum OR \"rare earth\") AND (steel OR steels) AND corrosion AND (addition OR microalloying OR inclusion OR alloying))",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/discovery/ferrous_bulk.json",
+          "sha256": "1c98a323f715e248b3b6e3275ce3088eb260f573c12317b5a01d7f406d5814ae",
+          "reported_total": "907",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S08",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((cerium OR lanthanum OR \"rare earth\") AND steel AND corrosion) AND PUBYEAR < 2015",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_1.json",
+          "sha256": "012def3279ce77c1017a5990dd2aed2c246c8f7d42cd43a1262fbe5afcd6c015",
+          "reported_total": "1087",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S09",
+      "distinct_retrieved_dois_for_this_query": 21,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((cerium OR lanthanum OR yttrium OR \"rare earth\") AND (steel OR iron) AND (\"corrosion current\" OR Tafel))",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_0.json",
+          "sha256": "f64adc6d4d4b41c0aef84ee6385fbe7b2e15133c97ecf87140dde583fed5482c",
+          "reported_total": "452",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S10",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((cerium OR lanthanum OR yttrium) AND steel AND \"corrosion current\")",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/add30_20261016/api_search.json",
+          "sha256": "64454ab8acb5790233902a7f5f048e4ad6924a762a92f0c2562e299eb97d5187",
+          "reported_total": "136",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S11",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY((yttrium OR praseodymium OR neodymium) AND steel AND corrosion)",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_2.json",
+          "sha256": "03e90d0dfaacd5cb4dfa4d4981cf15a3528463eac1f6e5193d9740ba583c905d",
+          "reported_total": "815",
+          "start_or_cursor": "0",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S12",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Elsevier Scopus",
+      "query": "TITLE-ABS-KEY(cerium AND corrosion AND steel)",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/elsevier_search.json",
+          "sha256": "203a90082f385ac61e407884e67ce147564f4ac06f4a33e5a6eb0850ac183548",
+          "reported_total": "1351",
+          "start_or_cursor": "0",
+          "reported_page_size": "3",
+          "records_in_saved_response": 3,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S13",
+      "distinct_retrieved_dois_for_this_query": 3,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Europe PMC",
+      "query": "(DOI:10.1007/978-3-030-05861-6_53 OR DOI:10.1007/s11663-025-03792-5 OR DOI:10.1007/s11663-025-03817-z OR DOI:10.1007/s11665-019-04112-0 OR DOI:10.1016/j.corcom.2025.11.001 OR DOI:10.1016/j.corsci.2026.114050 OR DOI:10.1016/j.corsci.2026.114142 OR DOI:10.1016/j.jallcom.2026.189103 OR DOI:10.1016/j.jmrt.2025.11.079 OR DOI:10.1016/j.jmrt.2026.03.287 OR DOI:10.1016/j.jobe.2025.114528 OR DOI:10.1016/j.physb.2019.01.027 OR DOI:10.2355/isijinternational.isijint-2019-248 OR DOI:10.3390/ma12203359 OR DOI:10.3390/ma19122685 OR DOI:10.7449/2019/mst_2019_122_129 OR DOI:10.1002/maco.202514828 OR DOI:10.1007/s11664-026-13249-3 OR DOI:10.1007/s11665-026-15283-y OR DOI:10.1007/s42243-025-01553-x OR DOI:10.1016/j.apsusc.2017.11.041 OR DOI:10.1016/j.apsusc.2018.12.164 OR DOI:10.1016/j.apsusc.2018.12.243 OR DOI:10.1016/j.corsci.2025.113266 OR DOI:10.1016/j.corsci.2026.114238 OR DOI:10.1016/j.envres.2019.03.069 OR DOI:10.1016/j.isci.2025.113319 OR DOI:10.1016/j.jmrt.2026.09.183 OR DOI:10.1016/j.jre.2024.12.025 OR DOI:10.1016/j.jscs.2018.03.005 OR DOI:10.1016/j.mtcomm.2026.116157 OR DOI:10.1016/j.rineng.2026.112876 OR DOI:10.11785/s1000-4343.20260805 OR DOI:10.11896/cldb.17070037 OR DOI:10.13251/j.issn.0254-6051.2019.04.004 OR DOI:10.20964/2019.03.31 OR DOI:10.3390/met15090935 OR DOI:10.3390/met15121289 OR DOI:10.3724/s1004-0277.202604006 OR DOI:10.3724/s1004-0277.202604012) AND OPEN_ACCESS:Y",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/europepmc/doi_lookup.json",
+          "sha256": "0f86db5eb717642991a38c321b95ae5e04913f6cc5b959d812c9b87fae45021a",
+          "reported_total": 3,
+          "start_or_cursor": "*",
+          "reported_page_size": 100,
+          "records_in_saved_response": 3,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S14",
+      "distinct_retrieved_dois_for_this_query": 3,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Europe PMC",
+      "query": "(TITLE:steel OR TITLE:steels OR TITLE:iron) AND (TITLE:cerium OR TITLE:lanthanum OR TITLE:\"rare earth\" OR TITLE:Ce OR TITLE:La) AND TITLE:corrosion AND OPEN_ACCESS:Y",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/europepmc/targeted_search.json",
+          "sha256": "2e266cb7a0f0560a50a2e7747c48aaac3647514bb015a347996d9698eada03ca",
+          "reported_total": 8,
+          "start_or_cursor": "*",
+          "reported_page_size": 100,
+          "records_in_saved_response": 8,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S15",
+      "distinct_retrieved_dois_for_this_query": 8,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Europe PMC",
+      "query": "(TITLE:steel OR TITLE:steels OR TITLE:iron) AND TITLE:corrosion AND (yttrium OR neodymium OR scandium OR microalloying) AND OPEN_ACCESS:Y",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/europepmc/extended_search.json",
+          "sha256": "3f9fafe4dc68b8604bfbebca53c5614df3a16de6c0ca04830a88e9ab33896bcb",
+          "reported_total": 41,
+          "start_or_cursor": "*",
+          "reported_page_size": 100,
+          "records_in_saved_response": 41,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S16",
+      "distinct_retrieved_dois_for_this_query": 41,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Europe PMC",
+      "query": "(TITLE:steel OR TITLE:steels) AND TITLE:corrosion AND (\"rare earth\" OR cerium OR lanthanum) AND OPEN_ACCESS:Y NOT (TITLE:coating OR TITLE:inhibitor OR TITLE:review)",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/europepmc/expansion_search.json",
+          "sha256": "714aba1476c906befe1976b2e297f9ff8d5633528876aa011787298ad7a43d41",
+          "reported_total": 40,
+          "start_or_cursor": "*",
+          "reported_page_size": 100,
+          "records_in_saved_response": 40,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S17",
+      "distinct_retrieved_dois_for_this_query": 40,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Europe PMC",
+      "query": "(TITLE_ABS:\"cerium\" OR TITLE_ABS:\"lanthanum\" OR TITLE_ABS:\"rare earth\" OR TITLE_ABS:\"yttrium\") AND (TITLE_ABS:\"steel\" OR TITLE_ABS:\"iron\") AND TITLE_ABS:\"corrosion\" AND OPEN_ACCESS:Y",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/pmc_search.json",
+          "sha256": "1bc3ab7d869f0995ff44abc24dcd342b1b2a18f27c7da5c9e55e2281ddf5a1bd",
+          "reported_total": 45,
+          "start_or_cursor": "*",
+          "reported_page_size": 100,
+          "records_in_saved_response": 45,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S18",
+      "distinct_retrieved_dois_for_this_query": 45,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Europe PMC",
+      "query": "(cerium OR lanthanum OR \"rare earth\") AND (steel OR steels OR \"pure iron\") AND corrosion AND OPEN_ACCESS:Y",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/europepmc/search.json",
+          "sha256": "b42e56c50894f4710d9ed98d232f1e478770a99c1e03d065cb8c543a48cc029a",
+          "reported_total": 1800,
+          "start_or_cursor": "*",
+          "reported_page_size": 100,
+          "records_in_saved_response": 100,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S19",
+      "distinct_retrieved_dois_for_this_query": 99,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Europe PMC",
+      "query": "(cerium OR lanthanum OR yttrium OR \"rare earth\") AND (steel OR ferrous OR \"Fe-based\") AND corrosion AND DOI:10.1016* AND OPEN_ACCESS:Y",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/elsevier_expansion/search.json",
+          "sha256": "73234526b91fc5b24028bf4f4ad9c1c6a5d1d7c8626bba16eeea4795c285fe97",
+          "reported_total": 184,
+          "start_or_cursor": "*",
+          "reported_page_size": 100,
+          "records_in_saved_response": 100,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S20",
+      "distinct_retrieved_dois_for_this_query": 99,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "\"rare earth\" corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_4.json",
+          "sha256": "22fca0efbb0f32718e9339a3c159a0a72193d45dc42f5af2ec6d54dda8a8f03c",
+          "reported_total": "16766",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S21",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "\"rare earth\" rebar corrosion",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_9.json",
+          "sha256": "25cd010e8021db3e77cd65cfd0f1fd5c54111357f231400f0c9dc8e45a442069",
+          "reported_total": "135",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S22",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "cerium corrosion stainless",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_5.json",
+          "sha256": "49f243ead26f36b569973e685642c36656b2adb051dd11af417d566e30a537b5",
+          "reported_total": "3334",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S23",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "cerium corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/add30_20261016/springer_search_0.json",
+          "sha256": "420d4c5c9cf58fc616714ae5976300f160ab1061080f41aef97c5cb8fa3d2cfe",
+          "reported_total": "8143",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_meta_search.json",
+          "sha256": "f363bde2a2f63564dee057983362b45ba405d1cd217d5bf12ac5e503e28f3eae",
+          "reported_total": "8141",
+          "start_or_cursor": "1",
+          "reported_page_size": "3",
+          "records_in_saved_response": 3,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S24",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 2
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "cerium steel corrosion",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/discovery/cerium_steel.json",
+          "sha256": "185947cfdeb2571b66f115dd4ce7fb4ea5ed7f87ed21bd2f889c3e5a6318ae9d",
+          "reported_total": "8141",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S25",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "lanthanum corrosion stainless",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/add30_20261016/springer_search_1.json",
+          "sha256": "0a484b48f89e1086b8d3c0e76d47137467b4f3674cd176bbad3d419ae970389b",
+          "reported_total": "2019",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S26",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "lanthanum corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_6.json",
+          "sha256": "b2777f4d37b2ec61144f42146121c5714e2a36aa9be490c851d19c870730cb0b",
+          "reported_total": "5077",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S27",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "praseodymium corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_8.json",
+          "sha256": "4888fb5da503553d61421d871ca77cd886c4b0f37d92196fffbb3d23eaeea0b8",
+          "reported_total": "915",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S28",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Metadata",
+      "query": "yttrium corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/add30_20261016/springer_search_2.json",
+          "sha256": "f7168fa076688996808d309b01f27f7e7e418a61b69e79f815842045ca3d3f24",
+          "reported_total": "6821",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_7.json",
+          "sha256": "6c5f62d6eac236b303593551dc4c883c81c155dc7db7840e15ac5e6af379e74b",
+          "reported_total": "6816",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S29",
+      "distinct_retrieved_dois_for_this_query": 29,
+      "saved_response_count": 2
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "\"cerium\" \"steel\" \"corrosion\"",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_10.json",
+          "sha256": "1d5612faf6001b3f577d60e627d19340008bbe2cc3bcb05b31c270239d036827",
+          "reported_total": "811",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S30",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "\"lanthanum\" \"steel\" \"corrosion\"",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/round300/query_11.json",
+          "sha256": "8654949fec45f26f5f96ebdf27955cb5324d75aa736748f055c2be505f3d37f0",
+          "reported_total": "470",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S31",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "\"rare earth\" \"steel\" \"corrosion\"",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/discovery/ree_steel.json",
+          "sha256": "e6b84298c986db178ab3b12f5e474440d9bc97f0ba45d80418e7435f28978177",
+          "reported_total": "1337",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S32",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "\"rare earth\" AND \"corrosion current\"",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/search_5.json",
+          "sha256": "f2ec3f7827f783f16dc1219f9018d0952f536dd725018c406f60c3476ed065e6",
+          "reported_total": "207",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S33",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "\"rare earth\" AND corrosion AND iron",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/search_4.json",
+          "sha256": "c92298ed76ebab49e2c314f89d55cf160bd5a1da6c421690d930bf4703668f06",
+          "reported_total": "1192",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S34",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "\"rare earth\" AND corrosion AND steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/search_0.json",
+          "sha256": "55b1659ab419cec3e58d3f7ebc91ef3cbad553bcc45abe3214c85f118ec0679a",
+          "reported_total": "1337",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S35",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "\"rare earth\" corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1.json",
+          "sha256": "96ea9a540e46ed7d7a5dac58bab980ed1e16d4619936c4f3bd44c5c53ce63594",
+          "reported_total": "1337",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1001.json",
+          "sha256": "540bf78486f9bdcb4639613fa6daeb92c5673fbf7b0514963305239eb8bf1712",
+          "reported_total": "1337",
+          "start_or_cursor": "1001",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start101.json",
+          "sha256": "ba7acc2ec267f6d8d1c50d012d993d124e3181bf7566e93e75a1256697d51356",
+          "reported_total": "1337",
+          "start_or_cursor": "101",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1026.json",
+          "sha256": "f0ca879aa79313a0b9aa43ea7759117a89d5e51d9d80891befdce5c5abbba4c7",
+          "reported_total": "1337",
+          "start_or_cursor": "1026",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1051.json",
+          "sha256": "e5bfda2ca44bde8a3978f4637522bb445f21f4e4abae8a20769941940afa63ab",
+          "reported_total": "1337",
+          "start_or_cursor": "1051",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1076.json",
+          "sha256": "d2c87dcf8870822bca0f6d0d25cf4ad016b3d5718e1d0a1cf82e6ba0dbe3fed2",
+          "reported_total": "1337",
+          "start_or_cursor": "1076",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1101.json",
+          "sha256": "0418c94975230836940a66e3751cdd5dab535bff45b55f09b8012e81134e51d8",
+          "reported_total": "1337",
+          "start_or_cursor": "1101",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1126.json",
+          "sha256": "194a9039e2ea810f216cac981f255439ebf6d0cffcb357f5f47d96ed003084ad",
+          "reported_total": "1337",
+          "start_or_cursor": "1126",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1151.json",
+          "sha256": "852d2a2e05107a09fd4f929ecd13e4002b769ff223417710929c216f17a39432",
+          "reported_total": "1337",
+          "start_or_cursor": "1151",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1176.json",
+          "sha256": "d30f23b4910dc9dfbf9c8bfd34ff36fd7193d0a9e057b8329a182ee7a811c770",
+          "reported_total": "1337",
+          "start_or_cursor": "1176",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1201.json",
+          "sha256": "769c5ed966e855373035d4f33917e2ec4396c7c639f92a00977118e37ed81c7d",
+          "reported_total": "1337",
+          "start_or_cursor": "1201",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1226.json",
+          "sha256": "72e96504e49bba2131f7fe1976b0bb9384d48eb4b9fe38d812fb570bbe37930d",
+          "reported_total": "1337",
+          "start_or_cursor": "1226",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1251.json",
+          "sha256": "5fe7b453a7b34e24b259cf54726366cbbf18f27322a8ec7f8c0f1ac7e3f5036e",
+          "reported_total": "1337",
+          "start_or_cursor": "1251",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start126.json",
+          "sha256": "41a4dec6165e5eccd46cb80254d4889d077c1a03b07335a913337c3dd462efa2",
+          "reported_total": "1337",
+          "start_or_cursor": "126",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1276.json",
+          "sha256": "fe93ac2090f2c3691e42a90bd60442c306826f7874cf54ef4bf55f4d2f70bce8",
+          "reported_total": "1337",
+          "start_or_cursor": "1276",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1301.json",
+          "sha256": "cd6810b0b6e5ee000a68b78418763576b80f47bbf9f03e1ddf5b83cece4de6e2",
+          "reported_total": "1337",
+          "start_or_cursor": "1301",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start1326.json",
+          "sha256": "08d82834424519b059715fc56664310b0c81db2d652cc5084abdd6b8b61d14a2",
+          "reported_total": "1337",
+          "start_or_cursor": "1326",
+          "reported_page_size": "12",
+          "records_in_saved_response": 12,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start151.json",
+          "sha256": "1770a5ca6f2264ac98a53a7d96ab5700299452507c9cb9044c276fcbde767513",
+          "reported_total": "1337",
+          "start_or_cursor": "151",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start176.json",
+          "sha256": "445ecf47c6c950c36c3a31289d3c13243b328bf1a99c67f3cd52ba4aa2b14dae",
+          "reported_total": "1337",
+          "start_or_cursor": "176",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start201.json",
+          "sha256": "fb5cfe01053b3b5a82b6c64e3286805724b5ef588eeb242410eb7b0bf621d8b5",
+          "reported_total": "1337",
+          "start_or_cursor": "201",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start226.json",
+          "sha256": "71f1e1d87df213dd45177f4444b282dc343f05fc6c1dcbcb290e134f4ae29993",
+          "reported_total": "1337",
+          "start_or_cursor": "226",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start251.json",
+          "sha256": "3c0399fe237d579be71295b912bb934d7563f8743f77866be53eb8a11a012ef1",
+          "reported_total": "1337",
+          "start_or_cursor": "251",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start26.json",
+          "sha256": "a7d6477c9badc12896b0f56faf2a1bdc9cb724f021d08dce6d5b4df1d65cf643",
+          "reported_total": "1337",
+          "start_or_cursor": "26",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start276.json",
+          "sha256": "4f3187c1c0fd649bc9684e471696d9c3f11ca6089a7b0d75c485587a74b7c1f1",
+          "reported_total": "1337",
+          "start_or_cursor": "276",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start301.json",
+          "sha256": "c3ce171ca208604f6e88ed69b04d83de4c1a01c62870cba65f852d53b01f67a4",
+          "reported_total": "1337",
+          "start_or_cursor": "301",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start326.json",
+          "sha256": "c8bb0346e29e05cf7c1bc974594668cf0eb6afa1b0b2b1d783f902bddb3421da",
+          "reported_total": "1337",
+          "start_or_cursor": "326",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start351.json",
+          "sha256": "0cad457d95ec9d88751c5571b45bf1bee9eeb54110225849770f63e302abb839",
+          "reported_total": "1337",
+          "start_or_cursor": "351",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start376.json",
+          "sha256": "bb227ec9e82fc1a15442ce82faa876eb02f21b8ab00d512da2f193f72b92e4c0",
+          "reported_total": "1337",
+          "start_or_cursor": "376",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start401.json",
+          "sha256": "6c6331ed3f7160336be17652e75c6f3a2c1fae5b71e0a1ba0470d0e8c8f1c81f",
+          "reported_total": "1337",
+          "start_or_cursor": "401",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start426.json",
+          "sha256": "b7b4daac0e341c57863c633a19fa76d102d0a167b89b441bcc99b453d437825c",
+          "reported_total": "1337",
+          "start_or_cursor": "426",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start451.json",
+          "sha256": "230768540ce5a1d2d54a32dfdc1e0792e47d3902f9de9136cadc1b32843a656d",
+          "reported_total": "1337",
+          "start_or_cursor": "451",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start476.json",
+          "sha256": "b54044283611d893013911216cea2147dc4b1cfd168139e1206c70dda7fea445",
+          "reported_total": "1337",
+          "start_or_cursor": "476",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start501.json",
+          "sha256": "89480d8a78401c0773b61cc1a5e59723c321873812404cef5fced3eba818164c",
+          "reported_total": "1337",
+          "start_or_cursor": "501",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start51.json",
+          "sha256": "beae6771d9a76eab729a4dacdaf6c4cfaaa75253fefb0575bc0736dce06300b8",
+          "reported_total": "1337",
+          "start_or_cursor": "51",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start526.json",
+          "sha256": "2bb5656913c4b1758e1b201b6e9fca2515743bb91537163026b8c6256d315b0c",
+          "reported_total": "1337",
+          "start_or_cursor": "526",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start551.json",
+          "sha256": "fd91444bd4dab27667bf2348ea5dbf4ea2b7eca8d99e5448b4ecf36f42c2fcd6",
+          "reported_total": "1337",
+          "start_or_cursor": "551",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start576.json",
+          "sha256": "ec0c1804cf38f94c778ef54b0da67c38881ce82c329e1bd90fecd5124b6f16ab",
+          "reported_total": "1337",
+          "start_or_cursor": "576",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start601.json",
+          "sha256": "772648e942c5625d7e7a0cd6b89c71c584a94b4925f5fa02ed34430091975804",
+          "reported_total": "1337",
+          "start_or_cursor": "601",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start626.json",
+          "sha256": "ade9ae9f2da6bafd4af4663792f1be4c2ba4ef31a5986fc0e690571881c7afd8",
+          "reported_total": "1337",
+          "start_or_cursor": "626",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start651.json",
+          "sha256": "2a4221b5991874ad201d89c1bd08587dd69590f8f19556d42a9ac4c4cb0b22aa",
+          "reported_total": "1337",
+          "start_or_cursor": "651",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start676.json",
+          "sha256": "e9c802b95e0da9433a9add449a64a859b302721971053d2685eb567a792200d2",
+          "reported_total": "1337",
+          "start_or_cursor": "676",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start701.json",
+          "sha256": "8489e848dfb00646c3f6d8b9c119c073aee4d103a4a347fa74c0d7cc0f09ebfd",
+          "reported_total": "1337",
+          "start_or_cursor": "701",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start726.json",
+          "sha256": "92f95c89f29b71476942b57f5244f01d543e066f1acbbd74dfd345e951f54531",
+          "reported_total": "1337",
+          "start_or_cursor": "726",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start751.json",
+          "sha256": "7ab0623f5975c70d463e3152be8a8ccf0b38cf35b5069a597d65b04c16f93583",
+          "reported_total": "1337",
+          "start_or_cursor": "751",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start76.json",
+          "sha256": "f542dc0af7abd6bb3809a6b39d32c56cf704a604c261e6221554beabb86042fc",
+          "reported_total": "1337",
+          "start_or_cursor": "76",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start776.json",
+          "sha256": "ba4afc40d4213163e7e23d5c09a9c259a31e4d9f0b378f89814b8b2bacce9590",
+          "reported_total": "1337",
+          "start_or_cursor": "776",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start801.json",
+          "sha256": "13886a56783f4eaced599486ef71a4400c9f1614e05b8005bfe261ace717d1d0",
+          "reported_total": "1337",
+          "start_or_cursor": "801",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start826.json",
+          "sha256": "ff424b2698ff6490fac867a439b0a9c9300a20f58b7a7346e5a21266a1df4b35",
+          "reported_total": "1337",
+          "start_or_cursor": "826",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start851.json",
+          "sha256": "47178c0fab903d399449ae1f5dfcac9b6fea7f75e86b84cf405457c58442988d",
+          "reported_total": "1337",
+          "start_or_cursor": "851",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start876.json",
+          "sha256": "12fcb24bafb53877110832bbac03d8409e2f0b9ee93cc6586baf55e2c5b5aa90",
+          "reported_total": "1337",
+          "start_or_cursor": "876",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start901.json",
+          "sha256": "00bae782aa4651ff9d787a973258698697bb51d2e6ab2c0d67f400f3b7b70a58",
+          "reported_total": "1337",
+          "start_or_cursor": "901",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start926.json",
+          "sha256": "8f50d9bf35d278a3262d0c6bff149b41dacaac0a4796e02423886578f53c82df",
+          "reported_total": "1337",
+          "start_or_cursor": "926",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start951.json",
+          "sha256": "90cc5603bf6c1c427d23157cdf32dcf42dc971c6272b15ebef40f8131da12ddf",
+          "reported_total": "1337",
+          "start_or_cursor": "951",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query6_start976.json",
+          "sha256": "5588f9609796f62e96cdfdd1518084b147a73c90704ee3919bf79dbef8051c51",
+          "reported_total": "1337",
+          "start_or_cursor": "976",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S36",
+      "distinct_retrieved_dois_for_this_query": 1337,
+      "saved_response_count": 54
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "\"rare earth\" corrosion steel microalloying",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query2_start1.json",
+          "sha256": "a551fb04c51bbe42fdf034543508309c5f367dc3f85228d4a358ccedb406ad3f",
+          "reported_total": "82",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query2_start26.json",
+          "sha256": "9ea2d6db73d891dd69776b40f6eac93fc0dc2522c26cfafc19f4647a0ef0ae4f",
+          "reported_total": "82",
+          "start_or_cursor": "26",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query2_start51.json",
+          "sha256": "bb19222f8715ac79158d3e2a90a422ceafe0e6afec7700968648d5fa5aeeb2ac",
+          "reported_total": "82",
+          "start_or_cursor": "51",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query2_start76.json",
+          "sha256": "0640ded4abafe4c9acf2e5f9713d5109fda781c933a68c81537b8717b9a6370d",
+          "reported_total": "82",
+          "start_or_cursor": "76",
+          "reported_page_size": "7",
+          "records_in_saved_response": 7,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S37",
+      "distinct_retrieved_dois_for_this_query": 82,
+      "saved_response_count": 4
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "cerium AND corrosion AND steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/search_1.json",
+          "sha256": "3a945ed5f1a3499eb1d8292858502d1155db39e3f665d0078c83f1af52ca622e",
+          "reported_total": "811",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S38",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "cerium corrosion stainless",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start1.json",
+          "sha256": "9cd057cebee3b244da8813c803d3f3200193bec4f4ffaf74b35cd50e6ee2becd",
+          "reported_total": "450",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start101.json",
+          "sha256": "84f51ae191c2de1e14fe6f0d7218d03de672e552793de126973ee59a680a1eef",
+          "reported_total": "450",
+          "start_or_cursor": "101",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start126.json",
+          "sha256": "6ca87ec223998697383bb9efee9f5c7773484e63e755eea80be140dce4a80fee",
+          "reported_total": "450",
+          "start_or_cursor": "126",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start151.json",
+          "sha256": "58bc62e46988313f566cd846025676b0a2e9231436dcbc547ef3ed20e1e96d52",
+          "reported_total": "450",
+          "start_or_cursor": "151",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start176.json",
+          "sha256": "6b3c79d9ccec6d3618f0b14cf023d0a30464cef585891a21665288756242736f",
+          "reported_total": "450",
+          "start_or_cursor": "176",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start201.json",
+          "sha256": "a54d32d237f74d1486df159ec78a1c66c81970dbbd4fff1bcc769751b6515508",
+          "reported_total": "450",
+          "start_or_cursor": "201",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start226.json",
+          "sha256": "9034d3cbf5da2687c014b28248d432883676b40af794895309355a03ffa1e994",
+          "reported_total": "450",
+          "start_or_cursor": "226",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start251.json",
+          "sha256": "6201e3271fc174991d17f891e3f3b88ba71cdabff292e2233796db7f238ca2b3",
+          "reported_total": "450",
+          "start_or_cursor": "251",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start26.json",
+          "sha256": "4f12edbaff3723c6d69b6ef54fa2003563a57c2f6f83bd733c8b5155419a0621",
+          "reported_total": "450",
+          "start_or_cursor": "26",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start276.json",
+          "sha256": "0d7b1f05d77d0f9352e7b6a5e07e4a7d2ad10feffe3aba3135405ffb7042c072",
+          "reported_total": "450",
+          "start_or_cursor": "276",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start301.json",
+          "sha256": "90e3550b5a2bbb8dbff03c3c8a14ec929c1a398e4a1ba8e953645b565352c9aa",
+          "reported_total": "450",
+          "start_or_cursor": "301",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start326.json",
+          "sha256": "3b1d8b6ec9f4071d90dea37f80cdcccbb0e1fe4a1186f2ad3768eea4242c33ca",
+          "reported_total": "450",
+          "start_or_cursor": "326",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start351.json",
+          "sha256": "1ca4a83888fc5526964169ef7240f2db124ffab971f4052cf17e34f79e85a76d",
+          "reported_total": "450",
+          "start_or_cursor": "351",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start376.json",
+          "sha256": "e5073e3a7551da9bfb1b86abc4b47bbbd8ad557b20f06e38123cb2870509ec8f",
+          "reported_total": "450",
+          "start_or_cursor": "376",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start401.json",
+          "sha256": "d06bd8093642c4f1b9b84bb6e9bd7b9847982f9289d16390b3b7f2a202e1807c",
+          "reported_total": "450",
+          "start_or_cursor": "401",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start426.json",
+          "sha256": "a0600b8f6ef4c40df34ce337b9c2585a0024d6b993991541d19b7a848f4a501d",
+          "reported_total": "450",
+          "start_or_cursor": "426",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start51.json",
+          "sha256": "f05950ae16495c630c3aebcede029223c1f2acdc9f9c41f45d31d3279e3347d3",
+          "reported_total": "450",
+          "start_or_cursor": "51",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query4_start76.json",
+          "sha256": "9577b0b13c49408d54a0b7010cbc27a2bcfa0895577c0ea6ad0198bb95f85a91",
+          "reported_total": "450",
+          "start_or_cursor": "76",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S39",
+      "distinct_retrieved_dois_for_this_query": 450,
+      "saved_response_count": 18
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "cerium corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_oa_search.json",
+          "sha256": "fdea821043d3c99c2b7d7d0329a264e37f5f59bba4158b3bd7e8d835456f0a89",
+          "reported_total": "811",
+          "start_or_cursor": "1",
+          "reported_page_size": "3",
+          "records_in_saved_response": 3,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S40",
+      "distinct_retrieved_dois_for_this_query": 3,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "cerium corrosion steel microalloying",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query0_start1.json",
+          "sha256": "a490ff38190a67f0b26dce3e0f35411a338ec9749e48363d7496a3e704e87798",
+          "reported_total": "37",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query0_start26.json",
+          "sha256": "d528d1fe06c27b66a2beb85bc3b299b61892836121e1b7cc8a573a1cbb265bcc",
+          "reported_total": "37",
+          "start_or_cursor": "26",
+          "reported_page_size": "12",
+          "records_in_saved_response": 12,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S41",
+      "distinct_retrieved_dois_for_this_query": 37,
+      "saved_response_count": 2
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "lanthanum AND corrosion AND steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/search_2.json",
+          "sha256": "213b425a32fd3f8831fb791f1d97258b3c40d63b0c746a9309ac8910264e56bb",
+          "reported_total": "470",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S42",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "lanthanum corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start1.json",
+          "sha256": "8e6b6b7b4dcd5d04d5d15e2cfc4001dec0498e97158e3cfec511909842664edb",
+          "reported_total": "470",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start101.json",
+          "sha256": "9273981c3c8c00d3a4d1ec0c3bc7537fafc906b85e07144b84251dc478a763b6",
+          "reported_total": "470",
+          "start_or_cursor": "101",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start126.json",
+          "sha256": "d472476b484fe03046e39bd3df3c051ee8339de04eb7a9eede1b7f0860ce1c99",
+          "reported_total": "470",
+          "start_or_cursor": "126",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start151.json",
+          "sha256": "a03f8a93d3dfb44952951cbb376951e0b45c5499c03930e81af58ec3925411bc",
+          "reported_total": "470",
+          "start_or_cursor": "151",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start176.json",
+          "sha256": "495ad09c5ef3c90203a55b25d07201652524e9c4480e13b254fd27159f2174c3",
+          "reported_total": "470",
+          "start_or_cursor": "176",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start201.json",
+          "sha256": "c12167a8d15dba5485a54174c66e0d60bd545a0feae2c28ccd512f990de36196",
+          "reported_total": "470",
+          "start_or_cursor": "201",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start226.json",
+          "sha256": "568c480d25b6058faabdba631f947a23b894402435b74bb12f8ee352886a2058",
+          "reported_total": "470",
+          "start_or_cursor": "226",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start251.json",
+          "sha256": "a615d83118de2ad0a7dc46f6235c847c814be7b31a02c0883bdd431925e8d4d2",
+          "reported_total": "470",
+          "start_or_cursor": "251",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start26.json",
+          "sha256": "6127ab5538056bfe89782a0e86d2113cd62cad8a784bbbbaefaef945a2beb877",
+          "reported_total": "470",
+          "start_or_cursor": "26",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start276.json",
+          "sha256": "f08a336229af423a3e7ee0d411590375c2166d0ca5104c6eaef8cc17b548554b",
+          "reported_total": "470",
+          "start_or_cursor": "276",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start301.json",
+          "sha256": "0f422c8b8bf37208ecc84e6e6021eca7f7630987aa90de8cf5d467553fb6ed76",
+          "reported_total": "470",
+          "start_or_cursor": "301",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start326.json",
+          "sha256": "bac67275b56da04041dfde818d294d0cb61bad2f62b7743a4b135660c9ff45b4",
+          "reported_total": "470",
+          "start_or_cursor": "326",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start351.json",
+          "sha256": "2e5d508582643c3dab1dbba2da061c6419c0c936c73d9c80e90df7b790fce40b",
+          "reported_total": "470",
+          "start_or_cursor": "351",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start376.json",
+          "sha256": "feb3a1b0c1755ab5448f10cccedebb57a1610bea3c69946be5cca748b75bb33a",
+          "reported_total": "470",
+          "start_or_cursor": "376",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start401.json",
+          "sha256": "7656ece7b36720bdeee46c696af58dd820d5db8e159602fc33b0dd28018d027b",
+          "reported_total": "470",
+          "start_or_cursor": "401",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start426.json",
+          "sha256": "0bb8dde3aa7b715a45d6ba83355672070bf2ad1f33bc5b3ea34fea5eec483c26",
+          "reported_total": "470",
+          "start_or_cursor": "426",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start451.json",
+          "sha256": "296e131eaeb5eccdbb211f595aa0e197fa1c3f93ccc3a419adee2781ed5f0196",
+          "reported_total": "470",
+          "start_or_cursor": "451",
+          "reported_page_size": "20",
+          "records_in_saved_response": 20,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start51.json",
+          "sha256": "330ac7ac2f15a40f09a99e30e411146ccc040cba83eeefc03310ba916f01d711",
+          "reported_total": "470",
+          "start_or_cursor": "51",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query5_start76.json",
+          "sha256": "6ba9525e33462e7df6d84c48c920070d3d858995513464678c8f59ce7d0c3e77",
+          "reported_total": "470",
+          "start_or_cursor": "76",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S43",
+      "distinct_retrieved_dois_for_this_query": 470,
+      "saved_response_count": 19
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "lanthanum corrosion steel microalloying",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query1_start1.json",
+          "sha256": "3c6c33dde436a5f9c225962486273d2784206674e18364766f48dc20b8c4f748",
+          "reported_total": "21",
+          "start_or_cursor": "1",
+          "reported_page_size": "21",
+          "records_in_saved_response": 21,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S44",
+      "distinct_retrieved_dois_for_this_query": 21,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "yttrium AND corrosion AND steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/search_3.json",
+          "sha256": "d707fcdf9e4755e5750c73fde9d42de0dabfcf1ea4fbc027ca4d1d097ccec9f3",
+          "reported_total": "548",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S45",
+      "distinct_retrieved_dois_for_this_query": 25,
+      "saved_response_count": 1
+    },
+    {
+      "provider": "Springer Nature Open Access",
+      "query": "yttrium corrosion steel",
+      "responses": [
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start1.json",
+          "sha256": "b63dfdbb32bda20656dc7beae4c5d2f451f7c785d58032a5828e99f14c73bb51",
+          "reported_total": "548",
+          "start_or_cursor": "1",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start101.json",
+          "sha256": "04ec0a337e33b900e7d7ecece2040e2420713f49f24418645cc1bb82f08e6926",
+          "reported_total": "548",
+          "start_or_cursor": "101",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start126.json",
+          "sha256": "192354574b2c67a2656bb29e5135a21c20e2f716ee155f49836075dad66a6b37",
+          "reported_total": "548",
+          "start_or_cursor": "126",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start151.json",
+          "sha256": "727431dbcba88615db38ae78dbffd598f76f8c2706d2e2ac2dc0324287faf50b",
+          "reported_total": "548",
+          "start_or_cursor": "151",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start176.json",
+          "sha256": "2748de220617c6b8edadbda6602251422588b7693283a2610809aa84932d5d40",
+          "reported_total": "548",
+          "start_or_cursor": "176",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start201.json",
+          "sha256": "2b1be9865c5714993c9b80416aec6197ebcfb760f4f17b7ccf2ffa048de6349d",
+          "reported_total": "548",
+          "start_or_cursor": "201",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start226.json",
+          "sha256": "08923149c0f0bbe61459b472fb608fbfb258b7c1a3ff31c2ce180f22345d0904",
+          "reported_total": "548",
+          "start_or_cursor": "226",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start251.json",
+          "sha256": "91a15e05824031cb2d322e8a88eb8b7340258bb2f24faa6c5ca18328c2bddc31",
+          "reported_total": "548",
+          "start_or_cursor": "251",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start26.json",
+          "sha256": "07a12a4fd43cacabbe9354b280b1d93e454732dc3f498a473a490f337ab0fb0a",
+          "reported_total": "548",
+          "start_or_cursor": "26",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start276.json",
+          "sha256": "aa9cb391b6929033e29abea7b66a6a84f099cf41ca5994a3f40a94f7cc62ebde",
+          "reported_total": "548",
+          "start_or_cursor": "276",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start301.json",
+          "sha256": "a04d4e255b3a6a7bd3d87f9d43f47625f87f382ff9fb79443fb9b473309405f3",
+          "reported_total": "548",
+          "start_or_cursor": "301",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start326.json",
+          "sha256": "f1c556604cd0545808b6bb56ee76395a18fae170d6b0fd97e294c3a2f75999cd",
+          "reported_total": "548",
+          "start_or_cursor": "326",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start351.json",
+          "sha256": "9c44ed7902a1daaa92e316f28100313e4e89a303ffa0e9668d18bf0c8f0f24b4",
+          "reported_total": "548",
+          "start_or_cursor": "351",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start376.json",
+          "sha256": "bc6cabcf7ef81b67a6e41e38f88a1097eddee8c002e9a75b7b1cd1ee107ce6e8",
+          "reported_total": "548",
+          "start_or_cursor": "376",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start401.json",
+          "sha256": "216dd9191978f9ef96d9467da0e70e470cc35e633fbd9f12011cc20965ff8257",
+          "reported_total": "548",
+          "start_or_cursor": "401",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start426.json",
+          "sha256": "5c914d42d9968754b1b27e57b927ba0a21579658d5779c0fa414eb830f3d966d",
+          "reported_total": "548",
+          "start_or_cursor": "426",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start451.json",
+          "sha256": "d887040521a3229b41fa76b8953ec38bb54c48ba1c6877b9a0c8ad6eea7ff761",
+          "reported_total": "548",
+          "start_or_cursor": "451",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start476.json",
+          "sha256": "df3b7f13d44805ef15998c0cc8a62e27c7b2b2ac895c65145c648285c196ebf2",
+          "reported_total": "548",
+          "start_or_cursor": "476",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start501.json",
+          "sha256": "33363984bba781d22e4cd691c2041b4fccbd435f953940d17987f3a4b626b567",
+          "reported_total": "548",
+          "start_or_cursor": "501",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start51.json",
+          "sha256": "395f1ed06e33fa8e0a4c87fa53944f8725f9c45a5346e8eee58d8b79bb095a01",
+          "reported_total": "548",
+          "start_or_cursor": "51",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start526.json",
+          "sha256": "c51c8b67512bd814c7b3e7149b57cdc6844db5998001be1ab17bbbe16eb7f3b9",
+          "reported_total": "548",
+          "start_or_cursor": "526",
+          "reported_page_size": "23",
+          "records_in_saved_response": 23,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        },
+        {
+          "file": "01_논문원문과데이터/raw/springer_round/query3_start76.json",
+          "sha256": "c2f7ad30ff3afbdb78303122d03ae9020a823ad721731364ae3185130468e58a",
+          "reported_total": "548",
+          "start_or_cursor": "76",
+          "reported_page_size": "25",
+          "records_in_saved_response": 25,
+          "exact_search_timestamp": "not_recorded_in_payload"
+        }
+      ],
+      "search_id": "S46",
+      "distinct_retrieved_dois_for_this_query": 548,
+      "saved_response_count": 22
+    }
+  ]
+}

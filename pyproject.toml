@@ -17,9 +17,13 @@ dependencies = [
 [project.scripts]
 ree = "ree_research.cli:main"
 
+[project.optional-dependencies]
+boosting = ["catboost>=1.2.10,<2"]
+
 [build-system]
 requires = ["setuptools>=75"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
+where = ["05_프로그램공통기능"]
 include = ["ree_research*"]
